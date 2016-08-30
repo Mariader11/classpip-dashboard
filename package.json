@@ -1,0 +1,29 @@
+{
+  "name": "classpip-dashboard",
+  "version": "1.0.0",
+  "description": "Mobile Application for School Gamification",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/classpip/classpip-dashboard.git"
+  },
+  "author": {
+    "name": "Ferran Vila",
+    "email": "ferran.vila.conesa@gmail.com",
+    "url": "https://www.ferranvila.com/"
+  },
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.14.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "gulp": "^3.9.1",
+    "gulp-bg": "0.0.8",
+    "gulp-mocha": "^3.0.1",
+    "request": "^2.74.0"
+  }
+}
