@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y nodejs npm
 
 # Container properties
 WORKDIR /src
-EXPOSE 8080
+EXPOSE 3000
 
 # Copy app to /src
 COPY . /src
@@ -19,4 +19,4 @@ COPY . /src
 RUN npm install
 
 # Run the app
-CMD ["nodejs", "index.js"]
+CMD ["npm", "start"]
