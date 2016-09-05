@@ -1,12 +1,5 @@
-FROM ubuntu:14.04
+FROM node:wheezy
 MAINTAINER Ferran Vila ferran.vila.conesa@gmail.com
-
-# to avoid some problems:
-# debconf: unable to initialize frontend: Dialog
-ENV DEBIAN_FRONTEND noninteractive
-
-# Install Nodejs...
-RUN apt-get update && apt-get install -y nodejs npm
 
 # Container properties
 WORKDIR /src
