@@ -8,11 +8,12 @@ EXPOSE 80
 RUN apt-get update && apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 RUN apt-get install -y nodejs
-RUN npm install -g angular-cli
+RUN npm install -g angular-cli typings
 
 # Generate build for production
 COPY . /tmp
 RUN npm install
+RUN typings install
 RUN ng build -prod
 RUN mv /tmp/dist/* /usr/share/nginx/html/
 
