@@ -2,7 +2,8 @@
 // https://karma-runner.github.io/0.13/config/configuration-file.html
 
 module.exports = function (config) {
-  config.set({
+
+  var configuration = {
     basePath: '..',
     frameworks: ['jasmine'],
     plugins: [
@@ -10,10 +11,9 @@ module.exports = function (config) {
       require('karma-chrome-launcher')
     ],
     customLaunchers: {
-      // chrome setup for travis CI using chromium
       Chrome_travis_ci: {
-        base: 'Firefox',
-        flags: ['--single-run']
+        base: 'Chrome',
+        flags: ['--no-sandbox']
       }
     },
     files: [
@@ -24,14 +24,10 @@ module.exports = function (config) {
       { pattern: 'dist/vendor/systemjs/dist/system.src.js', included: true, watched: false },
       { pattern: 'dist/vendor/zone.js/dist/async-test.js', included: true, watched: false },
       { pattern: 'dist/vendor/zone.js/dist/fake-async-test.js', included: true, watched: false },
-
       { pattern: 'config/karma-test-shim.js', included: true, watched: true },
-
-      // Distribution folder.
       { pattern: 'dist/**/*', included: false, watched: true }
     ],
     exclude: [
-      // Vendor packages might include spec files. We don't want to use those.
       'dist/vendor/**/*.spec.js'
     ],
     preprocessors: {},
@@ -40,7 +36,13 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false
-  });
+    browsers: ['Chrome', 'ChromeCanary'],
+    singleRun: true
+  };
+
+  if(process.env.TRAVIS){
+    configuration.browsers = ['Chrome_travis_ci'];
+  }
+
+  config.set(configuration);
 };
