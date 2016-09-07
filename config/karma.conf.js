@@ -10,12 +10,6 @@ module.exports = function (config) {
       require('karma-jasmine'),
       require('karma-chrome-launcher')
     ],
-    customLaunchers: {
-      Chrome_travis_ci: {
-        base: 'Chrome',
-        flags: ['--no-sandbox', '--single-run']
-      }
-    },
     files: [
       { pattern: 'dist/vendor/es6-shim/es6-shim.js', included: true, watched: false },
       { pattern: 'dist/vendor/zone.js/dist/zone.js', included: true, watched: false },
@@ -37,12 +31,8 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false
+    singleRun: true
   };
-
-  if(process.env.TRAVIS){
-    configuration.browsers = ['Chrome_travis_ci'];
-  }
 
   config.set(configuration);
 };
