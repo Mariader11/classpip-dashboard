@@ -1,15 +1,20 @@
-FROM node:wheezy
+FROM nginx
 MAINTAINER Ferran Vila ferran.vila.conesa@gmail.com
 
-# Container properties
-WORKDIR /src
-EXPOSE 3000
+WORKDIR /tmp
+EXPOSE 80
 
-# Copy app to /src
-COPY . /src
+# Install dependencies
+RUN apt-get update && apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install -g angular-cli
 
-# Install app and dependencies into /src
+# Generate build for production
+COPY . /tmp
 RUN npm install
+RUN ng build -prod
+RUN mv /tmp/dist/* /usr/share/nginx/html/
 
-# Run the app
-CMD ["npm", "start"]
+# Cleanup
+RUN rm -rf /tmp/* && rm -rf /var/lib/apt/lists/*

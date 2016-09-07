@@ -1,8 +1,4 @@
-node_modules/
-typings/**
-
-*.js
-*.js.map
-
-!systemjs.config.js
-!typings/typings.d.ts
+/node_modules
+/dist
+/typings
+/tmp
