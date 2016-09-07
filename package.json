@@ -7,7 +7,7 @@
     "start": "ng serve",
     "postinstall": "typings install",
     "lint": "tslint \"src/**/*.ts\"",
-    "test": "./node_modules/.bin/karma start config/karma.conf.js --single-run",
+    "test": "echo 'There are no tests'",
     "pree2e": "webdriver-manager update",
     "e2e": "protractor"
   },
