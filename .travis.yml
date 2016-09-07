@@ -2,10 +2,10 @@ sudo: false
 language: node_js
 node_js:
   - '6'
-before_install:
-  - export CHROME_BIN=chromium-browser
+before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - npm install -g gulp karma karma-cli webpack
 deploy:
   provider: script
   script: scripts/deploy.sh
