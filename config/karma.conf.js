@@ -12,8 +12,8 @@ module.exports = function (config) {
     customLaunchers: {
       // chrome setup for travis CI using chromium
       Chrome_travis_ci: {
-        base: 'Chrome',
-        flags: ['--no-sandbox']
+        base: 'Firefox',
+        flags: ['--single-run']
       }
     },
     files: [
