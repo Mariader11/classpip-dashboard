@@ -13,7 +13,7 @@ module.exports = function (config) {
     customLaunchers: {
       Chrome_travis_ci: {
         base: 'Chrome',
-        flags: ['--no-sandbox']
+        flags: ['--no-sandbox', '--single-run']
       }
     },
     files: [
@@ -36,8 +36,8 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome', 'ChromeCanary'],
-    singleRun: true
+    browsers: ['Chrome'],
+    singleRun: false
   };
 
   if(process.env.TRAVIS){
