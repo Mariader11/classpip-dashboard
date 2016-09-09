@@ -1,21 +1,22 @@
-FROM nginx
+FROM node:wheezy
 MAINTAINER Ferran Vila ferran.vila.conesa@gmail.com
 
-WORKDIR /tmp
-EXPOSE 80
+WORKDIR /home/app
+EXPOSE 9000
 
-# Install dependencies
-RUN apt-get update && apt-get install -y curl
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
-RUN apt-get install -y nodejs
-RUN npm install -g angular-cli typings
+# install global dependencies
+RUN npm install -g \
+    angular-cli@1.0.0-beta.10 \
+    typings@1.3.3 \
+    --loglevel warn
 
-# Generate build for production
-COPY . /tmp
-RUN npm install
+# copy the app, install app dependencies and compile it
+COPY . /home/app
+RUN npm install --loglevel warn
 RUN typings install
 RUN ng build -prod
-RUN mv /tmp/dist/* /usr/share/nginx/html/
 
-# Cleanup
-RUN rm -rf /tmp/* && rm -rf /var/lib/apt/lists/*
+# Keep this line this to install dev dependencies into the application
+ENV NODE_ENV=production
+
+CMD ["node", "config/server/app.js"]

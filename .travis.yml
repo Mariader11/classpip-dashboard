@@ -2,6 +2,10 @@ sudo: false
 language: node_js
 node_js:
   - '6'
+before_script:
+  - npm install -g angular-cli
+script:
+  - ng lint
 before_deploy:
   - rm -rf dist node_modules tmp typings
 deploy:
