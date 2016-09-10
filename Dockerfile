@@ -16,7 +16,4 @@ RUN npm install --loglevel warn
 RUN typings install
 RUN ng build -prod
 
-# Keep this line this to install dev dependencies into the application
-ENV NODE_ENV=production
-
 CMD ["node", "config/server/app.js"]
