@@ -2,10 +2,10 @@
 
 [![Classpip Badge](https://img.shields.io/badge/classpip-dashboard-brightgreen.svg)]()
 [![Build Status](https://travis-ci.org/classpip/classpip-dashboard.svg?branch=master)](https://travis-ci.org/classpip/classpip-dashboard)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c0bc305863284f0a8478cbd963615f44)](https://www.codacy.com/app/classpip/classpip-dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=classpip/classpip-dashboard&amp;utm_campaign=Badge_Grade)
 [![Docker Stars](https://img.shields.io/docker/stars/classpip/classpip-dashboard.svg?maxAge=2592000)](https://hub.docker.com/r/classpip/classpip-dashboard/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/classpip/classpip-dashboard.svg?maxAge=2592000)](https://hub.docker.com/r/classpip/classpip-dashboard/)
 [![Docker Automated buil](https://img.shields.io/docker/automated/classpip/classpip-dashboard.svg?maxAge=2592000)](https://hub.docker.com/r/classpip/classpip-dashboard/)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c0bc305863284f0a8478cbd963615f44)](https://www.codacy.com/app/classpip/classpip-dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=classpip/classpip-dashboard&amp;utm_campaign=Badge_Grade)
 
 [![classpip-icon](https://github.com/classpip/classpip/raw/master/resources/icontext-land.png)](http://www.classpip.com/)
 
