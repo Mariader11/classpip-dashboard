@@ -9,10 +9,16 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
+  'classpip-utils': 'vendor/classpip-utils'
 };
 
 /** User packages configuration. */
 const packages: any = {
+  'classpip-utils': {
+    format: 'cjs',
+    defaultExtension: 'js',
+    main: './dist/index.js'
+  }
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
