@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SamplePipe, SampleComponent, SampleService } from 'classpip-utils'
+import { SamplePipe, SampleComponent, SampleService } from 'classpip-utils';
 
 @Component({
   moduleId: module.id,
@@ -13,7 +13,7 @@ import { SamplePipe, SampleComponent, SampleService } from 'classpip-utils'
 export class AppComponent {
 
   title = 'app works!';
-  constructor(sampleService:SampleService){
+  constructor(sampleService: SampleService) {
     console.log('AppComponent init!');
     console.log(sampleService.getElements());
   }
