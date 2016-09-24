@@ -11,7 +11,7 @@ module.exports = {
   env: process.env.NODE_ENV,
 
   // Root path of server
-  root: path.normalize(path.join(__dirname, '../../..')),
+  root: path.normalize(path.join(__dirname, '../..')),
 
   // Server port
   port: 9000

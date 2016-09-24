@@ -1,5 +1,6 @@
 .git
+coverage
 dist
+e2e
 node_modules
-tmp
-typings
+scripts

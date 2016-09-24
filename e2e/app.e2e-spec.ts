@@ -1,10 +1,10 @@
-import { ClasspipDashboardPage } from './app.po';
+import { MigrationProjectPage } from './app.po';
 
-describe('classpip-dashboard App', function() {
-  let page: ClasspipDashboardPage;
+describe('Classpip Dashboard App', function() {
+  let page: MigrationProjectPage;
 
   beforeEach(() => {
-    page = new ClasspipDashboardPage();
+    page = new MigrationProjectPage();
   });
 
   it('should display message saying app works', () => {

@@ -3,11 +3,11 @@ language: node_js
 node_js:
   - '6'
 before_script:
-  - npm install -g angular-cli
+  - npm install -g angular-cli@1.0.0-beta.15
 script:
   - ng lint
 before_deploy:
-  - rm -rf dist node_modules tmp typings
+  - rm -rf dist node_modules
 deploy:
   provider: script
   script: scripts/deploy.sh
