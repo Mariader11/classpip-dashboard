@@ -2,21 +2,30 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { AlertModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { CollapseModule } from 'ng2-bootstrap/ng2-bootstrap';
 
 import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+import { StudentsComponent } from './students/students.component';
+
+import { routing, appRoutingProviders }  from './app.routing';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    StudentsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    AlertModule
+    CollapseModule,
+    routing
   ],
-  providers: [],
+  providers: [
+    appRoutingProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
