@@ -2,13 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { CollapseModule } from 'ng2-bootstrap/ng2-bootstrap';
+
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { StudentsComponent } from './students/students.component';
 
-import { routing, appRoutingProviders }  from './app.routing';
+import { routing }  from './app.routing';
 
 @NgModule({
   declarations: [
@@ -17,15 +18,13 @@ import { routing, appRoutingProviders }  from './app.routing';
     StudentsComponent
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,
-    CollapseModule,
     routing
   ],
-  providers: [
-    appRoutingProviders
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
