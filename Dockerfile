@@ -6,7 +6,7 @@ EXPOSE 9000
 
 # install global dependencies
 RUN npm install -g \
-    angular-cli@1.0.0-beta.15 \
+    angular-cli@1.0.0-beta.18 \
     typings@1.3.3 \
     --loglevel warn
 

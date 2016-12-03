@@ -1,11 +1,11 @@
 # Classpip Administration Dashboard
 
-[![Classpip Badge](https://img.shields.io/badge/classpip-dashboard-brightgreen.svg)]()
+[![Classpip Badge](https://img.shields.io/badge/classpip-dashboard-brightgreen.svg)](https://github.com/classpip/classpip-dashboard)
 [![Build Status](https://travis-ci.org/classpip/classpip-dashboard.svg?branch=master)](https://travis-ci.org/classpip/classpip-dashboard)
 [![Docker Stars](https://img.shields.io/docker/stars/classpip/classpip-dashboard.svg?maxAge=2592000)](https://hub.docker.com/r/classpip/classpip-dashboard/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/classpip/classpip-dashboard.svg?maxAge=2592000)](https://hub.docker.com/r/classpip/classpip-dashboard/)
 [![Docker Automated buil](https://img.shields.io/docker/automated/classpip/classpip-dashboard.svg?maxAge=2592000)](https://hub.docker.com/r/classpip/classpip-dashboard/)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c0bc305863284f0a8478cbd963615f44)](https://www.codacy.com/app/classpip/classpip-dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=classpip/classpip-dashboard&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c0bc305863284f0a8478cbd963615f44)](https://www.codacy.com/app/classpip/classpip-dashboard?utm_source=github.com&utm_medium=referral&utm_content=classpip/classpip-dashboard&utm_campaign=Badge_Grade)
 
 [![classpip-icon](https://github.com/classpip/classpip/raw/master/resources/icontext-land.png)](http://www.classpip.com/)
 
@@ -18,13 +18,12 @@ This repository contains the [main dashboard panel administration](http://admin.
 Make sure you have NodeJS installed. Download the installer [here](https://nodejs.org/dist/latest-v5.x/) or use your favorite package manager. It's best to get the 5x version of node along with the 3x version of npm. This offers the best in stability and speed for building.
 
 ```
-npm install -g angular-cli
-npm install -g typings
+npm install -g angular-cli@1.0.0-beta.18
 ```
 
 ## Local dependencies
 
-All the project dependencies are manage through [npmjs](https://www.npmjs.com/). This command will also download the typings configured in the __typings.json__ file. To install this dependencies you should run:
+All the project dependencies are manage through [npmjs](https://www.npmjs.com/). This command will also download the typings configured in the **typings.json** file. To install this dependencies you should run:
 
 ```
 npm install
@@ -38,7 +37,11 @@ This project comes with a web server for development purposes. To run this serve
 ng serve
 ```
 
-Navigate to [http://localhost:8080/](http://localhost:8080/). The app will automatically reload if you change any of the source files.
+## Code scaffolding
+
+You could run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
+
+Navigate to <http://localhost:8080/>. The app will automatically reload if you change any of the source files.
 
 ## Build
 
