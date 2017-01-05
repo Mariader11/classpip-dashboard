@@ -18,7 +18,7 @@ This repository contains the [main dashboard panel administration](http://admin.
 Make sure you have NodeJS installed. Download the installer [here](https://nodejs.org/dist/latest-v5.x/) or use your favorite package manager. It's best to get the 5x version of node along with the 3x version of npm. This offers the best in stability and speed for building.
 
 ```
-npm install -g angular-cli@1.0.0-beta.18
+npm install -g angular-cli@1.0.0-beta.24
 ```
 
 ## Local dependencies
@@ -41,14 +41,14 @@ ng serve
 
 You could run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
 
-Navigate to <http://localhost:8080/>. The app will automatically reload if you change any of the source files.
+Navigate to <http://localhost:4200/>. The app will automatically reload if you change any of the source files.
 
 ## Build
 
 In case you want to build you application and prepare it for production, you could run the following command. This will generate the production artifacts in the **/dist** folder. In case you want a production build you could run the command with the **- prod** flag.
 
 ```
-ng build -prod
+ng build --prod
 ```
 
 ## Running unit tests
