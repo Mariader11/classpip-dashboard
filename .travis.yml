@@ -1,15 +1,16 @@
-sudo: false
-language: node_js
-node_js:
-  - '6'
-before_script:
-  - npm install -g angular-cli@1.0.0-beta.24 --loglevel warn
+sudo: required
+language: ruby
+
+services:
+  - docker
+
 script:
-  - ng lint
-  # - ng test --single-run
-  - ng build --prod
-before_deploy:
-  - rm -rf dist node_modules
+  - npm install
+  - npm run lint
+  - npm test
+  - npm run coveralls
+  - docker build -t classpip/classpip-dashboard .
+
 deploy:
   provider: script
   script: ./deploy.sh

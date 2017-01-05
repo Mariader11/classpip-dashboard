@@ -7,7 +7,11 @@
     "ng": "ng",
     "start": "ng serve",
     "lint": "tslint \"src/**/*.ts\"",
-    "test": "ng test",
+    "test": "ng test --single-run --code-coverage",
+    "build": "ng build",
+    "build:dev": "ng build",
+    "build:prod": "ng build --prod",
+    "coveralls": "gulp --gulpfile coveralls.js coveralls"
   },
   "repository": {
     "type": "git",
@@ -44,6 +48,8 @@
     "@types/node": "^6.0.42",
     "angular-cli": "1.0.0-beta.24",
     "codelyzer": "~2.0.0-beta.1",
+    "gulp": "^3.9.1",
+    "gulp-coveralls": "^0.1.4",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "2.5.0",
     "karma": "1.2.0",
