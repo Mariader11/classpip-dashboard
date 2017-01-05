@@ -3,13 +3,15 @@ language: node_js
 node_js:
   - '6'
 before_script:
-  - npm install -g angular-cli@1.0.0-beta.18
+  - npm install -g angular-cli@1.0.0-beta.24 --loglevel warn
 script:
   - ng lint
+  # - ng test --single-run
+  - ng build --prod
 before_deploy:
   - rm -rf dist node_modules
 deploy:
   provider: script
-  script: scripts/deploy.sh
+  script: deploy.sh
   on:
     branch: master

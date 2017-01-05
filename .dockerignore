@@ -1,6 +1,14 @@
 .git
-coverage
 dist
 e2e
 node_modules
-scripts
+
+.gitattributes
+.gitignore
+.travis.yml
+.gitignore
+deploy.sh
+karma.conf.js
+LICENSE
+protractor.conf.js
+tslint.json
