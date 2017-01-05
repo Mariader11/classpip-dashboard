@@ -5,6 +5,7 @@ services:
   - docker
 
 script:
+  - npm install npm@latest
   - npm install
   - npm run lint
   - npm test
