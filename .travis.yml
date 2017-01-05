@@ -1,11 +1,11 @@
 sudo: required
-language: ruby
+language: node_js
+node_js: 6
 
 services:
   - docker
 
 script:
-  - npm install npm@latest
   - npm install
   - npm run lint
   - npm test
