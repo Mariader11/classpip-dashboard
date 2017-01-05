@@ -12,6 +12,6 @@ before_deploy:
   - rm -rf dist node_modules
 deploy:
   provider: script
-  script: deploy.sh
+  script: ./deploy.sh
   on:
     branch: master
