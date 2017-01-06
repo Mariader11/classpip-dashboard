@@ -1,6 +1,5 @@
 .git
 dist
-e2e
 node_modules
 
 .gitattributes
@@ -10,5 +9,4 @@ node_modules
 deploy.sh
 karma.conf.js
 LICENSE
-protractor.conf.js
 tslint.json

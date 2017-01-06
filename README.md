@@ -6,6 +6,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/classpip/classpip-dashboard.svg?maxAge=2592000)](https://hub.docker.com/r/classpip/classpip-dashboard/)
 [![Docker Automated buil](https://img.shields.io/docker/automated/classpip/classpip-dashboard.svg?maxAge=2592000)](https://hub.docker.com/r/classpip/classpip-dashboard/)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c0bc305863284f0a8478cbd963615f44)](https://www.codacy.com/app/classpip/classpip-dashboard?utm_source=github.com&utm_medium=referral&utm_content=classpip/classpip-dashboard&utm_campaign=Badge_Grade)
+[![Coverage Status](https://coveralls.io/repos/github/classpip/classpip-dashboard/badge.svg?branch=master)](https://coveralls.io/github/classpip/classpip-dashboard?branch=master)
 
 [![classpip-icon](https://github.com/classpip/classpip/raw/master/resources/icontext-land.png)](http://www.classpip.com/)
 
@@ -16,10 +17,6 @@ This repository contains the [main dashboard panel administration](http://admin.
 ## Global dependencies
 
 Make sure you have NodeJS installed. Download the installer [here](https://nodejs.org/dist/latest-v5.x/) or use your favorite package manager. It's best to get the 5x version of node along with the 3x version of npm. This offers the best in stability and speed for building.
-
-```
-npm install -g angular-cli@1.0.0-beta.24
-```
 
 ## Local dependencies
 
@@ -34,12 +31,8 @@ npm install
 This project comes with a web server for development purposes. To run this server and use the live reloading feature you cloud run:
 
 ```
-ng serve
+npm run start
 ```
-
-## Code scaffolding
-
-You could run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class`.
 
 Navigate to <http://localhost:4200/>. The app will automatically reload if you change any of the source files.
 
@@ -48,7 +41,7 @@ Navigate to <http://localhost:4200/>. The app will automatically reload if you c
 In case you want to build you application and prepare it for production, you could run the following command. This will generate the production artifacts in the **/dist** folder. In case you want a production build you could run the command with the **- prod** flag.
 
 ```
-ng build --prod
+npm run build:prod
 ```
 
 ## Running unit tests
@@ -56,20 +49,12 @@ ng build --prod
 If you want to execute the unit tests via [Karma](https://karma-runner.github.io) you could run:
 
 ```
-ng test
-```
-
-## Running end-to-end tests
-
-To execute the end-to-end tests via [Protractor](http://www.protractortest.org/) you could run the following command. Before running the tests make sure you are serving the app via `ng serve`.
-
-```
-ng e2e
+npm test
 ```
 
 ## Further help
 
-To get more help on the **angular-cli** use `ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+To get more help on the **angular-cli** use `npm run ng --help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ## License
 
