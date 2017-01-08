@@ -2,13 +2,13 @@
  * Error responses
  */
 
-'use strict';
+"use strict";
 
-var path = require('path');
-var config = require('../../config');
+var path = require("path");
+var config = require("../../config");
 
 module.exports[404] = function pageNotFound(req, res) {
-  var viewFilePath = path.join(config.root, 'server/views/404.html');
+  var viewFilePath = path.join(config.root, "server/views/404.html");
   var statusCode = 404;
   var result = {
     status: statusCode
