@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
 
 import { AppConfig } from './app.config';
-import { UtilsService } from './_services/index';
+import { AngularService } from './_services/index';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +14,8 @@ export class AppComponent implements OnInit {
   public menu: boolean = false;
 
   constructor(
-    private utilsService: UtilsService,
-    translateService: TranslateService) {
+    public angularService: AngularService,
+    public translateService: TranslateService) {
 
     // i18n configuration
     translateService.setDefaultLang(AppConfig.LANG);
@@ -25,6 +25,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
 
     // subscribe to the menu events
-    this.utilsService.getMenu().subscribe(item => this.menu = item);
+    this.angularService.getMenu().subscribe(item => this.menu = item);
   }
 }

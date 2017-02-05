@@ -6,14 +6,14 @@
       <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && !username.valid }">
         <label class="form-control-label" for="username">{{ 'LOGIN.USERNAME' | translate }}</label>
         <input type="text" class="form-control" [ngClass]="{ 'form-control-danger': f.submitted && !username.valid }" name="username"
-          [(ngModel)]="loginCredentials.username" #username="ngModel" required />
+          [(ngModel)]="credentials.username" #username="ngModel" required />
         <div *ngIf="f.submitted && !username.valid" class="form-control-feedback"><small>{{ 'LOGIN.USERNAME_VALID' | translate }}</small></div>
       </div>
       <!-- password -->
       <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && !password.valid }">
         <label class="form-control-label" for="password">{{ 'LOGIN.PASSWORD' | translate }}</label>
         <input type="password" class="form-control" [ngClass]="{ 'form-control-danger': f.submitted && !password.valid }" name="password"
-          [(ngModel)]="loginCredentials.password" #password="ngModel" required />
+          [(ngModel)]="credentials.password" #password="ngModel" required />
         <div *ngIf="f.submitted && !password.valid" class="form-control-feedback"><small>{{ 'LOGIN.PASSWORD_VALID' | translate }}</small></div>
       </div>
       <!-- buttons -->

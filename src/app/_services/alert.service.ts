@@ -11,7 +11,7 @@ export class AlertService {
   private subject = new Subject<Alert>();
   private keepAfterNavigationChange: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(public router: Router) {
 
     // Subscripbe to the router events in order to clear the
     // alerts or not dpending on keepAfterNavigationChange

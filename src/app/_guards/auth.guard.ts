@@ -6,7 +6,7 @@ import { AppConfig } from '../app.config';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private router: Router) { }
+  constructor(public router: Router) { }
 
   /**
    * Indicates that a class can implement to be a guard

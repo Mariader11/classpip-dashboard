@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Response } from '@angular/http';
 
 import { AppConfig } from '../app.config';
-import { LoginResponse, Login } from '../_models/index';
-import { AlertService, LoginService, UtilsService } from '../_services/index';
+import { Credentials, LoginService} from 'classpip-utils';
+import { AlertService, AngularService } from '../_services/index';
 
 @Component({
   selector: 'app-login-root',
@@ -15,20 +15,20 @@ export class LoginComponent implements OnInit {
 
   // TODO: add a login spinner while the call is processing
 
-  public loginCredentials: Login = new Login();
+  public credentials: Credentials = new Credentials();
   private returnUrl: string;
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private loginService: LoginService,
-    private alertService: AlertService,
-    private utilsService: UtilsService) {
+    public route: ActivatedRoute,
+    public router: Router,
+    public loginService: LoginService,
+    public alertService: AlertService,
+    public angularService: AngularService) {
   }
 
   ngOnInit() {
 
-    this.utilsService.disableMenu();
+    this.angularService.disableMenu();
 
     // reset login status
     if (localStorage.getItem(AppConfig.LS_USER)) {
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
    * redirect from the comming URL, if not, will prompt an error
    */
   public login(): void {
-    this.loginService.login(this.loginCredentials).subscribe(
+    this.loginService.login(this.credentials).subscribe(
       ((data: Response) => {
         localStorage.setItem(AppConfig.LS_USER, JSON.stringify(data.json()));
         this.router.navigate([this.returnUrl]);

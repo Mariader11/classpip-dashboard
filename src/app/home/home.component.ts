@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AppConfig } from '../app.config';
-import { LoginResponse } from '../_models/index';
-import { UtilsService } from '../_services/index';
+import { LoginLocalStorage } from '../_models/login.local.storage';
+import { AngularService } from '../_services/index';
 
 @Component({
   selector: 'app-home-root',
@@ -11,13 +11,13 @@ import { UtilsService } from '../_services/index';
 })
 export class HomeComponent implements OnInit {
 
-  public currentUser: LoginResponse;
+  public currentUser: LoginLocalStorage;
 
-  constructor(private utilsService: UtilsService) {
-    this.currentUser = LoginResponse.toObject(localStorage.getItem(AppConfig.LS_USER));
+  constructor(public angularService: AngularService) {
+    this.currentUser = LoginLocalStorage.toObject(localStorage.getItem(AppConfig.LS_USER));
   }
 
   ngOnInit() {
-    this.utilsService.enableMenu();
+    this.angularService.enableMenu();
   }
 }

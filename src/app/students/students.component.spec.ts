@@ -6,7 +6,7 @@ import { Http, HttpModule } from '@angular/http';
 
 import { AppConfig } from '../app.config';
 import { StudentsComponent } from './students.component';
-import { UtilsService } from '../_services/index';
+import { AngularService } from '../_services/index';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, AppConfig.LANG_PATH, AppConfig.LANG_EXT);
@@ -22,7 +22,7 @@ describe('Component: Students', () => {
         useFactory: createTranslateLoader,
         deps: [Http]
       })],
-      providers: [UtilsService],
+      providers: [AngularService],
       schemas: []
     });
     TestBed.compileComponents();
