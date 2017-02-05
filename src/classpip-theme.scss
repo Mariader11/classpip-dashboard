@@ -1,12 +1,14 @@
 // -----------------------------------------------------------------------------
 // bootstrap variables
 // -----------------------------------------------------------------------------
-@import "../node_modules/bootstrap/scss/variables";
+@import '../node_modules/bootstrap/scss/variables';
 
 // -----------------------------------------------------------------------------
 // classpip variables
 // -----------------------------------------------------------------------------
-//$body-bg: $gray-dark;
+
+$body-back: #f0efef;
+$body-bg: $body-back;
 //$body-color: $gray-light;
 
 $navbar-border-radius: 0;
@@ -14,15 +16,13 @@ $navbar-border-radius: 0;
 // -----------------------------------------------------------------------------
 // bootstrap
 // -----------------------------------------------------------------------------
-@import "../node_modules/bootstrap/scss/bootstrap";
+@import '../node_modules/bootstrap/scss/bootstrap';
 
 // -----------------------------------------------------------------------------
 // classpip-theme
 // -----------------------------------------------------------------------------
 // - fonts ---------------------------------------------------------------------
-@import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans');
 
 body {
-  //font-family: 'Montserrat', sans-serif;
   font-family: 'Open Sans', sans-serif;
 }

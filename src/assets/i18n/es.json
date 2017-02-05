@@ -1,17 +1,29 @@
 {
   "APP": {
-    "ERROR": "ERROR"
+    "ERROR": "ERROR",
+    "NAME": "Classpip",
+    "PROFILE": "Mi Perfil",
+    "LOGOUT": "Logout"
+  },
+  "HOME":{
+    "SCHOOL": "Mi Escuela"
   },
   "LOGIN": {
     "USERNAME": "Nombre de usuario",
     "PASSWORD": "Contraseña",
-    "LOGIN": "Login",
-    "REGISTER": "Registro",
+    "ROLE": "Rol",
+    "LOGIN": "Entrar",
+    "FORGOT": "Olvidé mi contraseña",
+    "REGISTER": "Necesito crear una nueva cuenta",
+    "TEACHER": "Docente",
+    "STUDENT": "Estudiante",
+    "SCHOOLADMIN": "Director de Escuela",
     "USERNAME_VALID": "El nombre de usuario es requerido",
     "PASSWORD_VALID": "La contraseña es requerida"
   },
   "ERROR": {
-    "LOGIN_FAILED": "El nombre de usuario y/o la contraseña no son válidos.",
+    "LOGIN_FAILED": "El nombre de usuario y/o la contraseña son inválidas.",
+    "LOGIN_FAILED_EMAIL_NOT_VERIFIED": "Tu correo no ha sido verificado aún, por favor, revisa tu correo.",
     "INTERNAL_ERROR": "Ha ocurrido un error interno en el servidor. Por favor contacta con tu administrador. "
   }
 }

@@ -1,22 +1,48 @@
-<nav class="navbar navbar-light bg-faded navbar-static-top">
-  <a class="navbar-brand" routerLink="/home">
-    <img src="/assets/classpip-icon.svg" width="30" height="30" class="d-inline-block align-top" alt=""> Classpip
-  </a>
-  <ul class="nav navbar-nav" *ngIf="menu">
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/" routerLinkActive="active">Home</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/students" routerLinkActive="active">Students</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" routerLink="/login" routerLinkActive="active">Logout</a>
-    </li>
-  </ul>
+<nav class="navbar navbar-toggleable-md navbar-light">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand small" routerLink="/home">
+      <img src="/assets/classpip-icon.svg" width="30" height="30" class="d-inline-block align-top" alt=""> {{ 'APP.NAME'
+      | translate }}
+    </a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="menu">
+      <ul class="navbar-nav mr-auto">
+      </ul>
+      <ul class="nav navbar-nav" *ngIf="profile">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle small" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <img [src]="profile.avatar.image" width="30" height="30" class="rounded-circle mr-1"> {{ profile.name }} {{ profile.surname
+            }}
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" href="#">
+              <a class="dropdown-item" routerLink="/profile">{{ 'APP.PROFILE' | translate }}</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" routerLink="/login">{{ 'APP.LOGOUT' | translate }}</a>
+            </div>
+        </li>
+      </ul>
+    </div>
 </nav>
-<!-- /navbar -->
+<section class="jumbotron text-center rounded-0" *ngIf="menu && profile">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2 offset-md-4 text-sm-center text-md-right">
+        <img [src]="profile.avatar.image" height="100px" class="rounded-circle">
+      </div>
+      <div class="col-md-3 text-sm-center text-md-left p-0">
+        <h6 class="card-title mt-3 mb-0">{{ profile.name }} {{ profile.surname }}</h6>
+        <p class="card-text small mb-1">{{ profile.email }}</p>
+        <a routerLink="/profile" class="btn btn-primary btn-sm">{{ 'APP.PROFILE' | translate }}</a>
+      </div>
+    </div>
+  </div>
+</section>
 <div class="container">
   <div class="mt-1"></div>
   <app-alert></app-alert>
   <router-outlet></router-outlet>
+  <template ngbModalContainer></template>
 </div>

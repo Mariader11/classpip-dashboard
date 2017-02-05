@@ -11,7 +11,7 @@ import { routing } from '../app.routing';
 import { LoginComponent } from './login.component';
 import { HomeComponent } from '../home/home.component';
 import { StudentsComponent } from '../students/students.component';
-import { AlertService, LoginService, UtilsService } from '../_services/index';
+import { AlertService } from '../_services/index';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, AppConfig.LANG_PATH, AppConfig.LANG_EXT);
@@ -33,8 +33,6 @@ describe('Component: Login', () => {
       ],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
-        UtilsService,
-        LoginService,
         AlertService
       ],
       schemas: []
@@ -43,8 +41,8 @@ describe('Component: Login', () => {
   });
 
   it('should create an instance', async(() => {
-    let fixture = TestBed.createComponent(LoginComponent);
-    let app = fixture.debugElement.componentInstance;
+    const fixture = TestBed.createComponent(LoginComponent);
+    const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
 });

@@ -19,7 +19,10 @@ import { StudentsComponent } from './students/students.component';
 // components
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
-import { AlertService, LoginService, UtilsService } from './_services/index';
+import { AlertService, AngularService } from './_services/index';
+
+// modules
+import { UtilsModule } from 'classpip-utils';
 
 // rxjs
 import 'rxjs/add/observable/fromPromise';
@@ -46,6 +49,7 @@ export function createTranslateLoader(http: Http) {
     FormsModule,
     HttpModule,
     routing,
+    UtilsModule,
     TranslateModule.forRoot({
       provide: TranslateLoader,
       useFactory: createTranslateLoader,
@@ -55,8 +59,7 @@ export function createTranslateLoader(http: Http) {
   providers: [
     AuthGuard,
     AlertService,
-    LoginService,
-    UtilsService
+    AngularService
   ],
   bootstrap: [AppComponent]
 })

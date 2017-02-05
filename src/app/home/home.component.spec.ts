@@ -6,7 +6,7 @@ import { Http, HttpModule } from '@angular/http';
 
 import { AppConfig } from '../app.config';
 import { HomeComponent } from './home.component';
-import { UtilsService } from '../_services/index';
+import { AngularService } from '../_services/index';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, AppConfig.LANG_PATH, AppConfig.LANG_EXT);
@@ -23,7 +23,7 @@ describe('Component: Home', () => {
         useFactory: createTranslateLoader,
         deps: [Http]
       })],
-      providers: [UtilsService],
+      providers: [AngularService],
       schemas: []
     });
     TestBed.compileComponents();
@@ -31,8 +31,8 @@ describe('Component: Home', () => {
 
 
   it('should create an instance', () => {
-    let fixture = TestBed.createComponent(HomeComponent);
-    let app = fixture.debugElement.componentInstance;
+    const fixture = TestBed.createComponent(HomeComponent);
+    const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   });
 });

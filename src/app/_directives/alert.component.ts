@@ -12,7 +12,7 @@ export class AlertComponent implements OnInit {
 
   public alert: Alert;
 
-  constructor(private alertService: AlertService) { }
+  constructor(public alertService: AlertService) { }
 
   /**
    * Initialize the directive/component after Angular

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AppConfig } from '../app.config';
-import { LoginResponse } from '../_models/index';
-import { UtilsService } from '../_services/index';
+import { LoginLocalStorage } from '../_models/login.local.storage';
+import { UserService, UtilsService, SchoolService, GroupService } from 'classpip-utils';
+import { Profile, Login, Role, School, Group } from 'classpip-utils';
+import { AngularService, AlertService } from '../_services/index';
 
 @Component({
   selector: 'app-home-root',
@@ -11,13 +13,39 @@ import { UtilsService } from '../_services/index';
 })
 export class HomeComponent implements OnInit {
 
-  public currentUser: LoginResponse;
+  public profile: Profile;
+  public school: School;
+  public groups: Array<Group>;
 
-  constructor(private utilsService: UtilsService) {
-    this.currentUser = LoginResponse.toObject(localStorage.getItem(AppConfig.LS_USER));
+  constructor(
+    public angularService: AngularService,
+    public alertService: AlertService,
+    public utilsService: UtilsService,
+    public schoolService: SchoolService,
+    public groupService: GroupService,
+    public userService: UserService) {
+
+    this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
+    this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
   }
 
   ngOnInit() {
-    this.utilsService.enableMenu();
+    this.angularService.enableMenu();
+
+    this.userService.getMyProfile().subscribe(
+      ((profile: Profile) => this.profile = profile),
+      error => this.alertService.error(error));
+
+    if (this.utilsService.role === Role.TEACHER) {
+      this.schoolService.getMySchool().subscribe(
+        ((school: School) => {
+          this.school = school;
+
+          this.groupService.getMyGroups().subscribe(
+            ((groups: Array<Group>) => this.groups = groups),
+            error => this.alertService.error(error));
+        }),
+        error => this.alertService.error(error));
+    }
   }
 }

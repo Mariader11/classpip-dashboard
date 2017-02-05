@@ -1,25 +1,33 @@
 <div class="row">
-  <div class="col-md-6 offset-md-3">
+  <div class="col-md-4 offset-md-4">
     <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
       <!-- username -->
       <div class="mt-2"></div>
+      <div class="form-group" *ngIf="roles">
+        <label for="role">{{ 'LOGIN.ROLE' | translate }}</label>
+        <select class="form-control" name="role" [(ngModel)]="role" (ngModelChange)="roleChange()">
+          <option *ngFor="let role of roles" [ngValue]="role.id">{{role.name}}</option>
+        </select>
+      </div>
       <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && !username.valid }">
         <label class="form-control-label" for="username">{{ 'LOGIN.USERNAME' | translate }}</label>
         <input type="text" class="form-control" [ngClass]="{ 'form-control-danger': f.submitted && !username.valid }" name="username"
-          [(ngModel)]="loginCredentials.username" #username="ngModel" required />
+          [(ngModel)]="credentials.username" #username="ngModel" required />
         <div *ngIf="f.submitted && !username.valid" class="form-control-feedback"><small>{{ 'LOGIN.USERNAME_VALID' | translate }}</small></div>
       </div>
       <!-- password -->
       <div class="form-group" [ngClass]="{ 'has-danger': f.submitted && !password.valid }">
         <label class="form-control-label" for="password">{{ 'LOGIN.PASSWORD' | translate }}</label>
         <input type="password" class="form-control" [ngClass]="{ 'form-control-danger': f.submitted && !password.valid }" name="password"
-          [(ngModel)]="loginCredentials.password" #password="ngModel" required />
+          [(ngModel)]="credentials.password" #password="ngModel" required />
         <div *ngIf="f.submitted && !password.valid" class="form-control-feedback"><small>{{ 'LOGIN.PASSWORD_VALID' | translate }}</small></div>
       </div>
       <!-- buttons -->
       <div class="form-group">
-        <button class="btn btn-primary">{{ 'LOGIN.LOGIN' | translate }}</button>
-        <!--<a [routerLink]="['/register']" class="btn btn-link">Register</a>-->
+        <button role="button" class="btn btn-primary btn-lg btn-block">{{ 'LOGIN.LOGIN' | translate }}</button>
+      </div>
+      <div class="form-group text-center">
+        <a [routerLink]="['/login']" class="btn btn-link">{{ 'LOGIN.FORGOT' | translate }}</a>
         <a [routerLink]="['/login']" class="btn btn-link">{{ 'LOGIN.REGISTER' | translate }}</a>
       </div>
     </form>

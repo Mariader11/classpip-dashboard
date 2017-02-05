@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { UtilsService } from '../_services/index';
+import { AngularService } from '../_services/index';
 
 @Component({
   selector: 'app-students-root',
@@ -9,9 +9,9 @@ import { UtilsService } from '../_services/index';
 })
 export class StudentsComponent implements OnInit {
 
-  constructor(private utilsService: UtilsService) { }
+  constructor(public angularService: AngularService) { }
 
   ngOnInit() {
-    this.utilsService.enableMenu();
+    this.angularService.enableMenu();
   }
 }

@@ -23,7 +23,10 @@ import { StudentsComponent } from './students/students.component';
 // components
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
-import { AlertService, LoginService, UtilsService } from './_services/index';
+import { AlertService } from './_services/index';
+
+// modules
+import { UtilsModule } from 'classpip-utils';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, AppConfig.LANG_PATH, AppConfig.LANG_EXT);
@@ -46,6 +49,7 @@ describe('AppComponent', () => {
         FormsModule,
         HttpModule,
         routing,
+        UtilsModule,
         TranslateModule.forRoot({
           provide: TranslateLoader,
           useFactory: createTranslateLoader,
@@ -55,9 +59,7 @@ describe('AppComponent', () => {
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
         AuthGuard,
-        AlertService,
-        LoginService,
-        UtilsService
+        AlertService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
@@ -65,8 +67,8 @@ describe('AppComponent', () => {
   });
 
   it('should create the app', async(() => {
-    let fixture = TestBed.createComponent(AppComponent);
-    let app = fixture.debugElement.componentInstance;
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
 });
