@@ -9,7 +9,7 @@ export class LoginLocalStorage {
   static toObject(object: any): LoginLocalStorage {
     /* tslint:enable */
     object = JSON.parse(object);
-    let result: LoginLocalStorage = new LoginLocalStorage();
+    const result: LoginLocalStorage = new LoginLocalStorage();
     if (object != null) {
       result.id = object.id;
       result.ttl = object.ttl;

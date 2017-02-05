@@ -29,8 +29,8 @@ describe('Component: Students', () => {
   });
 
   it('should create an instance', () => {
-    let fixture = TestBed.createComponent(StudentsComponent);
-    let app = fixture.debugElement.componentInstance;
+    const fixture = TestBed.createComponent(StudentsComponent);
+    const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   });
 });

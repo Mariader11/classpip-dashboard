@@ -9,7 +9,7 @@ import { Alert } from '../_models/index';
 export class AlertService {
 
   private subject = new Subject<Alert>();
-  private keepAfterNavigationChange: boolean = false;
+  private keepAfterNavigationChange: boolean;
 
   constructor(public router: Router) {
 

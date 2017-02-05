@@ -4,6 +4,7 @@ export class AppConfig {
 
   // Localstorage
   public static get LS_USER(): string { return 'currentUser'; }
+  public static get LS_ROLE(): string { return 'currentRole'; }
 
   // i18n configuration
   public static get LANG(): string { return 'es'; }

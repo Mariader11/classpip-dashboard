@@ -34,11 +34,11 @@
     "@angular/router": "^3.3.1",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.20",
     "bootstrap": "^4.0.0-alpha.5",
-    "classpip-utils": "^1.0.4",
+    "classpip-utils": "1.0.5",
     "core-js": "^2.4.1",
     "jquery": "^3.1.1",
     "newrelic": "^1.34.0",
-    "ng2-translate": "^5.0.0",
+    "ng2-translate": "5.0.0",
     "rxjs": "^5.0.1",
     "tether": "^1.4.0",
     "ts-helpers": "^1.1.1",
@@ -61,6 +61,7 @@
     "karma-remap-istanbul": "^0.2.1",
     "ts-node": "1.2.1",
     "tslint": "^4.0.2",
+    "tslint-eslint-rules": "^3.3.0",
     "typescript": "~2.0.3"
   }
 }

@@ -41,8 +41,8 @@ describe('Component: Login', () => {
   });
 
   it('should create an instance', async(() => {
-    let fixture = TestBed.createComponent(LoginComponent);
-    let app = fixture.debugElement.componentInstance;
+    const fixture = TestBed.createComponent(LoginComponent);
+    const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   }));
 });

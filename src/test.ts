@@ -13,8 +13,11 @@ import {
 } from '@angular/platform-browser-dynamic/testing';
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
+
+/* tslint:disable */
 declare var __karma__: any;
 declare var require: any;
+/* tslint:enable */
 
 // Prevent Karma from running prematurely.
 __karma__.loaded = function () {};

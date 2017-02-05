@@ -1,4 +1,13 @@
-<div class="col-md-6 col-md-offset-3">
-  <h1>Home</h1>
-  <p>{{ currentUser | json }}</p>
+<div class="container" *ngIf="school">
+  <div class="row card col-6 offset-3">
+    <div class="col-md-4 p-3 text-sm-center text-md-right">
+      <img [src]="school.imageBig" height="100px" width="100px" class="rounded-circle">
+    </div>
+    <div class="col-md-8 p-3 text-sm-center text-md-left">
+      <h6 class="m-0">{{ school.name }}</h6>
+      <p class="small m-0">{{ school.address }}</p>
+      <p class="small m-0">{{ school.city }} {{ school.zipCode }}</p>
+      <a routerLink="/school" class="btn btn-primary btn-sm mt-2">{{ 'HOME.SCHOOL' | translate }}</a>
+    </div>
+  </div>
 </div>

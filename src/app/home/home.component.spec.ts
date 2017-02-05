@@ -31,8 +31,8 @@ describe('Component: Home', () => {
 
 
   it('should create an instance', () => {
-    let fixture = TestBed.createComponent(HomeComponent);
-    let app = fixture.debugElement.componentInstance;
+    const fixture = TestBed.createComponent(HomeComponent);
+    const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   });
 });
