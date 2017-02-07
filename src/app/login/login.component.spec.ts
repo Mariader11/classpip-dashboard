@@ -11,7 +11,8 @@ import { routing } from '../app.routing';
 import { LoginComponent } from './login.component';
 import { HomeComponent } from '../home/home.component';
 import { StudentsComponent } from '../students/students.component';
-import { AlertService } from '../_services/index';
+import { AlertService, AngularService } from '../_services/index';
+import { UtilsModule } from 'classpip-utils';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, AppConfig.LANG_PATH, AppConfig.LANG_EXT);
@@ -28,12 +29,14 @@ describe('Component: Login', () => {
           useFactory: createTranslateLoader,
           deps: [Http]
         }),
+        UtilsModule,
         FormsModule,
         routing
       ],
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
-        AlertService
+        AlertService,
+        AngularService,
       ],
       schemas: []
     });
