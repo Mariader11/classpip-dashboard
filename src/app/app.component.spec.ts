@@ -23,7 +23,7 @@ import { StudentsComponent } from './students/students.component';
 // components
 import { AlertComponent } from './_directives/index';
 import { AuthGuard } from './_guards/index';
-import { AlertService } from './_services/index';
+import { AlertService, AngularService } from './_services/index';
 
 // modules
 import { UtilsModule } from 'classpip-utils';
@@ -59,7 +59,8 @@ describe('AppComponent', () => {
       providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
         AuthGuard,
-        AlertService
+        AlertService,
+        AngularService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
