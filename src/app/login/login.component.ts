@@ -4,8 +4,8 @@ import { Response } from '@angular/http';
 import { TranslateService, LangChangeEvent } from 'ng2-translate/ng2-translate';
 
 import { AppConfig } from '../app.config';
-import { Credentials, LoginService, UtilsService, Role, Login } from 'classpip-utils';
-import { AlertService, AngularService } from '../_services/index';
+import { AlertService, AngularService, LoginService, UtilsService } from '../_services/index';
+import { Credentials, Role, Login } from '../_models/index';
 
 @Component({
   selector: 'app-login-root',

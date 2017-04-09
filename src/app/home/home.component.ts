@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AppConfig } from '../app.config';
-import { LoginLocalStorage } from '../_models/login.local.storage';
-import { UserService, UtilsService, SchoolService, GroupService } from 'classpip-utils';
-import { Profile, Login, Role, School, Group } from 'classpip-utils';
-import { AngularService, AlertService } from '../_services/index';
+import { AngularService, AlertService, UserService, UtilsService, SchoolService, GroupService } from '../_services/index';
+import { Profile, Login, Role, School, Group, LoginLocalStorage } from '../_models/index';
 
 @Component({
   selector: 'app-home-root',

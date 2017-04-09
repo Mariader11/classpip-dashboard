@@ -8,7 +8,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppConfig } from '../app.config';
 import { HomeComponent } from './home.component';
 import { AngularService, AlertService } from '../_services/index';
-import { UtilsModule } from 'classpip-utils';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, AppConfig.LANG_PATH, AppConfig.LANG_EXT);
@@ -24,7 +23,6 @@ describe('Component: Home', () => {
         useFactory: createTranslateLoader,
         deps: [Http]
       }),
-        UtilsModule,
         RouterTestingModule],
       providers: [
         AngularService,
