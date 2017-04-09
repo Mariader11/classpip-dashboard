@@ -3,38 +3,42 @@
     "version": "1.0.0-beta.30",
     "name": "classpip-dashboard"
   },
-  "apps": [{
-    "root": "src",
-    "outDir": "dist",
-    "assets": [
-      "assets",
-      "favicon.ico"
-    ],
-    "index": "index.html",
-    "main": "main.ts",
-    "polyfills": "polyfills.ts",
-    "test": "test.ts",
-    "tsconfig": "tsconfig.json",
-    "prefix": "app",
-    "mobile": false,
-    "styles": [
-      "classpip-theme.scss"
-    ],
-    "scripts": [
-      "../node_modules/jquery/dist/jquery.js",
-      "../node_modules/tether/dist/js/tether.js",
-      "../node_modules/bootstrap/dist/js/bootstrap.js"
-    ],
-    "environments": {
-      "source": "environments/environment.ts",
-      "dev": "environments/environment.ts",
-      "prod": "environments/environment.prod.ts"
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.json",
+      "prefix": "app",
+      "mobile": false,
+      "styles": [
+        "classpip-theme.scss"
+      ],
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.js",
+        "../node_modules/tether/dist/js/tether.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.js"
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
     }
-  }],
-  "lint": [{
-    "files": "src/**/*.ts",
-    "project": "src/tsconfig.json"
-  }],
+  ],
+  "lint": [
+    {
+      "files": "src/**/*.ts",
+      "project": "src/tsconfig.json"
+    }
+  ],
   "test": {
     "karma": {
       "config": "./karma.conf.js"

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
 
 import { AppConfig } from './app.config';
-import { UserService, Profile, UtilsService, Login } from 'classpip-utils';
-import { AngularService, AlertService } from './_services/index';
+import { AngularService, AlertService, UserService, UtilsService } from './_services/index';
+import { Profile, Login } from './_models/index';
 
 @Component({
   selector: 'app-root',

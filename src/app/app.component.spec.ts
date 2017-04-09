@@ -22,11 +22,12 @@ import { StudentsComponent } from './students/students.component';
 
 // components
 import { AlertComponent } from './_directives/index';
+import { OrderByIdPipe, OrderByNamePipe, OrderBySurnamePipe } from './_pipes/index';
 import { AuthGuard } from './_guards/index';
-import { AlertService, AngularService } from './_services/index';
-
-// modules
-import { UtilsModule } from 'classpip-utils';
+import {
+  AlertService, AngularService, AvatarService, GradeService, GroupService,
+  LoginService, MatterService, SchoolService, UserService, UtilsService
+} from './_services/index';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, AppConfig.LANG_PATH, AppConfig.LANG_EXT);
@@ -41,7 +42,11 @@ describe('AppComponent', () => {
         AlertComponent,
         LoginComponent,
         HomeComponent,
-        StudentsComponent
+        StudentsComponent,
+        // pipes
+        OrderByIdPipe,
+        OrderByNamePipe,
+        OrderBySurnamePipe
       ],
       imports: [
         NgbModule.forRoot(),
@@ -49,7 +54,6 @@ describe('AppComponent', () => {
         FormsModule,
         HttpModule,
         routing,
-        UtilsModule,
         TranslateModule.forRoot({
           provide: TranslateLoader,
           useFactory: createTranslateLoader,
@@ -60,7 +64,15 @@ describe('AppComponent', () => {
         { provide: APP_BASE_HREF, useValue: '/' },
         AuthGuard,
         AlertService,
-        AngularService
+        AngularService,
+        AvatarService,
+        GradeService,
+        GroupService,
+        LoginService,
+        MatterService,
+        SchoolService,
+        UserService,
+        UtilsService
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     });
