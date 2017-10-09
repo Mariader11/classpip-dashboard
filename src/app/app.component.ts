@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from 'ng2-translate';
 
 import { AppConfig } from './app.config';
-import { AngularService, AlertService, UserService, UtilsService } from './_services/index';
-import { Profile, Login } from './_models/index';
+//import { AngularService, AlertService, UserService, UtilsService } from './_services/index';
+//import { Profile, Login } from './_models/index';
 
 @Component({
   selector: 'app-root',
@@ -12,14 +12,14 @@ import { Profile, Login } from './_models/index';
 })
 export class AppComponent implements OnInit {
 
-  public menu: boolean;
-  public profile: Profile;
+  //public menu: boolean;
+  //public profile: Profile;
 
   constructor(
-    public angularService: AngularService,
+    /*public angularService: AngularService,
     public alertService: AlertService,
     public utilsService: UtilsService,
-    public userService: UserService,
+    public userService: UserService,*/
     public translateService: TranslateService) {
 
     // i18n configuration
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
 
     // subscribe to the menu events
-    this.angularService.getMenu().subscribe(item => {
+    /*this.angularService.getMenu().subscribe(item => {
       this.menu = item;
       if (this.menu) {
         // the user is logged into the system
@@ -38,6 +38,6 @@ export class AppComponent implements OnInit {
           ((value: Profile) => this.profile = value),
           error => this.alertService.error(error));
       }
-    });
+    });*/
   }
 }
