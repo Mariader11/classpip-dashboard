@@ -9,4 +9,9 @@ if (environment.production) {
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+  .catch(err => console.error(err));
+
+
+// TODO: fix lint errors
+// TODO: install angular material
+// TODO: migrate application to angular material
