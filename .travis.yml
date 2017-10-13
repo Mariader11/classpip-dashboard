@@ -1,14 +1,14 @@
 sudo: required
 language: node_js
-node_js: 6
+node_js: 8
 
 services:
   - docker
 
 script:
   - npm run lint
-  #- npm test
-  #- npm run coveralls
+  - npm run test
+  - npm run coveralls
   - docker build -t classpip/classpip-dashboard .
 
 deploy:

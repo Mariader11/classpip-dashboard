@@ -1,12 +1,14 @@
 .git
-dist
-node_modules
+/dist
+/node_modules
 
+.editorconfig
 .gitattributes
 .gitignore
 .travis.yml
-.gitignore
+coveralls.js
 deploy.sh
 karma.conf.js
 LICENSE
+newrelic.js
 tslint.json

@@ -18,7 +18,6 @@ export class AppConfig {
   public static get LOGIN_URL(): string { return '/login'; }
   public static get LOGOUT_URL(): string { return '/logout'; }
   public static get MYSCHOOL_URL(): string { return '/school'; }
-  public static get AVATAR_URL(): string { return '/avatar'; }
   public static get TEACHERS_URL(): string { return '/teachers'; }
   public static get STUDENTS_URL(): string { return '/students'; }
   public static get COUNT_URL(): string { return '/count'; }
@@ -38,9 +37,4 @@ export class AppConfig {
   public static get LANG(): string { return 'es'; }
   public static get LANG_PATH(): string { return '/assets/i18n'; }
   public static get LANG_EXT(): string { return '.json'; }
-
-  // urls
-  public static get PATH_HOME(): string { return ''; }
-  public static get PATH_LOGIN(): string { return 'login'; }
-  public static get PATH_STUDENTS(): string { return 'students'; }
 }

@@ -1,12 +1,14 @@
 {
   "APP": {
-    "ERROR": "ERROR",
     "NAME": "Classpip",
-    "PROFILE": "Mi Perfil",
-    "LOGOUT": "Logout"
+    "CANCEL": "Cancelar",
+    "LOGOUT": "Logout",
+    "LEGAL": "Aviso Legal",
+    "PRIVACY": "Privacidad",
+    "MARK": "Classpip ©2016-2017. Code licensed under an Apache-2 License"
   },
-  "HOME":{
-    "SCHOOL": "Mi Escuela"
+  "HOME": {
+    "TITLE": "Home"
   },
   "LOGIN": {
     "USERNAME": "Nombre de usuario",
@@ -17,9 +19,10 @@
     "REGISTER": "Necesito crear una nueva cuenta",
     "TEACHER": "Docente",
     "STUDENT": "Estudiante",
-    "SCHOOLADMIN": "Director de Escuela",
-    "USERNAME_VALID": "El nombre de usuario es requerido",
-    "PASSWORD_VALID": "La contraseña es requerida"
+    "SCHOOLADMIN": "Director de Escuela"
+  },
+  "GROUPS": {
+    "TITLE": "Grupos"
   },
   "ERROR": {
     "LOGIN_FAILED": "El nombre de usuario y/o la contraseña son inválidas.",
