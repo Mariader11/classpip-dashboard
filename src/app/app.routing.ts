@@ -2,16 +2,17 @@ import { ModuleWithProviders } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AppConfig } from './app.config';
-import { AuthGuard } from './_guards/index';
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { StudentsComponent } from './students/students.component';
+import { AuthGuard } from './shared/auth/auth.guard';
+import { LoginComponent } from './pages/login/login';
+import { HomeComponent } from './pages/home/home';
+import { GroupsComponent } from './pages/groups/groups';
 
 const appRoutes: Routes = [
 
   // authenticated pages
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'groups', component: GroupsComponent, canActivate: [AuthGuard] },
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'students', component: StudentsComponent, canActivate: [AuthGuard] },
 
   // unauthenticad pages
   { path: 'login', component: LoginComponent },

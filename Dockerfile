@@ -1,4 +1,4 @@
-FROM node:7.3.0
+FROM node:8.6.0
 MAINTAINER Ferran Vila ferran.vila.conesa@gmail.com
 
 WORKDIR /home/app

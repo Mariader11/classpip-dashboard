@@ -1,29 +1,35 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxLoremIpsumModule } from 'ngx-lorem-ipsum';
 
 // aplication
 import { AppComponent } from './app.component';
 import { AppConfig } from './app.config';
+import { AppMaterialModule } from './app.material.module';
 import { routing } from './app.routing';
 
 // pages
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { StudentsComponent } from './students/students.component';
+import { LoginComponent } from './pages/login/login';
+import { HomeComponent } from './pages/home/home';
+import { GroupsComponent } from './pages/groups/groups';
 
-// components
-import { AlertComponent } from './_directives/index';
-import { OrderByIdPipe, OrderByNamePipe, OrderBySurnamePipe } from './_pipes/index';
-import { AuthGuard } from './_guards/index';
+// shared (components)
+import { NavBarComponent } from './shared/navbar/navbar';
+import { FooterComponent } from './shared/footer/footer';
+
+// shared (services)
+import { AuthGuard } from './shared/auth/auth.guard';
+import { LoadingComponent } from './shared/loading/loading';
 import {
-  AlertService, AngularService, AvatarService, GradeService, GroupService,
-  LoginService, MatterService, SchoolService, UserService, UtilsService
-} from './_services/index';
+  UtilsService, LoginService, LoadingService, AlertService,
+  SchoolService, AvatarService, UserService, GroupService,
+  GradeService, MatterService
+} from './shared/services/index';
 
 // rxjs
 import 'rxjs/add/observable/fromPromise';
@@ -39,18 +45,20 @@ export function createTranslateLoader(http: Http) {
 @NgModule({
   declarations: [
     AppComponent,
-    AlertComponent,
+    // pages
     LoginComponent,
     HomeComponent,
-    StudentsComponent,
-    // pipes
-    OrderByIdPipe,
-    OrderByNamePipe,
-    OrderBySurnamePipe
+    GroupsComponent,
+    // shared
+    NavBarComponent,
+    FooterComponent,
+    LoadingComponent
   ],
   imports: [
-    NgbModule.forRoot(),
     BrowserModule,
+    BrowserAnimationsModule,
+    FlexLayoutModule,
+    AppMaterialModule,
     FormsModule,
     HttpModule,
     routing,
@@ -58,20 +66,21 @@ export function createTranslateLoader(http: Http) {
       provide: TranslateLoader,
       useFactory: createTranslateLoader,
       deps: [Http]
-    })
+    }),
+    NgxLoremIpsumModule
   ],
   providers: [
     AuthGuard,
-    AlertService,
-    AngularService,
     AvatarService,
-    GradeService,
-    GroupService,
+    AlertService,
     LoginService,
-    MatterService,
+    LoadingService,
     SchoolService,
     UserService,
-    UtilsService
+    UtilsService,
+    GroupService,
+    GradeService,
+    MatterService
   ],
   bootstrap: [AppComponent]
 })

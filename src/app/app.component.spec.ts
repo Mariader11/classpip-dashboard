@@ -1,56 +1,52 @@
-/* tslint:disable:no-unused-variable */
-
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { APP_BASE_HREF } from '@angular/common';
 import { TestBed, async } from '@angular/core/testing';
+import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { Http, HttpModule } from '@angular/http';
-import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
+import { HttpModule, Http } from '@angular/http';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-// aplication
 import { AppComponent } from './app.component';
-import { AppConfig } from './app.config';
+import { NavBarComponent } from './shared/navbar/navbar';
+import { FooterComponent } from './shared/footer/footer';
+import { LoadingComponent } from './shared/loading/loading';
 import { routing } from './app.routing';
-
-// pages
-import { LoginComponent } from './login/login.component';
-import { HomeComponent } from './home/home.component';
-import { StudentsComponent } from './students/students.component';
-
-// components
-import { AlertComponent } from './_directives/index';
-import { OrderByIdPipe, OrderByNamePipe, OrderBySurnamePipe } from './_pipes/index';
-import { AuthGuard } from './_guards/index';
+import { HomeComponent } from './pages/home/home';
+import { LoginComponent } from './pages/login/login';
+import { GroupsComponent } from './pages/groups/groups';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { AppMaterialModule } from './app.material.module';
+import { TranslateModule, TranslateStaticLoader, TranslateLoader } from 'ng2-translate';
+import { AppConfig } from './app.config';
+import { NgxLoremIpsumModule } from 'ngx-lorem-ipsum';
+import { APP_BASE_HREF } from '@angular/common';
+import { AuthGuard } from './shared/auth/auth.guard';
 import {
-  AlertService, AngularService, AvatarService, GradeService, GroupService,
-  LoginService, MatterService, SchoolService, UserService, UtilsService
-} from './_services/index';
+  AvatarService, AlertService, LoadingService, SchoolService, LoginService,
+  UserService, GradeService, GroupService, UtilsService, MatterService
+} from './shared/services/index';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, AppConfig.LANG_PATH, AppConfig.LANG_EXT);
 }
 
 describe('AppComponent', () => {
-
-  beforeEach(() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        AlertComponent,
+        // pages
         LoginComponent,
         HomeComponent,
-        StudentsComponent,
-        // pipes
-        OrderByIdPipe,
-        OrderByNamePipe,
-        OrderBySurnamePipe
+        GroupsComponent,
+        // shared
+        NavBarComponent,
+        FooterComponent,
+        LoadingComponent
       ],
       imports: [
-        NgbModule.forRoot(),
         BrowserModule,
+        BrowserAnimationsModule,
+        FlexLayoutModule,
+        AppMaterialModule,
         FormsModule,
         HttpModule,
         routing,
@@ -58,30 +54,33 @@ describe('AppComponent', () => {
           provide: TranslateLoader,
           useFactory: createTranslateLoader,
           deps: [Http]
-        })
-      ],
-      providers: [
+        }),
+        NgxLoremIpsumModule
+      ], providers: [
         { provide: APP_BASE_HREF, useValue: '/' },
         AuthGuard,
-        AlertService,
-        AngularService,
         AvatarService,
-        GradeService,
-        GroupService,
+        AlertService,
         LoginService,
-        MatterService,
+        LoadingService,
         SchoolService,
         UserService,
-        UtilsService
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    });
-    TestBed.compileComponents();
-  });
-
+        UtilsService,
+        GroupService,
+        GradeService,
+        MatterService
+      ]
+    }).compileComponents();
+  }));
   it('should create the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
+  }));
+  it('should render header in a app-navbar tag', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('app-navbar').textContent).toContain('');
   }));
 });
