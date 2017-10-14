@@ -10,5 +10,4 @@ coveralls.js
 deploy.sh
 karma.conf.js
 LICENSE
-newrelic.js
 tslint.json
