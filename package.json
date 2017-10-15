@@ -10,7 +10,7 @@
     "test:ci": "ng test --single-run",
     "build": "ng build",
     "build:dev": "ng build",
-    "build:prod": "ng build --prod",
+    "build:prod": "ng build --prod --env=prod",
     "coveralls": "gulp --gulpfile coveralls.js coveralls"
   },
   "repository": {
