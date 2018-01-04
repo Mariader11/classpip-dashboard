@@ -1,0 +1,45 @@
+.competitions-content {
+  margin: 40px auto;
+  max-width: 800px;
+}
+
+/* mat-grid-tile {
+  background: lightblue;
+} */
+
+
+.create-competition {
+  margin: 0 0 30px 0;
+}
+
+a {
+  background-color:#98B8FF;
+  margin: 0 0 0 0;      /* el primero es pa llevarlo pabajo, es decir margen superior */
+}
+
+.segundoboton {
+  background-color: #FFF370;
+}
+
+img {
+  height: 80px;
+  margin: 0 0 0 -10px;
+  display: inline-block;
+}
+
+span {
+  display: inline-block;   /* Clave pa que el texto no se quede uno al lado
+                            y la otra linea debajo */
+}
+
+.list-of-competitions {
+
+  margin: 15px 0 0 0;
+}
+
+
+  .competition {
+    margin: 0 0 15px 20px;
+    display: block;
+  }
+

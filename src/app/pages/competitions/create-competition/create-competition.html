@@ -1,0 +1,209 @@
+<mat-horizontal-stepper class="stepper-content">
+
+
+  <mat-step label="Inicialización">
+    <p>Complete todos los campos:</p>
+    <div>
+    <mat-form-field>
+        <mat-select placeholder="Tipo de competición" required>
+          <mat-option> Liga </mat-option>
+          <mat-option> Torneo de tenis de doble eliminación </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-select placeholder="Curso" required>
+              <mat-option>
+                3º ESO
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="matter">
+            <mat-form-field>
+                <mat-select placeholder="Asignatura" required>
+                  <mat-option>
+                    Inglés
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+             <div>
+                <mat-radio-group [(ngModel)]="selectedValue">
+                  <mat-radio-button value="Individual">Individual</mat-radio-button>
+                  <mat-radio-button value="Equipos">Equipos</mat-radio-button>
+                </mat-radio-group>
+
+                <div *ngIf="selectedValue === 'Equipos'">
+                  <mat-card>
+                      <p>Modalidad elegida: {{selectedValue}}</p>
+                    <mat-form-field class="number">
+                        <input matInput placeholder="Número de equipos" type="number" [(ngModel)]="selectedNumber" required>
+                     </mat-form-field>
+
+                     <div *ngIf="selectedNumber">
+
+                      <div class="team-names">
+                          <mat-form-field class="namer">
+                              <input matInput placeholder="Nombre equipo 1" required>
+                           </mat-form-field>
+                           <mat-form-field class="name">
+                              <input matInput placeholder="Nombre equipo 2" required>
+                           </mat-form-field>
+                           <mat-form-field class="name">
+                              <input matInput placeholder="Nombre equipo 3" required>
+                           </mat-form-field>
+                           <mat-form-field class="name">
+                              <input matInput placeholder="Nombre equipo 4" required>
+                           </mat-form-field>
+                      </div>
+
+                      <div class="student-names">
+                        <mat-form-field>
+                            <mat-select placeholder="Name student 1" required>
+                              <mat-option *ngFor="let group of groups" [value]="group.id">
+                                {{ group.id }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          <mat-form-field>
+                              <mat-select placeholder="Name student 2" required>
+                                <mat-option *ngFor="let group of groups" [value]="group.id">
+                                  {{ group.id }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-select placeholder="Name student 3" required>
+                                  <mat-option *ngFor="let group of groups" [value]="group.id">
+                                    {{ group.id }}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                              <mat-form-field>
+                                  <mat-select placeholder="Name student 4" required>
+                                    <mat-option *ngFor="let group of groups" [value]="group.id">
+                                      {{ group.id }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                                <mat-form-field>
+                                    <mat-select placeholder="Name student 5" required>
+                                      <mat-option *ngFor="let group of groups" [value]="group.id">
+                                        {{ group.id }}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                  <mat-form-field>
+                                      <mat-select placeholder="Name student 6" required>
+                                        <mat-option *ngFor="let group of groups" [value]="group.id">
+                                          {{ group.id }}
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                    <mat-form-field>
+                                        <mat-select placeholder="Name student 7" required>
+                                          <mat-option *ngFor="let group of groups" [value]="group.id">
+                                            {{ group.id }}
+                                          </mat-option>
+                                        </mat-select>
+                                      </mat-form-field>
+                                      <mat-form-field>
+                                          <mat-select placeholder="Name student 8" required>
+                                            <mat-option *ngFor="let group of groups" [value]="group.id">
+                                              {{ group.id }}
+                                            </mat-option>
+                                          </mat-select>
+                                        </mat-form-field>
+                      </div>
+
+                     </div>
+
+                    </mat-card>
+                </div>
+              </div>
+
+
+              <div>
+                  <mat-form-field class="name">
+                      <input matInput placeholder="Nombre de la competición" required>
+                   </mat-form-field>
+              </div>
+    <div>
+      <button mat-button matStepperNext>Siguiente</button>
+    </div>
+  </mat-step>
+
+  <mat-step label="Jornadas">
+    <p>Introduzca la fecha de cada jornada:</p> <!-- con la p se me queda separado:mas bonito-->
+ <!-- Cuantas jornadas haya-->
+ <div class="initial-journey">
+    <mat-form-field> <!-- los mat-form-field creo qeu deben de ir metidos en forms asique cuidao! -->
+     <input matInput [matDatepicker]="picker1" placeholder=" {{ 'COMPETITIONS.JOURNEY' | translate }} 1">
+     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+     <mat-datepicker #picker1></mat-datepicker>
+   </mat-form-field>
+   </div>
+   <div>
+   <mat-form-field>
+     <input matInput [matDatepicker]="picker2" placeholder=" {{ 'COMPETITIONS.JOURNEY' | translate }} 2">
+     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+     <mat-datepicker #picker2></mat-datepicker>
+   </mat-form-field>
+ </div>
+ <div>
+   <mat-form-field>
+     <input matInput [matDatepicker]="picker3" placeholder=" {{ 'COMPETITIONS.JOURNEY' | translate }} 3">
+     <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+     <mat-datepicker #picker3></mat-datepicker>
+   </mat-form-field>
+ </div>
+ <div>
+   <mat-form-field>
+     <input matInput [matDatepicker]="picker4" placeholder=" {{ 'COMPETITIONS.JOURNEY' | translate }} 4">
+     <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+     <mat-datepicker #picker4></mat-datepicker>
+   </mat-form-field>
+ </div>
+ <div>
+   <mat-form-field>
+     <input matInput [matDatepicker]="picker5" placeholder=" {{ 'COMPETITIONS.JOURNEY' | translate }} 5">
+     <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+     <mat-datepicker #picker5></mat-datepicker>
+   </mat-form-field>
+ </div>
+
+    <div>
+      <button mat-button matStepperPrevious>Atrás</button>
+      <button mat-button matStepperNext>Siguiente</button>
+    </div>
+  </mat-step>
+
+  <mat-step label="Añadir información">
+       <p>Añada información sobre las competiciones <br> (por ejemplo,
+       explicar en base a qué se <br> decidirán los ganadores
+       de cada jornada)</p>
+       <div>
+      <mat-form-field class="texto-informativo">
+          <textarea matInput placeholder="Deje su comentario"></textarea>
+       </mat-form-field>
+       </div>
+    <div>
+      <button mat-button matStepperPrevious>Atrás</button>
+      <button mat-button matStepperNext>Siguiente</button>
+    </div>
+  </mat-step>
+
+  <mat-step label="Terminado">
+    <p>Has terminado de crear la competición.</p>
+    <div class="final-buttons">
+      <button mat-button matStepperPrevious>Atrás</button>
+      <a mat-button class="Clasificacion" routerLink="/competitions">
+        <strong>HECHO</strong>
+      </a>
+    </div>
+  </mat-step>
+
+</mat-horizontal-stepper>

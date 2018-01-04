@@ -7,11 +7,24 @@ import { LoginComponent } from './pages/login/login';
 import { HomeComponent } from './pages/home/home';
 import { GroupsComponent } from './pages/groups/groups';
 
+// Competitions
+import { CompetitionsComponent} from './pages/competitions/competitions';
+import { LigaComponent } from './pages/competitions/liga/liga';
+import { CreateCompetitionComponent } from './pages/competitions/create-competition/create-competition';
+import { ClasificationComponent } from './pages/competitions/liga/clasification/clasification';
+import { TeamsComponent } from './pages/competitions/teams/teams';
+
+
 const appRoutes: Routes = [
 
   // authenticated pages
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'groups', component: GroupsComponent, canActivate: [AuthGuard] },
+  { path: 'competitions', component: CompetitionsComponent, canActivate: [AuthGuard]},
+  { path: 'competitions/create', component: CreateCompetitionComponent, canActivate: [AuthGuard]},
+  { path: 'competitions/liga', component: LigaComponent, canActivate: [AuthGuard]},
+  { path: 'competitions/liga/clasification', component: ClasificationComponent, canActivate: [AuthGuard]},
+  { path: 'competitions/liga/teams', component: TeamsComponent, canActivate: [AuthGuard]},
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
 
   // unauthenticad pages

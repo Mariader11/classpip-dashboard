@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import {
   MatToolbarModule, MatInputModule, MatButtonModule, MatMenuModule,
   MatSelectModule, MatCardModule, MatGridListModule, MatProgressSpinnerModule,
-  MatProgressBarModule, MatSnackBarModule, MatListModule, MatIconModule
-} from '@angular/material';
+  MatProgressBarModule, MatSnackBarModule, MatListModule, MatIconModule, MatDatepickerModule,
+  MatFormFieldModule, MatNativeDateModule, MatDialogModule, MatExpansionModule,
+  MatRadioModule, MatStepperModule} from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -22,7 +23,14 @@ import { CommonModule } from '@angular/common';
     MatProgressBarModule,
     MatSnackBarModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatRadioModule,
+    MatStepperModule
   ],
   exports: [
     MatToolbarModule,
@@ -38,7 +46,14 @@ import { CommonModule } from '@angular/common';
     MatProgressBarModule,
     MatSnackBarModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatRadioModule,
+    MatStepperModule
   ],
 })
 export class AppMaterialModule { }
