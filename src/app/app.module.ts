@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, FormControl, Validators } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
@@ -17,6 +17,13 @@ import { routing } from './app.routing';
 import { LoginComponent } from './pages/login/login';
 import { HomeComponent } from './pages/home/home';
 import { GroupsComponent } from './pages/groups/groups';
+import { CompetitionsComponent } from './pages/competitions/competitions';
+
+// pages (competitions)
+import { LigaComponent } from './pages/competitions/liga/liga';
+import { CreateCompetitionComponent } from './pages/competitions/create-competition/create-competition';
+import { ClasificationComponent } from './pages/competitions/liga/clasification/clasification';
+import { TeamsComponent } from './pages/competitions/teams/teams';
 
 // shared (components)
 import { NavBarComponent } from './shared/navbar/navbar';
@@ -37,6 +44,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/finally';
+import { from } from 'rxjs/observable/from';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, AppConfig.LANG_PATH, AppConfig.LANG_EXT);
@@ -49,6 +57,12 @@ export function createTranslateLoader(http: Http) {
     LoginComponent,
     HomeComponent,
     GroupsComponent,
+    CompetitionsComponent,
+    // pages (competitions)
+    LigaComponent,
+    CreateCompetitionComponent,
+    ClasificationComponent,
+    TeamsComponent,
     // shared
     NavBarComponent,
     FooterComponent,
