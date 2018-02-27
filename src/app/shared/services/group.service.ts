@@ -107,8 +107,11 @@ export class GroupService {
       .map((response: Response, index: number) => Group.toObjectArray(response.json()));
   }
 
+   /**
+   * Returns the information of the group by a group id
+   * @return {Group} returns the group
+   */
 
-  /* pasas como parametro la id del grupo del quq quieres obtener los detalles */
   public getGroup(id: number): Observable<Group> {
 
     const options: RequestOptions = new RequestOptions({

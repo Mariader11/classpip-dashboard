@@ -20,7 +20,12 @@ export class CompetitionService {
     public gradeService: GradeService,
     public matterService: MatterService) { }
 
-    /* Devuelve un array de competiciones junto con el grade y el matter (Grupo)*/
+    /**
+     * This method returns the list of competitions of
+     * the current user logged into the application with
+     * the group (grade and matter)
+     * @return {Array<Competition>} returns the list of competitions
+     */
 
     public getMyCompetitionsGroup(): Observable<Array<Competition>> {
 
@@ -50,7 +55,13 @@ export class CompetitionService {
       });
     }
 
-   /* Te devuelve las competiciones a las que perteneces con detalle de primer nivel  */
+
+    /**
+     * This method returns the list of competitions of
+     * the current user logged into the application
+     * @return {Array<Competition>} returns the list of competitions
+     */
+
     private getCompetitions(): Observable<Array<Competition>> {
 
       const options: RequestOptions = new RequestOptions({
@@ -63,7 +74,12 @@ export class CompetitionService {
         .map((response: Response, index: number) => Competition.toObjectArray(response.json()));
     }
 
-    /* Te devuelve el número de competiciones a las que perteneces o tienes creadas */
+
+    /**
+     * This method returns the number of competitions of
+     * the current user logged into the application
+     * @return {Object} returns the "Object" with count
+     */
     public getCompetitionsCount() {
 
       const options: RequestOptions = new RequestOptions({
