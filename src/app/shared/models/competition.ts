@@ -1,3 +1,5 @@
+import { Grade, Matter } from './index';
+
 export class Competition {
 
   private _id: string;
@@ -8,10 +10,14 @@ export class Competition {
   private _numJourneys: number;
   private _information: string;
   private _teacherId: number;
+  private _groupId: number;
+  private _grade: Grade;
+  private _matter: Matter;
 
 
   constructor(id?: string, name?: string, type?: string, mode?: string,
-    numParticipants?: number, numJourneys?: number, information?: string, teacherId?: number) {
+    numParticipants?: number, numJourneys?: number, information?: string, teacherId?: number,
+    groupId?: number, grade?: Grade, matter?: Matter) {
     this._id = id;
     this._name = name;
     this._type = type;
@@ -20,6 +26,9 @@ export class Competition {
     this._numJourneys = numJourneys;
     this._information = information;
     this._teacherId = teacherId;
+    this._groupId = groupId;
+    this._grade = grade;
+    this._matter = matter;
   }
 
   /* tslint:disable */
@@ -35,6 +44,7 @@ export class Competition {
       result.numJourneys = object.numJourneys;
       result.information = object.information;
       result.teacherId = object.teacherId;
+      result.groupId = object.groupId;
     }
     return result;
   }
@@ -118,4 +128,27 @@ export class Competition {
     this._teacherId = value;
   }
 
+  public get groupId(): number {
+    return this._groupId;
+  }
+
+  public set groupId(value: number) {
+    this._groupId = value;
+  }
+
+  public get grade(): Grade {
+    return this._grade;
+  }
+
+  public set grade(value: Grade) {
+    this._grade = value;
+  }
+
+  public get matter(): Matter {
+    return this._matter;
+  }
+
+  public set matter(value: Matter) {
+    this._matter = value;
+  }
 }

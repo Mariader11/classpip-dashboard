@@ -10,3 +10,7 @@ export * from './profile';
 export * from './grade';
 export * from './group';
 export * from './matter';
+export * from './competition';
+export * from './journey';
+export * from './match';
+export * from './team';

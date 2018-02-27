@@ -1,43 +1,60 @@
 import { Component, OnInit} from '@angular/core';
 
 
-import { Login, Group, Role } from '../../shared/models/index';
+import { Login, Competition, Role } from '../../shared/models/index';
 import { AppConfig } from '../../app.config';
-import { LoadingService, UtilsService, GroupService, AlertService } from '../../shared/services/index';
+import { LoadingService, UtilsService, CompetitionService, AlertService } from '../../shared/services/index';
 
 @Component({
   selector: 'app-competitions',
   templateUrl: './competitions.html',
-  styleUrls: ['./competitions.css']
+  styleUrls: ['./competitions.scss']
 })
 export class CompetitionsComponent implements OnInit {
 
-  public teacherr: boolean;
-  public studentt: boolean;
-  public competitionss: boolean;
+  public competitions: Array<Competition>;
+  public numCompetitions: number;
 
   constructor(
     public alertService: AlertService,
     public utilsService: UtilsService,
     public loadingService: LoadingService,
-    public groupService: GroupService) {
+    public competitionService: CompetitionService) {
 
-      this.teacherr = false;
-      this.studentt = false;
-      this.competitionss = true;
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
       this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
     }
 
   ngOnInit() {
+
+    if (this.utilsService.role === Role.TEACHER || this.utilsService.role === Role.STUDENT) {
+
     this.loadingService.show();
-    if (this.utilsService.role === Role.TEACHER) {
-      this.teacherr = true;
-    }
-    if (this.utilsService.role === Role.STUDENT) {
-      this.studentt = true;
-    }
-    this.loadingService.hide();
+
+    this.competitionService.getCompetitionsCount().subscribe(
+      ( res => {
+        this.numCompetitions = res.count;
+        this.loadingService.hide();
+      }),
+      ((error: Response) => {
+        this.loadingService.hide();
+        this.alertService.show(error.toString());
+      }));
+
+        this.competitionService.getMyCompetitionsGroup().subscribe(
+          ((competitions: Array<Competition>) => {
+            this.competitions = competitions;
+            // tslint:disable-next-line:no-console
+            console.log(this.competitions);
+            this.loadingService.hide();
+          }),
+          ((error: Response) => {
+            this.loadingService.hide();
+            this.alertService.show(error.toString());
+          }));
+
+     }
+
   }
 
 }

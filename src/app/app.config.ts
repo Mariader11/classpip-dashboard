@@ -4,7 +4,7 @@ export class AppConfig {
 
   // Server connection
   public static get SERVER_URL(): string { return environment.api; }
-
+  // Primera parte de la url
   public static get TEACHER_URL(): string { return this.SERVER_URL + '/api/teachers'; }
   public static get STUDENT_URL(): string { return this.SERVER_URL + '/api/students'; }
   public static get SCHOOLADMIN_URL(): string { return this.SERVER_URL + '/api/schooladministrators'; }
@@ -13,7 +13,8 @@ export class AppConfig {
   public static get MATTERS_URL(): string { return this.SERVER_URL + '/api/matters'; }
   public static get GRADES_URL(): string { return this.SERVER_URL + '/api/grades'; }
   public static get GROUP_URL(): string { return this.SERVER_URL + '/api/groups'; }
-
+  public static get COMPETITION_URL(): string { return this.SERVER_URL + '/api/competitions'; }
+  // Segunda parte de la url
   public static get LOGIN_URL(): string { return '/login'; }
   public static get LOGOUT_URL(): string { return '/logout'; }
   public static get MYSCHOOL_URL(): string { return '/school'; }
@@ -21,6 +22,7 @@ export class AppConfig {
   public static get STUDENTS_URL(): string { return '/students'; }
   public static get COUNT_URL(): string { return '/count'; }
   public static get GROUPS_URL(): string { return '/groups'; }
+  public static get COMPETITIONS_URL(): string { return '/competitions'; }
 
   public static get AUTH_HEADER(): string { return 'Authorization'; }
 

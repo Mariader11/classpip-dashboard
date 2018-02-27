@@ -1,91 +1,47 @@
 <div class="competitions-content">
 
-      <mat-list role="list" *ngIf="teacherr === true">
-          <mat-list-item role="listitem">
-              <h3 mat-subheader>{{ 'COMPETITIONS.TITLE' | translate }}</h3>
-          </mat-list-item>
-          <mat-list-item class="create-competition" role="listitem">
-              <a mat-raised-button color="primary" style="width:100%" routerLink="/competitions/create">
-                {{ 'COMPETITIONS.CREATE_NEW_COMPETITION' | translate }}
-              </a>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-divider></mat-divider>
-          <mat-list-item role="listitem">
-              <h2 mat-dialog-title>{{ 'COMPETITIONS.SUBTITLE' | translate }}</h2>
-          </mat-list-item>
-          <mat-list-item role="listitem" *ngIf="competitionss==false">
-              <h3 mat-subheader>{{ 'COMPETITIONS.NONE_TEACHER' | translate }}</h3>
-          </mat-list-item>
-      </mat-list>
+  <mat-list>
+    <h3 mat-subheader>{{ 'COMPETITIONS.TITLE' | translate }}</h3>
 
-
-      <div class="list-of-competitions" *ngIf="teacherr === true && competitionss==true">
-          <!-- <div *ngFor="let group of groups">   Cuando tengamos que coger las competis creadas-->
-            <!-- ESTÁ EN LA SECCION DE GROUPS.HTML EL COMO SE HARÍA PA CAMBIAR LA IMAGEN DEPENDIENDO DEL
-                 TIPO DE TORNEO -->
-         <div class="competition">
-          <a mat-raised-button class="segundoboton1" routerLink="/competitions/liga">
-            <img src="../../../assets/img/liga-icon.svg" alt="angular">
-            <span><strong>LA VENGANZA DE LOS SITH</strong> <br> 3º ESO Matemáticas</span>
-          </a>
-         </div>
-          <!-- </div>
-          Ahora tengo que añadirlas manualmente-->
-          <div class="competition">
-          <a mat-raised-button class="segundoboton" routerLink="/competitions/liga">
-            <img src="../../../assets/img/tenis-icon.svg" alt="angular">
-            <span><strong>GENERACION DEL 98</strong> <br> 3º ESO Lengua</span>
-          </a>
-         </div>
-         <div class="competition">
-          <a mat-raised-button class="segundoboton1" routerLink="/competitions/liga">
-            <img src="../../../assets/img/liga-icon.svg" alt="angular">
-            <span><strong>EL RETORNO DEL REY</strong> <br> 2º ESO Inglés</span>
-          </a>
-          </div>
-
-      </div>
-
-
-    <!-- <mat-form-field *ngIf="studentt === true">
-      <input matInput placeholder="Favorite food" value="Sushi">
-    </mat-form-field> -->
-
-    <mat-list role="list" *ngIf="studentt === true">
-        <mat-list-item role="listitem">
-            <h3 mat-subheader>{{ 'COMPETITIONS.TITLE' | translate }}</h3>
-        </mat-list-item>
-
-        <mat-list-item role="listitem">
-            <h2 mat-dialog-title>{{ 'COMPETITIONS.SUBTITLE' | translate }}</h2>
-        </mat-list-item>
-        <mat-list-item role="listitem" *ngIf="competitionss==false">
-            <h3 mat-subheader>{{ 'COMPETITIONS.NONE_STUDENT' | translate }}</h3>
-        </mat-list-item>
-    </mat-list>
-
-    <div class="list-of-competitions" *ngIf="studentt === true && competitionss==true">
-        <div class="competition">
-            <a mat-raised-button class="segundoboton1" routerLink="/competitions/liga">
-              <img src="../../../assets/img/liga-icon.svg" alt="angular">
-              <span><strong>MOZART VS BEETHOVEN</strong> <br> 3º ESO Música</span>
-            </a>
-           </div>
-            <!-- </div>
-            Ahora tengo que añadirlas manualmente-->
-            <div class="competition">
-            <a mat-raised-button class="segundoboton" routerLink="/competitions/liga">
-              <img src="../../../assets/img/tenis-icon.svg" alt="angular">
-              <span><strong>GENERACION DEL 98</strong> <br> 3º ESO Lengua</span>
-            </a>
-           </div>
-           <div class="competition">
-            <a mat-raised-button class="segundoboton1" routerLink="/competitions/liga">
-              <img src="../../../assets/img/liga-icon.svg" alt="angular">
-              <span><strong>LA VENGANZA DE LOS SITH</strong> <br> 3º ESO Matemáticas</span>
-            </a>
-            </div>
+    <div *ngIf="utilsService.role == 1">
+    <mat-list-item class="create-competition">
+      <a mat-raised-button color="primary" style="width:100%" routerLink="/competitions/create">
+        {{ 'COMPETITIONS.CREATE_NEW_COMPETITION' | translate }}
+      </a>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-divider></mat-divider>
     </div>
+
+    <mat-list-item>
+      <h2 mat-dialog-title>{{ 'COMPETITIONS.SUBTITLE' | translate }}</h2>
+   </mat-list-item>
+
+  </mat-list>
+
+
+  <mat-grid-list cols="1" rowHeight="9:1">
+
+      <mat-grid-tile *ngIf="numCompetitions == 0">
+          <p *ngIf="utilsService.role == 1 ">{{ 'COMPETITIONS.NONE_TEACHER' | translate }} </p>
+          <p *ngIf="utilsService.role == 0 ">{{ 'COMPETITIONS.NONE_STUDENT' | translate }} </p>
+      </mat-grid-tile>
+
+     <div *ngIf="numCompetitions > 0">
+      <mat-grid-tile *ngFor="let competition of competitions">
+          <a mat-raised-button class="League" *ngIf="competition.type === 'Liga' " routerLink="/competitions/liga">
+            <img src="../../../assets/img/liga-icon.svg" alt="angular">
+            <span><strong>{{competition.name}}</strong> <br> {{competition.grade.name}} {{competition.matter.name}}
+              <strong>{{competition.mode}}</strong></span>
+          </a>
+          <a mat-raised-button class="Tennis" *ngIf="competition.type === 'Tenis' " routerLink="/competitions/liga">
+            <img src="../../../assets/img/tenis-icon.svg" alt="angular">
+            <span><strong>{{competition.name}}</strong> <br>{{competition.grade.name}} {{competition.matter.name}}
+              <strong>{{competition.mode}}</strong></span>
+          </a>
+      </mat-grid-tile>
+    </div>
+
+  </mat-grid-list>
 
   </div>

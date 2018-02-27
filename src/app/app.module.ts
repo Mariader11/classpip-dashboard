@@ -35,7 +35,7 @@ import { LoadingComponent } from './shared/loading/loading';
 import {
   UtilsService, LoginService, LoadingService, AlertService,
   SchoolService, AvatarService, UserService, GroupService,
-  GradeService, MatterService
+  GradeService, MatterService, CompetitionService
 } from './shared/services/index';
 
 // rxjs
@@ -94,7 +94,8 @@ export function createTranslateLoader(http: Http) {
     UtilsService,
     GroupService,
     GradeService,
-    MatterService
+    MatterService,
+    CompetitionService
   ],
   bootstrap: [AppComponent]
 })

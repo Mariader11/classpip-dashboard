@@ -107,4 +107,16 @@ export class GroupService {
       .map((response: Response, index: number) => Group.toObjectArray(response.json()));
   }
 
+
+  /* pasas como parametro la id del grupo del quq quieres obtener los detalles */
+  public getGroup(id: number): Observable<Group> {
+
+    const options: RequestOptions = new RequestOptions({
+      headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+    });
+
+    return this.http.get(AppConfig.GROUP_URL + '/' + id, options)
+      .map((response: Response, index: number) => Group.toObject(response.json()));
+  }
+
 }
