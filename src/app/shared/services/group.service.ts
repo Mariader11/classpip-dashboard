@@ -119,7 +119,8 @@ export class GroupService {
     });
 
     return this.http.get(AppConfig.GROUP_URL + '/' + id, options)
-      .map((response: Response, index: number) => Group.toObject(response.json()));
+      .map((response: Response, index: number) => Group.toObject(response.json()))
+      .catch((error: Response) => this.utilsService.handleAPIError(error));
   }
 
 }

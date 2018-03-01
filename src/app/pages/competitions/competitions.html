@@ -5,7 +5,7 @@
 
     <div *ngIf="utilsService.role == 1">
     <mat-list-item class="create-competition">
-      <a mat-raised-button color="primary" style="width:100%" routerLink="/competitions/create">
+      <a mat-raised-button color="primary" style="width:100%" routerLink="/competition/create">
         {{ 'COMPETITIONS.CREATE_NEW_COMPETITION' | translate }}
       </a>
       </mat-list-item>
@@ -29,12 +29,12 @@
 
      <div *ngIf="numCompetitions > 0">
       <mat-grid-tile *ngFor="let competition of competitions">
-          <a mat-raised-button class="League" *ngIf="competition.type === 'Liga' " routerLink="/competitions/liga">
+          <a mat-raised-button class="League" *ngIf="competition.type === 'Liga' " [routerLink]="['/competition/league', competition.id]">
             <img src="../../../assets/img/liga-icon.svg" alt="angular">
             <span><strong>{{competition.name}}</strong> <br> {{competition.grade.name}} {{competition.matter.name}}
               <strong>{{competition.mode}}</strong></span>
           </a>
-          <a mat-raised-button class="Tennis" *ngIf="competition.type === 'Tenis' " routerLink="/competitions/liga">
+          <a mat-raised-button class="Tennis" *ngIf="competition.type === 'Tenis' " [routerLink]="['/competition/tennis', competition.id]">
             <img src="../../../assets/img/tenis-icon.svg" alt="angular">
             <span><strong>{{competition.name}}</strong> <br>{{competition.grade.name}} {{competition.matter.name}}
               <strong>{{competition.mode}}</strong></span>

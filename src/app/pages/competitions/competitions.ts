@@ -14,6 +14,7 @@ export class CompetitionsComponent implements OnInit {
 
   public competitions: Array<Competition>;
   public numCompetitions: number;
+  public competition: Competition;
 
   constructor(
     public alertService: AlertService,
@@ -53,6 +54,17 @@ export class CompetitionsComponent implements OnInit {
             this.alertService.show(error.toString());
           }));
 
+          this.competitionService.getCompetition(1).subscribe(
+            ((competition: Competition) => {
+              this.competition = competition;
+              // tslint:disable-next-line:no-console
+              console.log(this.competition);
+              this.loadingService.hide();
+            }),
+            ((error: Response) => {
+              this.loadingService.hide();
+              this.alertService.show(error.toString());
+            }));
      }
 
   }

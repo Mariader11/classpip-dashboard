@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+
+
 import { FormsModule, FormControl, Validators } from '@angular/forms'; // añadio no es nesesario
 
 
 import { Login, Group, Role } from '../../../shared/models/index';
 import { AppConfig } from '../../../app.config';
-import { LoadingService, UtilsService, GroupService, AlertService } from '../../../shared/services/index';
+import { LoadingService, UtilsService, GroupService, AlertService, CompetitionService } from '../../../shared/services/index';
 
 @Component({
   selector: 'app-liga',
