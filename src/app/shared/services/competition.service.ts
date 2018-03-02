@@ -71,7 +71,9 @@ export class CompetitionService {
       const url: string = this.utilsService.getMyUrl() + AppConfig.COMPETITIONS_URL;
 
       return this.http.get(url, options)
-        .map((response: Response, index: number) => Competition.toObjectArray(response.json()));
+        .map((response: Response, index: number) => Competition.toObjectArray(response.json()))
+        .catch((error: Response) => this.utilsService.handleAPIError(error));
+
     }
 
 
@@ -89,7 +91,19 @@ export class CompetitionService {
       const url: string = this.utilsService.getMyUrl() + AppConfig.COMPETITIONS_URL + AppConfig.COUNT_URL;
 
       return this.http.get(url, options)
-        .map((response: Response) => response.json());
+        .map((response: Response) => response.json())
+        .catch((error: Response) => this.utilsService.handleAPIError(error));
+      }
+
+      public getCompetition(id: number | string): Observable<Competition> {
+
+        const options: RequestOptions = new RequestOptions({
+          headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+        });
+
+        return this.http.get(AppConfig.COMPETITION_URL + '/' + id, options)
+          .map((response: Response, index: number) => Competition.toObject(response.json()))
+          .catch((error: Response) => this.utilsService.handleAPIError(error));
       }
 
 }
