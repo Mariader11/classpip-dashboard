@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule, FormControl, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Http, HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
@@ -36,7 +36,7 @@ import { LoadingComponent } from './shared/loading/loading';
 import {
   UtilsService, LoginService, LoadingService, AlertService,
   SchoolService, AvatarService, UserService, GroupService,
-  GradeService, MatterService, CompetitionService
+  GradeService, MatterService, CompetitionService, JourneyService
 } from './shared/services/index';
 
 // rxjs
@@ -76,6 +76,7 @@ export function createTranslateLoader(http: Http) {
     FlexLayoutModule,
     AppMaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     routing,
     TranslateModule.forRoot({
@@ -97,7 +98,8 @@ export function createTranslateLoader(http: Http) {
     GroupService,
     GradeService,
     MatterService,
-    CompetitionService
+    CompetitionService,
+    JourneyService
   ],
   bootstrap: [AppComponent]
 })

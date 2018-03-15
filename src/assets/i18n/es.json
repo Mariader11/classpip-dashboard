@@ -22,7 +22,8 @@
     "SCHOOLADMIN": "Director de Escuela"
   },
   "GROUPS": {
-    "TITLE": "Grupos"
+    "TITLE": "Grupos",
+    "SINGULAR": "Grupo"
   },
   "COMPETITIONS": {
     "TITLE": "Competiciones",
@@ -30,15 +31,27 @@
     "NONE_STUDENT": "No participas en ninguna competición.",
     "NONE_TEACHER": "No tiene ninguna competición creada.",
     "CREATE_NEW_COMPETITION": "Crear nueva competición",
+    "NAME": "Nombre de la competición",
+    "TYPE": "Tipo de competición",
+    "NUMBER_JOURNEYS": "Número de jornadas",
     "LEAGUE": "Liga",
     "TENNIS": "Tenis",
     "CLASIFICATION": "Clasificación",
     "JOURNEY": "Jornada",
     "JOURNEYS": "Jornadas",
+    "INDIVIDUAL": "Individual",
     "TEAMS": "Equipos",
     "MOD_DATE": "Modificar jornadas",
     "MOD_DATE2": "Modifique la fecha de la jornada",
     "INTR_RESULT": "Resultados",
+    "INTR_JOURNEY": "Introduzca la fecha de cada jornada:",
+    "EXPL_INFO": "Añada información sobre las competiciones (por ejemplo, explicar en base a qué se decidirán los ganadores de cada jornada)",
+    "FINISHED": "Has terminado de crear la competición.",
+    "FINISHED2": "Terminado",
+    "INITIALIZATION": "Inicialización",
+    "MORE_INFO": "Añadir información",
+    "NEXT": "Siguiente",
+    "DONE": "Hecho.",
     "INTR_RESULT2": "Introduzca los resultados de la jornada",
     "MOD_TEXT":"Texto informativo",
     "MOD_TEXT2":"Modifique el texto",

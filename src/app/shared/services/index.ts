@@ -9,3 +9,4 @@ export * from './grade.service';
 export * from './matter.service';
 export * from './group.service';
 export * from './competition.service';
+export * from './journey.service';

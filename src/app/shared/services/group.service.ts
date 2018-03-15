@@ -53,7 +53,7 @@ export class GroupService {
    * Returns the list of students by a group id.
    * @return {Array<Stuent>} returns the list of students
    */
-  public getMyGroupStudents(id: string): Observable<Array<Student>> {
+  public getMyGroupStudents(id: string | number): Observable<Array<Student>> {
 
     const ret: Array<Student> = new Array<Student>();
 
@@ -78,7 +78,7 @@ export class GroupService {
    * Returns the list of students by a group id.
    * @return {Array<Stuent>} returns the list of students
    */
-  private getGroupStudents(id: string): Observable<Array<Student>> {
+  private getGroupStudents(id: string | number): Observable<Array<Student>> {
 
     const options: RequestOptions = new RequestOptions({
       headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)

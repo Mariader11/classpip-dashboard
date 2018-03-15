@@ -1,15 +1,15 @@
 export class Match {
 
   private _id: string;
-  private _player1: number;
-  private _player2: number;
+  private _playerOne: number;
+  private _playerTwo: number;
   private _winner: number;
   private _journeyId: number;
 
-  constructor(id?: string, player1?: number, player2?: number, winner?: number, journeyId?: number) {
+  constructor(id?: string, playerOne?: number, playerTwo?: number, winner?: number, journeyId?: number) {
     this._id = id;
-    this._player1 = player1;
-    this._player2 = player2;
+    this._playerOne = playerOne;
+    this._playerTwo = playerTwo;
     this._winner = winner;
     this._journeyId = journeyId;
   }
@@ -20,8 +20,8 @@ export class Match {
     const result: Match = new Match();
     if (object != null) {
       result.id = object.id;     /* result.id  no me dara error en .id, .name, .type, etc cuando lo defina en set*/
-      result.player1 = object.player1;
-      result.player2 = object.player2;
+      result.playerOne = object.playerOne;
+      result.playerTwo = object.playerTwo;
       result.winner = object.winner;
       result.journeyId = object.journeyId;
     }
@@ -51,20 +51,20 @@ export class Match {
     this._id = value;
   }
 
-  public get player1(): number {
-    return this._player1;
+  public get playerOne(): number {
+    return this._playerOne;
   }
 
-  public set player1(value: number) {
-    this._player1 = value;
+  public set playerOne(value: number) {
+    this._playerOne = value;
   }
 
-  public get player2(): number {
-    return this._player2;
+  public get playerTwo(): number {
+    return this._playerTwo;
   }
 
-  public set player2(value: number) {
-    this._player2 = value;
+  public set playerTwo(value: number) {
+    this._playerTwo = value;
   }
 
   public get winner(): number {

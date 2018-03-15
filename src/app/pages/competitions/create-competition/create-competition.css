@@ -3,6 +3,14 @@
   max-width: 800px;
 }
 
+ .form-group{
+   margin: auto 20px;
+ }
+
+ .form-group-radio{
+   margin: 5px 20px 12px 20px;
+ }
+
  .final-buttons{
    margin: 25px auto;
  }
@@ -15,18 +23,7 @@
   padding-right: 30px;
 }
 
-.matter{
-  margin: 0 0 20px 0
-}
-
-.team-names{
-  background-color: #ADFF94
-}
-
-.student-names{
-  background-color: rgb(151, 210, 228)
-}
-
 .name {
   margin: 20px 0 0 0;
 }
+

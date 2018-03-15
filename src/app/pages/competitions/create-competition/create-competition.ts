@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+import {FormBuilder, FormGroup, FormArray, Validators} from '@angular/forms';
+import { AlertService, UtilsService, LoadingService, GroupService, CompetitionService,
+   JourneyService } from '../../../shared/services/index';
+import { Login, Role, Group, Competition, Student, Journey, Match } from '../../../shared/models/index';
+import { AppConfig } from '../../../app.config';
+import { Response } from '@angular/http/src/static_response';
 
 
 @Component({
@@ -9,22 +15,215 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateCompetitionComponent implements OnInit {
 
-  groups = [
-    {id: '1', sound: '1'},
-    {id: '2', sound: '2'},
-    {id: '3', sound: '3'},
-    {id: '4', sound: '3'}
+  isLinear = true;
+  competitionFormGroup: FormGroup;
+  journeysFormGroup: FormGroup;
+  informationFormGroup: FormGroup;
+
+  types =  [
+    {value: 'Liga', viewValue: 'Liga'},
+    {value: 'Tenis', viewValue: 'Tenis'}
   ];
 
-  competitions = [
-    {id: '1', type: 'Liga'}
-
+  modes =   [
+    {value: 'Individual', viewValue: 'Individual'},
+    {value: 'Equipos', viewValue: 'Equipos'}
   ];
+  groups = [];
 
-  constructor() { }
+  newCompetition: Competition;
+  newInformation: string;
+
+  // Journeys
+  journeys = new Array();
+  newJourneys: Array<Journey>;
+  students = new Array<Student>();
+
+  // Matches
+  match: Match;
+  match2: any;
+  previousStudents = new Array();
+  studentBefore: number;
+  //
+
+  newCompetitionPost: Competition;
+  newCompetitionPost3: Competition;
+  newMatchesJourneys: Match;
+  relations: Response;
+
+  constructor( public alertService: AlertService,
+    public utilsService: UtilsService,
+    public loadingService: LoadingService,
+    public groupService: GroupService,
+    public competitionService: CompetitionService,
+    public journeyService: JourneyService,
+    private _formBuilder: FormBuilder) {
+
+
+      this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
+      this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
+   }
 
   ngOnInit() {
 
+    if (this.utilsService.role === Role.TEACHER) {
+      // Defining 3 forms:
+    this.competitionFormGroup = this._formBuilder.group({
+      name: ['', Validators.required],
+      type: ['', Validators.required],
+      groupId: ['', Validators.required],
+      mode: ['', Validators.required],
+      numJourneys: ['', Validators.required]
+    });
+
+    this.journeysFormGroup = this._formBuilder.group({
+      journeys: this._formBuilder.array([
+        this._formBuilder.group({
+          date: ['', Validators.required]
+        })
+      ])
+    });
+
+    this.informationFormGroup = this._formBuilder.group({
+      information: ['']
+    });
+
+    // Getting teacher's group
+      this.loadingService.show();
+      this.groupService.getMyGroups().subscribe(
+        ((groups: Array<Group>) => {
+          this.groups = groups;
+          this.loadingService.hide();
+        }),
+        ((error: Response) => {
+          this.loadingService.hide();
+          this.alertService.show(error.toString());
+        }));
+    }
+  }
+
+  // FIRST FORM: COMPETITION
+  onSubmit(value: Competition) {
+
+    this.loadingService.show();
+    this.newCompetition = value;
+    this.newCompetition.teacherId = this.utilsService.currentUser.userId;
+
+    // Add the journeys to the next step
+    for (let _n = 0; _n < this.newCompetition.numJourneys - 1; _n++) {
+      let journeys = <FormArray>this.journeysFormGroup.get('journeys');
+      journeys.push(this._formBuilder.group({
+        date: ['']
+      }));
+    }
+
+     // POST COMPETITION
+
+    this.competitionService.postCompetition(this.newCompetition)
+    .subscribe( (competition => {
+      this.newCompetitionPost = competition;
+      this.loadingService.hide();
+    }),
+    ((error: Response) => {
+      this.loadingService.hide();
+      this.alertService.show(error.toString());
+    }));
+  }
+
+  // SECOND FORM: JOURNEYS
+  onSubmitJourneys(value: any) {
+
+    this.loadingService.show();
+    this.newJourneys = value.journeys;
+    // Adding to the journeys: number and competitionId
+    for ( let _n = 0; _n < this.newCompetition.numJourneys; _n++) {
+      this.newJourneys[_n].number = _n + 1;
+      this.newJourneys[_n].competitionId = +this.newCompetitionPost.id;
+     }
+
+       // POST JOURNEYS
+       for (let _a = 0; _a < this.newJourneys.length; _a++) {
+       this.journeyService.postJourney(this.newJourneys[_a])
+       .subscribe( (journey => {
+         this.journeys.push(journey);
+         this.loadingService.hide();
+       }),
+       ((error: Response) => {
+         this.loadingService.hide();
+         this.alertService.show(error.toString());
+       }));
+      }
+
+    // GET STUDENTS and then establishes relations with the competition
+    // ONLY INDIVIDUAL MODE
+    if ( this.newCompetition.mode === 'Individual' ) {
+      this.groupService.getMyGroupStudents(this.newCompetition.groupId).subscribe(
+      ( (students: Array<Student>) => {
+        this.students = students;
+        for ( let _i = 0; _i < this.students.length; _i++ ) {
+          this.competitionService.relCompetitionStudent(this.newCompetitionPost.id, this.students[_i].id).subscribe(
+            ( res => {
+              this.relations = res;
+              this.previousStudents.push(this.students[_i].id);
+            }),
+            ((error: Response) => {
+              this.alertService.show(error.toString());
+            }));
+        }
+        this.loadingService.hide();
+      }),
+      ((error: Response) => {
+        this.loadingService.hide();
+        this.alertService.show(error.toString());
+      }));
+      }
+
+  }
+
+  // THIRD FORM: INFORMATION
+  onSubmitInf(value: string) {
+
+    this.loadingService.show();
+    this.newInformation = value;
+    this.competitionService.putInformation(this.newInformation, this.newCompetitionPost.id)
+    .subscribe( (competition => {
+      this.newCompetitionPost3 = competition;
+      this.loadingService.hide();
+    }),
+    ((error: Response) => {
+      this.loadingService.hide();
+      this.alertService.show(error.toString());
+    }));
+
+    // Matches
+
+    for (let _j = 0; _j < this.journeys.length; _j++) {
+      for (let _m = 0; _m < (this.previousStudents.length / 2); _m++) {
+        this.match2 = {
+          playerOne : +this.previousStudents[_m],
+          playerTwo : +this.previousStudents[this.previousStudents.length - 1 - _m],
+          journeyId : +this.journeys[_j].id
+        };
+        this.match = this.match2;
+
+          // POST MATCHES
+          this.journeyService.postJourneyMatches(this.match)
+          .subscribe( (match => {
+            this.newMatchesJourneys = match;
+            this.loadingService.hide();
+          }),
+          ((error: Response) => {
+            this.loadingService.hide();
+            this.alertService.show(error.toString());
+          }));
+      }
+
+      this.studentBefore =  this.previousStudents[1];
+      for (let _s = 1; _s < (this.previousStudents.length - 1); _s++) {
+        this.previousStudents[_s] = this.previousStudents[_s + 1];
+      }
+      this.previousStudents[this.previousStudents.length - 1] = this.studentBefore;
+    }
   }
 
 }

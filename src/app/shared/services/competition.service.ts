@@ -106,4 +106,43 @@ export class CompetitionService {
           .catch((error: Response) => this.utilsService.handleAPIError(error));
       }
 
+              /** POST: add a new hero to the database */
+        public postCompetition (competition: Competition): Observable<Competition> {
+
+          const options: RequestOptions = new RequestOptions({
+            headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+          });
+
+           return this.http.post(AppConfig.COMPETITION_URL, competition, options)
+          .map((response: Response, index: number) => Competition.toObject(response.json()))
+          .catch((error: Response) => this.utilsService.handleAPIError(error));
+        }
+
+        public putInformation (information: string, id: string): Observable<Competition> {
+
+          const options: RequestOptions = new RequestOptions({
+            headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+          });
+
+           return this.http.put(this.utilsService.getMyUrl() + AppConfig.COMPETITIONS_URL + '/' + id, information, options)
+          .map((response: Response, index: number) => Competition.toObject(response.json()))
+          .catch((error: Response) => this.utilsService.handleAPIError(error));
+        }
+
+
+        public relCompetitionStudent (competitionId: string | number, studentId: string | number): Observable<Response> {
+
+          const options: RequestOptions = new RequestOptions({
+            headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+          });
+
+          return this.http.put(AppConfig.COMPETITION_URL + '/' + competitionId + AppConfig.STUDENTS_URL
+                 + AppConfig.REL_URL + '/' + studentId, Response , options)
+                 .map((response: Response) => response.json())
+                .catch((error: Response) => this.utilsService.handleAPIError(error));
+
+      }
+
+
+
 }

@@ -45,8 +45,6 @@ export class CompetitionsComponent implements OnInit {
         this.competitionService.getMyCompetitionsGroup().subscribe(
           ((competitions: Array<Competition>) => {
             this.competitions = competitions;
-            // tslint:disable-next-line:no-console
-            console.log(this.competitions);
             this.loadingService.hide();
           }),
           ((error: Response) => {
