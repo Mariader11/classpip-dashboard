@@ -7,7 +7,7 @@ import { GradeService } from './grade.service';
 import { MatterService } from './matter.service';
 import { GroupService } from './group.service';
 import { AppConfig } from '../../app.config';
-import { Competition, Teacher, Student, Group, Matter, Grade } from '../models/index';
+import { Competition, Teacher, Student, Group, Matter, Grade, Team } from '../models/index';
 
 
 @Injectable()
@@ -144,5 +144,56 @@ export class CompetitionService {
       }
 
 
+
+
+      // TEAMS
+
+
+     public postTeam (team: Team): Observable<Team> {
+
+     const options: RequestOptions = new RequestOptions({
+      headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+     });
+
+     return this.http.post(AppConfig.TEAM_URL, team, options)
+     .map((response: Response, index: number) => Team.toObject(response.json()))
+     .catch((error: Response) => this.utilsService.handleAPIError(error));
+                    }
+
+    public getTeams(): Observable<Array<Team>> {
+
+    const options: RequestOptions = new RequestOptions({
+      headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+     });
+
+      const url: string = this.utilsService.getMyUrl() + AppConfig.TEAMS_URL;
+
+      return this.http.get(url, options)
+        .map((response: Response, index: number) => Team.toObjectArray(response.json()));
+      }
+
+   public relTeamStudent (teamId: string | number, studentId: string | number): Observable<Response> {
+
+     const options: RequestOptions = new RequestOptions({
+      headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+      });
+
+        return this.http.put(AppConfig.TEAM_URL + '/' + teamId + AppConfig.STUDENTS_URL
+          + AppConfig.REL_URL + '/' + studentId, Response , options)
+           .map((response: Response) => response.json())
+           .catch((error: Response) => this.utilsService.handleAPIError(error));
+   }
+
+    public relCompetitionTeam (competitionId: string | number, teamId: string | number): Observable<Response> {
+
+       const options: RequestOptions = new RequestOptions({
+       headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+       });
+
+       return this.http.put(AppConfig.COMPETITION_URL + '/' + competitionId + AppConfig.TEAMS_URL
+        + AppConfig.REL_URL + '/' + teamId, Response , options)
+         .map((response: Response) => response.json())
+         .catch((error: Response) => this.utilsService.handleAPIError(error));
+    }
 
 }

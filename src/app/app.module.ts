@@ -18,6 +18,7 @@ import { LoginComponent } from './pages/login/login';
 import { HomeComponent } from './pages/home/home';
 import { GroupsComponent } from './pages/groups/groups';
 import { CompetitionsComponent } from './pages/competitions/competitions';
+import { CreateTeamsComponent } from './pages/create-teams/create-teams';
 
 // pages (competitions)
 import { LigaComponent } from './pages/competitions/liga/liga';
@@ -59,6 +60,7 @@ export function createTranslateLoader(http: Http) {
     HomeComponent,
     GroupsComponent,
     CompetitionsComponent,
+    CreateTeamsComponent,
     // pages (competitions)
     LigaComponent,
     LeagueComponent,

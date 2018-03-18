@@ -7,6 +7,7 @@ import { LoginComponent } from './pages/login/login';
 import { HomeComponent } from './pages/home/home';
 import { GroupsComponent } from './pages/groups/groups';
 
+import { CreateTeamsComponent } from './pages/create-teams/create-teams';
 // Competitions
 import { CompetitionsComponent} from './pages/competitions/competitions';
 import { LigaComponent } from './pages/competitions/liga/liga';
@@ -21,6 +22,7 @@ const appRoutes: Routes = [
   // authenticated pages
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'groups', component: GroupsComponent, canActivate: [AuthGuard] },
+  { path: 'create-teams', component: CreateTeamsComponent, canActivate: [AuthGuard]},
   { path: 'competitions', component: CompetitionsComponent, canActivate: [AuthGuard]},
   { path: 'competition/league/:id', component: LeagueComponent, canActivate: [AuthGuard]},
   { path: 'competition/tennis/:id', component: ClasificationComponent, canActivate: [AuthGuard]},
@@ -37,4 +39,5 @@ const appRoutes: Routes = [
   { path: '**', redirectTo: '' }
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes, { enableTracing: true });
+export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes);
+// Para ver lo que hace, dentro de for Root añadir: , { enableTracing: true }

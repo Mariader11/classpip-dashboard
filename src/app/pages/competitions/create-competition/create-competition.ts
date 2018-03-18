@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import {FormBuilder, FormGroup, FormArray, Validators} from '@angular/forms';
+import {FormControl, FormsModule, FormBuilder, FormGroup, FormArray, Validators, ControlValueAccessor} from '@angular/forms';
 import { AlertService, UtilsService, LoadingService, GroupService, CompetitionService,
    JourneyService } from '../../../shared/services/index';
-import { Login, Role, Group, Competition, Student, Journey, Match } from '../../../shared/models/index';
+import { Login, Role, Group, Competition, Student, Journey, Match, Team } from '../../../shared/models/index';
 import { AppConfig } from '../../../app.config';
 import { Response } from '@angular/http/src/static_response';
 
@@ -18,7 +18,9 @@ export class CreateCompetitionComponent implements OnInit {
   isLinear = true;
   competitionFormGroup: FormGroup;
   journeysFormGroup: FormGroup;
+  participantsFormGroup: FormGroup;
   informationFormGroup: FormGroup;
+  selectedParticipants: any;
 
   types =  [
     {value: 'Liga', viewValue: 'Liga'},
@@ -31,12 +33,15 @@ export class CreateCompetitionComponent implements OnInit {
   ];
   groups = [];
 
+  participant: any;
+  participants = new Array<any>();
+
   newCompetition: Competition;
   newInformation: string;
 
   // Journeys
-  journeys = new Array();
-  newJourneys: Array<Journey>;
+  journeys = new Array();   // mejor Array<Journey> ?? probar cuando tenga tiempo
+  newJourneys: Array<any>;
   students = new Array<Student>();
 
   // Matches
@@ -79,9 +84,13 @@ export class CreateCompetitionComponent implements OnInit {
     this.journeysFormGroup = this._formBuilder.group({
       journeys: this._formBuilder.array([
         this._formBuilder.group({
-          date: ['', Validators.required]
+          date: ['']
         })
       ])
+    });
+
+    this.participantsFormGroup = this._formBuilder.group({
+      participantId: ['']
     });
 
     this.informationFormGroup = this._formBuilder.group({
@@ -128,10 +137,65 @@ export class CreateCompetitionComponent implements OnInit {
       this.loadingService.hide();
       this.alertService.show(error.toString());
     }));
+
+    // GET STUDENTS SELECTED GROUP ( INDIVIDUAL MODE )
+
+    if ( this.newCompetition.mode === 'Individual' ) {
+      this.groupService.getMyGroupStudents(this.newCompetition.groupId).subscribe(
+      ( (students: Array<Student>) => {
+        this.students = students;
+         for (let _n = 0; _n < this.students.length; _n++) {
+         this.participant = {
+          id: this.students[_n].id,
+          name:  this.students[_n].name,
+          surname:  this.students[_n].surname,
+          selected: true
+          };
+          this.participants.push(this.participant);
+        }
+        this.loadingService.hide();
+      }),
+      ((error: Response) => {
+        this.loadingService.hide();
+        this.alertService.show(error.toString());
+      }));
+      }
+
+      // GET TEAMS SELECTED GROUP ( TEAM MODE )
+
+      if ( this.newCompetition.mode === 'Equipos' ) {
+        this.groupService.getGroupTeams(this.newCompetition.groupId).subscribe(
+        ( (teams: Array<Team>) => {
+          for (let _a = 0; _a < teams.length; _a++) {
+              this.participant = {
+                id: teams[_a].id,
+                name: teams[_a].name,
+                surname: '',
+                selected: false
+                };
+             this.participants.push(this.participant);
+          }
+          // tslint:disable-next-line:no-console
+          console.log(this.participants);
+          this.loadingService.hide();
+        }),
+        ((error: Response) => {
+          this.loadingService.hide();
+          this.alertService.show(error.toString());
+        }));
+        }
   }
 
+ // SELECTED PARTICIPANTS
+  onSubmitParticipants(list) {
+    this.selectedParticipants = list.selectedOptions.selected.map(item => item.value);
+    // tslint:disable-next-line:no-console
+    console.log(this.selectedParticipants);
+  }
+
+
   // SECOND FORM: JOURNEYS
-  onSubmitJourneys(value: any) {
+  onSubmitJourneys(value) {
 
     this.loadingService.show();
     this.newJourneys = value.journeys;
@@ -139,7 +203,12 @@ export class CreateCompetitionComponent implements OnInit {
     for ( let _n = 0; _n < this.newCompetition.numJourneys; _n++) {
       this.newJourneys[_n].number = _n + 1;
       this.newJourneys[_n].competitionId = +this.newCompetitionPost.id;
+      if ( this.newJourneys[_n].date === '' ) {
+        this.newJourneys[_n].date = null;
+      }
      }
+      // tslint:disable-next-line:no-console
+      console.log(this.newJourneys);
 
        // POST JOURNEYS
        for (let _a = 0; _a < this.newJourneys.length; _a++) {
@@ -154,29 +223,32 @@ export class CreateCompetitionComponent implements OnInit {
        }));
       }
 
-    // GET STUDENTS and then establishes relations with the competition
-    // ONLY INDIVIDUAL MODE
+        // relations
     if ( this.newCompetition.mode === 'Individual' ) {
-      this.groupService.getMyGroupStudents(this.newCompetition.groupId).subscribe(
-      ( (students: Array<Student>) => {
-        this.students = students;
-        for ( let _i = 0; _i < this.students.length; _i++ ) {
-          this.competitionService.relCompetitionStudent(this.newCompetitionPost.id, this.students[_i].id).subscribe(
-            ( res => {
-              this.relations = res;
-              this.previousStudents.push(this.students[_i].id);
-            }),
-            ((error: Response) => {
-              this.alertService.show(error.toString());
-            }));
-        }
-        this.loadingService.hide();
-      }),
-      ((error: Response) => {
-        this.loadingService.hide();
-        this.alertService.show(error.toString());
-      }));
-      }
+    for ( let _i = 0; _i < this.selectedParticipants.length; _i++ ) {
+      this.competitionService.relCompetitionStudent(this.newCompetitionPost.id, this.selectedParticipants[_i]).subscribe(
+        ( res => {
+          this.relations = res;
+          this.loadingService.hide();
+        }),
+        ((error: Response) => {
+          this.loadingService.hide();
+          this.alertService.show(error.toString());
+        }));
+    }
+  } else {
+    for ( let _i = 0; _i < this.selectedParticipants.length; _i++ ) {
+      this.competitionService.relCompetitionTeam(this.newCompetitionPost.id, this.selectedParticipants[_i]).subscribe(
+        ( res => {
+          this.relations = res;
+          this.loadingService.hide();
+        }),
+        ((error: Response) => {
+          this.loadingService.hide();
+          this.alertService.show(error.toString());
+        }));
+    }
+  }
 
   }
 
@@ -198,14 +270,13 @@ export class CreateCompetitionComponent implements OnInit {
     // Matches
 
     for (let _j = 0; _j < this.journeys.length; _j++) {
-      for (let _m = 0; _m < (this.previousStudents.length / 2); _m++) {
+      for (let _m = 0; _m < (this.selectedParticipants.length / 2); _m++) {
         this.match2 = {
-          playerOne : +this.previousStudents[_m],
-          playerTwo : +this.previousStudents[this.previousStudents.length - 1 - _m],
+          playerOne : +this.selectedParticipants[_m],
+          playerTwo : +this.selectedParticipants[this.selectedParticipants.length - 1 - _m],
           journeyId : +this.journeys[_j].id
         };
         this.match = this.match2;
-
           // POST MATCHES
           this.journeyService.postJourneyMatches(this.match)
           .subscribe( (match => {
@@ -218,11 +289,11 @@ export class CreateCompetitionComponent implements OnInit {
           }));
       }
 
-      this.studentBefore =  this.previousStudents[1];
-      for (let _s = 1; _s < (this.previousStudents.length - 1); _s++) {
-        this.previousStudents[_s] = this.previousStudents[_s + 1];
+      this.studentBefore =  this.selectedParticipants[1];
+      for (let _s = 1; _s < (this.selectedParticipants.length - 1); _s++) {
+        this.selectedParticipants[_s] = this.selectedParticipants[_s + 1];
       }
-      this.previousStudents[this.previousStudents.length - 1] = this.studentBefore;
+      this.selectedParticipants[this.selectedParticipants.length - 1] = this.studentBefore;
     }
   }
 

@@ -58,6 +58,12 @@
     "PLAY": "Jugar el duelo de la jornada",
     "DELETE": "Eliminar competición"
   },
+  "TEAMS": {
+    "TITLE": "Creación de equipos",
+    "INTRO": "Introduzca los nombres de los equipos que desee crear",
+    "TEAM": "Equipo",
+    "MORE": "Añadir otro equipo"
+  },
   "ERROR": {
     "LOGIN_FAILED": "El nombre de usuario y/o la contraseña son inválidas.",
     "LOGIN_FAILED_EMAIL_NOT_VERIFIED": "Tu correo no ha sido verificado aún, por favor, revisa tu correo.",

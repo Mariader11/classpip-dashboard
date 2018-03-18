@@ -16,6 +16,7 @@ export class AppConfig {
   public static get COMPETITION_URL(): string { return this.SERVER_URL + '/api/competitions'; }
   public static get JOURNEY_URL(): string { return this.SERVER_URL + '/api/journeys'; }
   public static get MATCH_URL(): string { return this.SERVER_URL + '/api/matches'; }
+  public static get TEAM_URL(): string { return this.SERVER_URL + '/api/teams'; }
   // Segunda parte de la url
   public static get LOGIN_URL(): string { return '/login'; }
   public static get LOGOUT_URL(): string { return '/logout'; }
@@ -26,6 +27,7 @@ export class AppConfig {
   public static get GROUPS_URL(): string { return '/groups'; }
   public static get COMPETITIONS_URL(): string { return '/competitions'; }
   public static get MATCHES_URL(): string { return '/matches'; }
+  public static get TEAMS_URL(): string { return '/teams'; }
   public static get REL_URL(): string { return '/rel'; }
 
   public static get AUTH_HEADER(): string { return 'Authorization'; }

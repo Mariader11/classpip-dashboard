@@ -4,12 +4,14 @@ export class Team {
   private _name: string;
   private _numPlayers: number;
   private _teacherId: number;
+  private _groupId: number;
 
-  constructor(id?: string, name?: string, numPlayers?: number, teacherId?: number) {
+  constructor(id?: string, name?: string, numPlayers?: number, teacherId?: number, groupId?: number) {
     this._id = id;
     this._name = name;
     this._numPlayers = numPlayers;
     this._teacherId = teacherId;
+    this._groupId = groupId;
   }
 
   /* tslint:disable */
@@ -21,6 +23,7 @@ export class Team {
       result.name = object.name;
       result.numPlayers = object.numPlayers;
       result.teacherId = object.teacherId;
+      result.groupId = object.groupId;
     }
     return result;
   }
@@ -72,4 +75,11 @@ export class Team {
     this._teacherId = value;
   }
 
+  public get groupId(): number {
+    return this._groupId;
+  }
+
+  public set groupId(value: number) {
+    this._groupId = value;
+  }
 }

@@ -50,18 +50,33 @@
   </mat-step>
 
 
-  <mat-step label="{{ 'COMPETITIONS.JOURNEYS' | translate }}" class="mat-horizontal-step" [stepControl]="journeysFormGroup" (click)="onSubmit(competitionFormGroup.value)" editable="false">
+  <mat-step label="Participantes" [stepControl]="participantsFormGroup" editable="false">
+      <p>Seleccione a los participantes que formarán parte de la competición</p>
+      <mat-selection-list #list>
+          <mat-list-option *ngFor="let participant of participants"
+           [selected]="participant.selected" [value]="participant.id">
+              {{participant.name}} {{participant.surname}}
+          </mat-list-option>
+      </mat-selection-list>
+      <div>
+       <button mat-button matStepperNext (click)="onSubmitParticipants(list)"
+       [disabled]="list.selectedOptions.selected.length < 2">{{ 'COMPETITIONS.NEXT' | translate }}</button>
+      </div>
+  </mat-step>
+
+
+  <mat-step label="{{ 'COMPETITIONS.JOURNEYS' | translate }}" class="mat-horizontal-step" [stepControl]="journeysFormGroup" editable="false">
 
     <form [formGroup]="journeysFormGroup" (ngSubmit)="onSubmitJourneys(journeysFormGroup.value)">
         <p>{{ 'COMPETITIONS.INTR_JOURNEY' | translate }}</p>
 
        <div class="form-group" formArrayName="journeys">
-          <div *ngFor="let match of journeysFormGroup.controls.journeys.controls ;let i=index;">
+          <div *ngFor="let journey of journeysFormGroup.controls.journeys.controls ;let i=index;">
 
                 <div class="panel-body" [formGroupName]="i">
                     <div class="form-group">
                       <mat-form-field>
-                          <input matInput [matDatepicker]="picker" formControlName="date" required
+                          <input matInput [matDatepicker]="picker" formControlName="date"
                           placeholder=" {{ 'COMPETITIONS.JOURNEY' | translate }} {{i + 1}}">
                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                           <mat-datepicker #picker></mat-datepicker>
@@ -81,7 +96,8 @@
    </mat-step>
 
 
-  <mat-step label="{{ 'COMPETITIONS.MORE_INFO' | translate }}" class="mat-horizontal-step" [stepControl]="informationFormGroup" editable="false">
+  <mat-step label="{{ 'COMPETITIONS.MORE_INFO' | translate }}" class="mat-horizontal-step" [stepControl]="informationFormGroup"
+  (click)="onSubmitJourneys(journeysFormGroup.value)" editable="false">
    <form [formGroup]="informationFormGroup" (ngSubmit)="onSubmitInf(informationFormGroup.value)">
       <p>{{ 'COMPETITIONS.EXPL_INFO' | translate }}</p>
         <div>
@@ -96,7 +112,7 @@
     </form>
   </mat-step>
 
-  <mat-step label="{{ 'COMPETITIONS.FINISHED2' | translate }}">
+  <mat-step label="{{ 'COMPETITIONS.FINISHED2' | translate }}" (click)="onSubmitInf(informationFormGroup.value)">
       <p>{{ 'COMPETITIONS.FINISHED' | translate }}</p>
       <div class="final-buttons">
         <a mat-button class="Clasificacion" routerLink="/competitions">
