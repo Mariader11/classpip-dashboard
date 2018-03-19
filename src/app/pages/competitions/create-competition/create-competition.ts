@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 
 import {FormControl, FormsModule, FormBuilder, FormGroup, FormArray, Validators, ControlValueAccessor} from '@angular/forms';
 import { AlertService, UtilsService, LoadingService, GroupService, CompetitionService,
@@ -111,6 +111,7 @@ export class CreateCompetitionComponent implements OnInit {
     }
   }
 
+
   // FIRST FORM: COMPETITION
   onSubmit(value: Competition) {
 
@@ -149,7 +150,7 @@ export class CreateCompetitionComponent implements OnInit {
           id: this.students[_n].id,
           name:  this.students[_n].name,
           surname:  this.students[_n].surname,
-          selected: true
+          selected: false
           };
           this.participants.push(this.participant);
         }
@@ -186,6 +187,7 @@ export class CreateCompetitionComponent implements OnInit {
         }
   }
 
+
  // SELECTED PARTICIPANTS
   onSubmitParticipants(list) {
     this.selectedParticipants = list.selectedOptions.selected.map(item => item.value);
@@ -193,9 +195,8 @@ export class CreateCompetitionComponent implements OnInit {
     console.log(this.selectedParticipants);
   }
 
-
   // SECOND FORM: JOURNEYS
-  onSubmitJourneys(value) {
+  onSubmitJourneys (value) {
 
     this.loadingService.show();
     this.newJourneys = value.journeys;

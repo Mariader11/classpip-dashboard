@@ -24,7 +24,6 @@ import { CreateTeamsComponent } from './pages/create-teams/create-teams';
 import { LigaComponent } from './pages/competitions/liga/liga';
 import { LeagueComponent} from './pages/competitions/league/league';
 import { CreateCompetitionComponent } from './pages/competitions/create-competition/create-competition';
-import { ClasificationComponent } from './pages/competitions/liga/clasification/clasification';
 import { TeamsComponent } from './pages/competitions/teams/teams';
 
 // shared (components)
@@ -47,6 +46,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/finally';
 import { from } from 'rxjs/observable/from';
+import { DatePipe } from '@angular/common';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, AppConfig.LANG_PATH, AppConfig.LANG_EXT);
@@ -65,7 +65,6 @@ export function createTranslateLoader(http: Http) {
     LigaComponent,
     LeagueComponent,
     CreateCompetitionComponent,
-    ClasificationComponent,
     TeamsComponent,
     // shared
     NavBarComponent,
@@ -101,7 +100,8 @@ export function createTranslateLoader(http: Http) {
     GradeService,
     MatterService,
     CompetitionService,
-    JourneyService
+    JourneyService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

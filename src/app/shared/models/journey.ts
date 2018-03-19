@@ -4,12 +4,14 @@ export class Journey {
   private _number: number;
   private _date: Date;
   private _competitionId: number;
+  private _completed: boolean;
 
-  constructor(id?: string, number?: number, date?: Date, competitionId?: number) {
+  constructor(id?: string, number?: number, date?: Date, competitionId?: number, completed?: boolean) {
     this._id = id;
     this._number = number;
     this._date = date;
     this._competitionId = competitionId;
+    this._completed = completed;
   }
 
   /* tslint:disable */
@@ -70,6 +72,14 @@ export class Journey {
 
   public set competitionId(value: number) {
     this._competitionId = value;
+  }
+
+  public get completed(): boolean {
+    return this._completed;
+  }
+
+  public set completed(value: boolean) {
+    this._completed = value;
   }
 
 }

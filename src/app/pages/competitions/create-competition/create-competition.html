@@ -52,13 +52,14 @@
 
   <mat-step label="Participantes" [stepControl]="participantsFormGroup" editable="false">
       <p>Seleccione a los participantes que formarán parte de la competición</p>
+      <p>Debe seleccionar al menos 2</p>
       <mat-selection-list #list>
           <mat-list-option *ngFor="let participant of participants"
            [selected]="participant.selected" [value]="participant.id">
               {{participant.name}} {{participant.surname}}
           </mat-list-option>
       </mat-selection-list>
-      <div>
+       <div>
        <button mat-button matStepperNext (click)="onSubmitParticipants(list)"
        [disabled]="list.selectedOptions.selected.length < 2">{{ 'COMPETITIONS.NEXT' | translate }}</button>
       </div>

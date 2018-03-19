@@ -1,3 +1,77 @@
-<p>
-  league works!
-</p>
+<div class="league-content">
+
+    <h5> {{ 'COMPETITIONS.TITLE' | translate }} > {{ 'COMPETITIONS.LEAGUE' | translate }} </h5>
+    <div class="classification">
+     <a mat-raised-button class="classification" routerLink="/competition/league">
+       <strong>{{ 'COMPETITIONS.CLASIFICATION' | translate }}</strong>
+     </a>
+    </div>
+
+    <div class="journeys">
+        <a mat-raised-button class="journeys" routerLink="/home">
+          <strong>{{ 'COMPETITIONS.JOURNEYS' | translate }}</strong>
+        </a>
+   </div>
+
+    <div class="teams">
+      <a mat-raised-button class="teams" routerLink="/competition/league/teams">
+       <strong>{{ 'COMPETITIONS.TEAMS' | translate }}</strong>
+      </a>
+    </div>
+
+    <div class="mod-journeys-info">
+
+        <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <strong>{{ 'COMPETITIONS.MOD_DATE' | translate }}</strong>
+                </mat-panel-title>
+                <mat-panel-description>
+                  {{ 'COMPETITIONS.MOD_DATE2' | translate }}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+             <!-- Cuantas jornadas haya-->
+
+                <form [formGroup]="journeysFormGroup" (ngSubmit)="onSubmitJourney(journeysFormGroup.value)">
+
+                  <mat-form-field>
+
+                       <mat-select #journeyId placeholder="Jornada a modificar"
+                            formControlName="id" required>
+                         <mat-option *ngFor="let journey of finishedJourneys" [value]="journey.id">
+                           {{ journey.number }}
+                         </mat-option>
+                       </mat-select>
+                  </mat-form-field>
+
+                  <div *ngIf="journeyId.value">
+                  <mat-form-field>
+                    <input matInput [matDatepicker]="picker" formControlName="date"
+                      placeholder="Nueva fecha" required>
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+
+                  <div>
+                    <button (click)="onSubmitJourney(journeysFormGroup.value)" [disabled]="!journeysFormGroup.valid">
+                      Modificar
+                    </button>
+                  </div>
+                  </div>
+                </form>
+
+            </mat-expansion-panel>
+
+
+
+
+
+        </mat-accordion>
+
+    </div>
+
+
+
+  </div>

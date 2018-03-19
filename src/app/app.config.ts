@@ -26,6 +26,7 @@ export class AppConfig {
   public static get COUNT_URL(): string { return '/count'; }
   public static get GROUPS_URL(): string { return '/groups'; }
   public static get COMPETITIONS_URL(): string { return '/competitions'; }
+  public static get JOURNEYS_URL(): string { return '/journeys'; }
   public static get MATCHES_URL(): string { return '/matches'; }
   public static get TEAMS_URL(): string { return '/teams'; }
   public static get REL_URL(): string { return '/rel'; }
