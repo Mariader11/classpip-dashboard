@@ -25,6 +25,7 @@ import { LigaComponent } from './pages/competitions/liga/liga';
 import { LeagueComponent} from './pages/competitions/league/league';
 import { CreateCompetitionComponent } from './pages/competitions/create-competition/create-competition';
 import { TeamsComponent } from './pages/competitions/teams/teams';
+import { ClassificationComponent } from './pages/competitions/league/classification/classification';
 
 // shared (components)
 import { NavBarComponent } from './shared/navbar/navbar';
@@ -36,8 +37,8 @@ import { LoadingComponent } from './shared/loading/loading';
 import {
   UtilsService, LoginService, LoadingService, AlertService,
   SchoolService, AvatarService, UserService, GroupService,
-  GradeService, MatterService, CompetitionService, JourneyService
-} from './shared/services/index';
+  GradeService, MatterService, CompetitionService, JourneyService,
+  MatchesService} from './shared/services/index';
 
 // rxjs
 import 'rxjs/add/observable/fromPromise';
@@ -46,7 +47,6 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/finally';
 import { from } from 'rxjs/observable/from';
-import { DatePipe } from '@angular/common';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateStaticLoader(http, AppConfig.LANG_PATH, AppConfig.LANG_EXT);
@@ -66,6 +66,7 @@ export function createTranslateLoader(http: Http) {
     LeagueComponent,
     CreateCompetitionComponent,
     TeamsComponent,
+    ClassificationComponent,
     // shared
     NavBarComponent,
     FooterComponent,
@@ -101,7 +102,7 @@ export function createTranslateLoader(http: Http) {
     MatterService,
     CompetitionService,
     JourneyService,
-    DatePipe
+    MatchesService
   ],
   bootstrap: [AppComponent]
 })

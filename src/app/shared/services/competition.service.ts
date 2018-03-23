@@ -7,7 +7,7 @@ import { GradeService } from './grade.service';
 import { MatterService } from './matter.service';
 import { GroupService } from './group.service';
 import { AppConfig } from '../../app.config';
-import { Competition, Teacher, Student, Group, Matter, Grade, Team } from '../models/index';
+import { Competition, Teacher, Student, Group, Matter, Grade, Team, Match } from '../models/index';
 
 
 @Injectable()
@@ -118,7 +118,7 @@ export class CompetitionService {
           .catch((error: Response) => this.utilsService.handleAPIError(error));
         }
 
-        public putInformation (information: string, id: string): Observable<Competition> {
+        public putInformation (information: string, id: string | number): Observable<Competition> {
 
           const options: RequestOptions = new RequestOptions({
             headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
@@ -143,6 +143,18 @@ export class CompetitionService {
 
       }
 
+      public getStudentsCompetition(competitionId: string): Observable<Array<Student>> {
+
+        const options: RequestOptions = new RequestOptions({
+          headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+         });
+
+          const url: string = AppConfig.COMPETITION_URL + '/' + competitionId + AppConfig.STUDENTS_URL;
+
+          return this.http.get(url, options)
+            .map((response: Response, index: number) => Student.toObjectArray(response.json()));
+          }
+
 
 
 
@@ -162,15 +174,15 @@ export class CompetitionService {
 
     public getTeams(): Observable<Array<Team>> {
 
-    const options: RequestOptions = new RequestOptions({
-      headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
-     });
+     const options: RequestOptions = new RequestOptions({
+       headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+      });
 
       const url: string = this.utilsService.getMyUrl() + AppConfig.TEAMS_URL;
 
-      return this.http.get(url, options)
-        .map((response: Response, index: number) => Team.toObjectArray(response.json()));
-      }
+         return this.http.get(url, options)
+            .map((response: Response, index: number) => Team.toObjectArray(response.json()));
+       }
 
    public relTeamStudent (teamId: string | number, studentId: string | number): Observable<Response> {
 

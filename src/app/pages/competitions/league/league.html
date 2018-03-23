@@ -14,39 +14,38 @@
    </div>
 
     <div class="teams">
-      <a mat-raised-button class="teams" routerLink="/competition/league/teams">
+      <a mat-raised-button class="teams"  routerLink="/competition/{{competitionId}}/teams">
        <strong>{{ 'COMPETITIONS.TEAMS' | translate }}</strong>
       </a>
     </div>
 
-    <div class="mod-journeys-info">
+   <div class="accordeon-journeys-info-results">
 
-        <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <strong>{{ 'COMPETITIONS.MOD_DATE' | translate }}</strong>
-                </mat-panel-title>
-                <mat-panel-description>
-                  {{ 'COMPETITIONS.MOD_DATE2' | translate }}
-                </mat-panel-description>
-              </mat-expansion-panel-header>
+    <mat-accordion>
+
+      <mat-expansion-panel class="option1">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <strong>{{ 'COMPETITIONS.MOD_DATE' | translate }}</strong>
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ 'COMPETITIONS.MOD_DATE2' | translate }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
              <!-- Cuantas jornadas haya-->
 
-                <form [formGroup]="journeysFormGroup" (ngSubmit)="onSubmitJourney(journeysFormGroup.value)">
+                <form [formGroup]="journeysFormGroup">
 
                   <mat-form-field>
-
                        <mat-select #journeyId placeholder="Jornada a modificar"
                             formControlName="id" required>
-                         <mat-option *ngFor="let journey of finishedJourneys" [value]="journey.id">
+                         <mat-option *ngFor="let journey of notCompletedJourneys" [value]="journey.id">
                            {{ journey.number }}
                          </mat-option>
                        </mat-select>
                   </mat-form-field>
 
-                  <div *ngIf="journeyId.value">
                   <mat-form-field>
                     <input matInput [matDatepicker]="picker" formControlName="date"
                       placeholder="Nueva fecha" required>
@@ -59,16 +58,78 @@
                       Modificar
                     </button>
                   </div>
-                  </div>
-                </form>
 
+                </form>
             </mat-expansion-panel>
 
+            <mat-expansion-panel class="option2">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                      <strong>{{ 'COMPETITIONS.MOD_TEXT' | translate }}</strong>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    {{ 'COMPETITIONS.MOD_TEXT2' | translate }}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
 
+                <form [formGroup]="informationFormGroup">
+                <mat-form-field class="texto-informativo">
+                    <textarea matInput [value]="information"
+                     formControlName="information" required></textarea>
+                </mat-form-field>
+                <div>
+                    <button (click)="onSubmitInformation(informationFormGroup.value)" [disabled]="!informationFormGroup.valid">
+                        Modificar
+                    </button>
+                </div>
+                 </form>
+              </mat-expansion-panel>
 
+      <mat-expansion-panel class="option3">
+        <mat-expansion-panel-header (click)="loadResultSection()">
+          <mat-panel-title>
+           <strong>{{ 'COMPETITIONS.INTR_RESULT' | translate }}</strong>
+          </mat-panel-title>
+          <mat-panel-description>
+           {{ 'COMPETITIONS.INTR_RESULT2' | translate }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngIf="this.notCompletedJourneys.length !== 0">
+        <p>{{ 'COMPETITIONS.INTR_RESULT3' | translate }}</p>
+        <form [formGroup]="resultsFormGroup">
+          <div class="form-group" formArrayName="results">
+            <div *ngFor="let match of resultsFormGroup.controls.results.controls ;let i=index;">
+             <div class="panel-body" [formGroupName]="i">
+                <mat-radio-group  formControlName="winner" required>
+                  <div>
+                    <mat-radio-button [value]="match[0]" *ngFor="let match of showMatches[i]">
+                      {{ match[0] }}
+                    </mat-radio-button>
+                    <mat-radio-button [value]="match[1]" *ngFor="let match of showMatches[i]">
+                      {{ match[1] }}
+                    </mat-radio-button>
+                    <mat-radio-button [value]="match[2]" *ngFor="let match of showMatches[i]">
+                      {{ match[2] }}
+                    </mat-radio-button>
+                  </div>
+                </mat-radio-group>
+             </div>
+            </div>
+          </div>
 
+          <div>
+            <button (click)="onSubmitResults(resultsFormGroup.value)" [disabled]="!resultsFormGroup.valid">
+              Modificar
+            </button>
+          </div>
+        </form>
+      </div>
+      <div *ngIf="notCompletedJourneys.length === 0">
+        Ya has introducido todos los resultados de las jornadas.
+      </div>
+      </mat-expansion-panel>
 
-        </mat-accordion>
+    </mat-accordion>
 
     </div>
 

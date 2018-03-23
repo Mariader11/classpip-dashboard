@@ -8,9 +8,8 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AppConfig } from '../../../app.config';
 import { Login, Group, Role, Competition, Journey, Match } from '../../../shared/models/index';
 import { LoadingService, UtilsService, GroupService, AlertService, CompetitionService,
-JourneyService } from '../../../shared/services/index';
+JourneyService, MatchesService } from '../../../shared/services/index';
 import { Observable } from 'rxjs/Observable';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-league',
@@ -19,17 +18,29 @@ import { DatePipe } from '@angular/common';
 })
 export class LeagueComponent implements OnInit {
 
-  id: string;
+  journeysFormGroup: FormGroup;
+  informationFormGroup: FormGroup;
+  resultsFormGroup: FormGroup;
+
+  competitionId: string;
   competition$: Observable<Competition>;
   competition: Competition;
+  information: string;
 
-  journeys: Array<Journey>;
-  finishedJourneys = new Array<Journey>();
-  journeysFormGroup: FormGroup;
-  newJourney: Journey;
+  journeys = new Array<Journey>();
+  notCompletedJourneys = new Array<Journey>();
+  journeyMatch = new Journey();
 
   matches = new Array<Match>();
+  winner: any;
+  public matchesJourneys: Match[][];
+  public showMatches: any[][];
+  arrayMatch: Array<any>;
   count: number;
+  numberMatches: number;
+  numberPostMatches: number;
+  journeyIndex: number;
+  clicked = false;
 
 
   constructor(public alertService: AlertService,
@@ -40,28 +51,41 @@ export class LeagueComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private competitionService: CompetitionService,
-    private datePipe: DatePipe,
+    private matchesService: MatchesService,
     private _formBuilder: FormBuilder) {
 
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
       this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
+      this.matchesJourneys = [];
+      this.showMatches = [];
     }
 
   ngOnInit() {
-    // tslint:disable-next-line:no-console
-    console.log(this.route);
-    this.id = this.route.snapshot.paramMap.get('id');
-    // tslint:disable-next-line:no-console
-    console.log(this.id);
-    this.competition$ = this.competitionService.getCompetition(this.id);
-    // tslint:disable-next-line:no-console
-    console.log(this.competition$);
+
+    this.loadingService.show();
+    this.journeysFormGroup = this._formBuilder.group({
+      id: ['', Validators.required],
+      date: ['', Validators.required]
+    });
+
+    this.informationFormGroup = this._formBuilder.group({
+      information: ['']
+    });
+
+    this.resultsFormGroup = this._formBuilder.group({
+      results: this._formBuilder.array([
+        this._formBuilder.group({
+          winner: ['', Validators.required]
+        })
+      ])
+    });
+    this.competitionId = this.route.snapshot.paramMap.get('id');
+    this.competition$ = this.competitionService.getCompetition(this.competitionId);
 
     this.competition$.subscribe(
       ((competition: Competition) => {
         this.competition = competition;
-        // tslint:disable-next-line:no-console
-        console.log(this.competition);
+        this.information = competition.information;
         this.loadingService.hide();
       }),
       ((error: Response) => {
@@ -69,36 +93,37 @@ export class LeagueComponent implements OnInit {
         this.alertService.show(error.toString());
       }));
 
-      this.journeysFormGroup = this._formBuilder.group({
-        id: ['', Validators.required],
-        date: ['', Validators.required]
-      });
-
-
     // Getting competition's journeys
-    this.loadingService.show();
-    this.journeyService.getJourneysCompetition(this.id).subscribe(
+
+    this.journeyService.getJourneysCompetition(this.competitionId).subscribe(
       ((journeys: Array<Journey>) => {
         this.journeys = journeys;
         for (let _n = 0; _n < this.journeys.length; _n++) {
           this.journeys[_n].completed = false;
-          this.journeyService.getMatchesJourney(this.journeys[_n].id).subscribe(
+          // Getting matches of each journey
+          this.matchesJourneys[_n] = [];
+          this.journeyService.getMatchesJourneyDetails(this.journeys[_n].id, this.competitionId).subscribe(
           ((matches: Array<Match>) => {
-            this.matches = matches;
+            this.numberMatches = matches.length;
             this.count = 0;
-            for (let _m = 0; _m < this.matches.length; _m++) {
-              if ( this.matches[_m].winner !== 0 ) {
+            // Multidimensional array Journey[_n] and Matches[_m]
+            for (let _m = 0; _m < matches.length; _m++) {
+              this.matchesJourneys[_n][_m] = new Match();
+              this.showMatches[_m] = [];
+              this.matchesJourneys[_n][_m] = matches[_m];
+              if ( matches[_m].winner !== 0 ) {
                 this.count = this.count + 1;
               }
             }
-            if ( this.count === this.matches.length ) {
+            // There are results for all matches so the journey is completed
+            if ( this.count === matches.length ) {
               this.journeys[_n].completed = true;
             }
+            // Making the array for journeys not completed
             if ( this.journeys[_n].completed === false) {
-              this.finishedJourneys.push(this.journeys[_n]);
+              this.notCompletedJourneys.push(this.journeys[_n]);
             }
-            // tslint:disable-next-line:no-console
-            console.log(this.finishedJourneys);
+
           }),
           ((error: Response) => {
             this.alertService.show(error.toString());
@@ -110,7 +135,6 @@ export class LeagueComponent implements OnInit {
         this.loadingService.hide();
         this.alertService.show(error.toString());
       }));
-
     }
 
     gotoComponents() {
@@ -119,21 +143,92 @@ export class LeagueComponent implements OnInit {
 
     onSubmitJourney (value) {
       this.loadingService.show();
-      // tslint:disable-next-line:no-console
-      console.log(value);
-      this.journeyService.putJourney(value)
-      .subscribe( (journey => {
-        this.newJourney = journey;
-        // tslint:disable-next-line:no-console
-        console.log(this.newJourney);
-        this.loadingService.hide();
-      }),
-      ((error: Response) => {
-        this.loadingService.hide();
-        this.alertService.show(error.toString());
-      }));
-
+      this.journeyService.putJourney(value).subscribe();
+      this.loadingService.hide();
+      this.alertService.show('Jornada actualizada');
     }
 
+    onSubmitInformation(value: string) {
+     this.loadingService.show();
+     // tslint:disable-next-line:no-console
+     console.log(value);
+     this.competitionService.putInformation(value, this.competitionId).subscribe();
+     this.loadingService.hide();
+     this.alertService.show('Información actualizada');
+    }
+
+    onSubmitResults(value) {
+      this.loadingService.show();
+      this.numberPostMatches = 0;
+      // tslint:disable-next-line:no-console
+      console.log(value.results);
+      for (let _m = 0; _m < value.results.length; _m++) {
+
+        this.winner = {
+          winner: 0
+        };
+        if ( this.matches[_m].namePlayerOne === value.results[_m].winner ) {
+          this.matches[_m].winner = this.matches[_m].playerOne;
+          this.winner.winner = this.matches[_m].playerOne;
+        } else if (this.matches[_m].namePlayerTwo === value.results[_m].winner ) {
+          this.matches[_m].winner = this.matches[_m].playerTwo;
+          this.winner.winner = this.matches[_m].playerTwo;
+        } else if ('Empate' === value.results[_m].winner) {
+          this.matches[_m].winner = 1;
+          this.winner.winner = 1;
+        }
+        this.matchesService.putWinner(this.winner, this.matches[_m].id)
+        .subscribe( (match => {
+          this.numberPostMatches ++;
+          if (this.numberPostMatches === this.numberMatches ) {
+            this.loadingService.hide();
+            this.alertService.show('Todos los resultados han sido registrados');
+          }
+        }),
+        ((error: Response) => {
+          this.loadingService.hide();
+          this.alertService.show(error.toString());
+        }));
+      }
+      // tslint:disable-next-line:no-console
+      console.log(this.matches);
+    }
+
+    loadResultSection() {
+      if ( this.clicked === false ) {
+    // RESULTS SECTION
+        this.loadingService.show();
+        this.clicked = true;
+    // Searching the lower number of journey not completed
+    if (this.notCompletedJourneys.length !== 0) {
+      this.journeyMatch = this.notCompletedJourneys[0];
+      for (let _j = 1; _j < this.notCompletedJourneys.length; _j++) {
+        if ( this.notCompletedJourneys[_j].number < this.journeyMatch.number ) {
+          this.journeyMatch = this.notCompletedJourneys[_j];
+        }
+      }
+
+
+    this.journeyIndex = this.journeys.findIndex(((journey) => journey.id === this.journeyMatch.id));
+    this.matches = this.matchesJourneys[this.journeyIndex];
+
+    for (let _m = 0; _m < this.matches.length; _m++) {
+      this.arrayMatch = [this.matches[_m].namePlayerOne, 'Empate', this.matches[_m].namePlayerTwo];
+      this.showMatches[_m].push(this.arrayMatch);
+    }
+
+           // Add the results to section: introduce the results section
+
+          for (let _a = 0; _a < this.numberMatches - 1; _a++) {
+            let results = <FormArray>this.resultsFormGroup.get('results');
+            results.push(this._formBuilder.group({
+              winner: ['']
+            }));
+          }
+
+        }
+    this.loadingService.hide();
+    }
   }
 
+  }

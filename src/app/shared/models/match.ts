@@ -5,13 +5,18 @@ export class Match {
   private _playerTwo: number;
   private _winner: number;
   private _journeyId: number;
+  private _namePlayerOne: string;
+  private _namePlayerTwo: string;
 
-  constructor(id?: string, playerOne?: number, playerTwo?: number, winner?: number, journeyId?: number) {
+  constructor(id?: string, playerOne?: number, playerTwo?: number, winner?: number, journeyId?: number,
+  namePlayerOne?: string, namePlayerTwo?: string) {
     this._id = id;
     this._playerOne = playerOne;
     this._playerTwo = playerTwo;
     this._winner = winner;
     this._journeyId = journeyId;
+    this._namePlayerOne = namePlayerOne;
+    this._namePlayerTwo = namePlayerTwo;
   }
 
   /* tslint:disable */
@@ -81,5 +86,19 @@ export class Match {
 
   public set journeyId(value: number) {
     this._journeyId = value;
+  }
+  public get namePlayerOne(): string {
+    return this._namePlayerOne;
+  }
+
+  public set namePlayerOne(value: string) {
+    this._namePlayerOne = value;
+  }
+  public get namePlayerTwo(): string {
+    return this._namePlayerTwo;
+  }
+
+  public set namePlayerTwo(value: string) {
+    this._namePlayerTwo = value;
   }
 }
