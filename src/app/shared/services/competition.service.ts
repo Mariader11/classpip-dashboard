@@ -172,17 +172,23 @@ export class CompetitionService {
      .catch((error: Response) => this.utilsService.handleAPIError(error));
                     }
 
-    public getTeams(): Observable<Array<Team>> {
+    public getTeamsCompetition(competitionId: number): Observable<Array<Team>> {
 
      const options: RequestOptions = new RequestOptions({
        headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
       });
-
-      const url: string = this.utilsService.getMyUrl() + AppConfig.TEAMS_URL;
-
-         return this.http.get(url, options)
+         return this.http.get(AppConfig.COMPETITION_URL + '/' + competitionId + AppConfig.TEAMS_URL, options)
             .map((response: Response, index: number) => Team.toObjectArray(response.json()));
        }
+
+       public getStudentsTeam(teamId: number): Observable<Array<Student>> {
+
+        const options: RequestOptions = new RequestOptions({
+          headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+         });
+        return this.http.get(AppConfig.TEAM_URL + '/' + teamId + AppConfig.STUDENTS_URL, options)
+          .map((response: Response, index: number) => Student.toObjectArray(response.json()));
+        }
 
    public relTeamStudent (teamId: string | number, studentId: string | number): Observable<Response> {
 

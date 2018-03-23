@@ -14,7 +14,7 @@
    </div>
 
     <div class="teams">
-      <a mat-raised-button class="teams"  routerLink="/competition/{{competitionId}}/teams">
+      <a mat-raised-button class="teams" (click)="gotoTeams()">
        <strong>{{ 'COMPETITIONS.TEAMS' | translate }}</strong>
       </a>
     </div>

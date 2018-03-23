@@ -1,6 +1,5 @@
 import { Component, OnInit} from '@angular/core';
 
-
 import { Login, Competition, Role } from '../../shared/models/index';
 import { AppConfig } from '../../app.config';
 import { LoadingService, UtilsService, CompetitionService, AlertService } from '../../shared/services/index';

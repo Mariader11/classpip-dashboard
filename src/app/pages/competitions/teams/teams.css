@@ -2,3 +2,11 @@
   margin: 40px auto;
   max-width: 800px;
 }
+
+.team-card{
+  background-color: lightyellow;
+}
+
+.team-list-item{
+  margin: -5px auto -20px auto;
+}

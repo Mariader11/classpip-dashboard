@@ -40,7 +40,9 @@
     "JOURNEY": "Jornada",
     "JOURNEYS": "Jornadas",
     "INDIVIDUAL": "Individual",
+    "TEAM": "Equipo",
     "TEAMS": "Equipos",
+    "PLAYERS": "Jugadores",
     "MOD_DATE": "Modificar jornadas",
     "MOD_DATE2": "Modifique la fecha de la jornada",
     "INTR_RESULT": "Resultados",
@@ -63,7 +65,8 @@
     "TITLE": "Creación de equipos",
     "INTRO": "Introduzca los nombres de los equipos que desee crear",
     "TEAM": "Equipo",
-    "MORE": "Añadir otro equipo"
+    "MORE": "Añadir otro equipo",
+    "RETURN": "Volver a la página de la competición"
   },
   "ERROR": {
     "LOGIN_FAILED": "El nombre de usuario y/o la contraseña son inválidas.",

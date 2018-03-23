@@ -42,6 +42,7 @@ export class LeagueComponent implements OnInit {
   journeyIndex: number;
   clicked = false;
 
+  url: string;
 
   constructor(public alertService: AlertService,
     public utilsService: UtilsService,
@@ -63,6 +64,8 @@ export class LeagueComponent implements OnInit {
   ngOnInit() {
 
     this.loadingService.show();
+    // tslint:disable-next-line:no-console
+    console.log(this.route);
     this.journeysFormGroup = this._formBuilder.group({
       id: ['', Validators.required],
       date: ['', Validators.required]
@@ -137,8 +140,11 @@ export class LeagueComponent implements OnInit {
       }));
     }
 
-    gotoComponents() {
-      this.router.navigate(['/components']);
+    gotoTeams() {
+      this.url = this.route.snapshot.url.join('/') + '/teams';
+      // tslint:disable-next-line:no-console
+      console.log(this.url);
+      this.router.navigate([this.url]);
     }
 
     onSubmitJourney (value) {
