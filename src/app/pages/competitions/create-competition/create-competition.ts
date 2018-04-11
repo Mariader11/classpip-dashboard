@@ -20,7 +20,7 @@ export class CreateCompetitionComponent implements OnInit {
   journeysFormGroup: FormGroup;
   participantsFormGroup: FormGroup;
   informationFormGroup: FormGroup;
-  selectedParticipants: any;
+  selectedParticipants: Array<number>;
   even: boolean;
 
   types =  [
@@ -276,12 +276,16 @@ export class CreateCompetitionComponent implements OnInit {
   }
 
   league(): void {
-
       // ordenar ascendentemente las jornadas por su id
       this.journeys.sort(function (a, b) {
         return (a.number - b.number);
       });
 
+      if (this.even === false) {
+        this.selectedParticipants.push(0);
+      }
+         // tslint:disable-next-line:no-console
+         console.log(this.selectedParticipants);
     // Matches
     for (let _j = 0; _j < this.journeys.length; _j++) {
       for (let _m = 0; _m < (this.selectedParticipants.length / 2); _m++) {
@@ -291,6 +295,8 @@ export class CreateCompetitionComponent implements OnInit {
           journeyId : +this.journeys[_j].id
         };
         this.match = this.match2;
+           // tslint:disable-next-line:no-console
+           console.log(this.match);
           // POST MATCHES
           this.journeyService.postJourneyMatches(this.match)
           .subscribe( (match => {

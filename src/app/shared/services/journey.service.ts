@@ -97,6 +97,12 @@ export class JourneyService {
                 if ( +student.id === match.playerTwo ) {
                   match.namePlayerTwo = student.name + ' ' + student.surname;
                 }
+                if ( 0 === match.playerOne) {
+                  match.namePlayerOne = 'Ghost';
+                }
+                if ( 0 === match.playerTwo) {
+                  match.namePlayerTwo = 'Ghost';
+                }
                 if (match.namePlayerOne && match.namePlayerTwo && firstTime) {
                   firstTime = false;
                   ret.push(match);
@@ -118,6 +124,12 @@ export class JourneyService {
                 }
                 if ( +team.id === match.playerTwo ) {
                   match.namePlayerTwo = team.name;
+                }
+                if ( 0 === match.playerOne) {
+                  match.namePlayerOne = 'Ghost';
+                }
+                if ( 0 === match.playerTwo) {
+                  match.namePlayerTwo = 'Ghost';
                 }
                 if (match.namePlayerOne && match.namePlayerTwo && firstTime) {
                   firstTime = false;

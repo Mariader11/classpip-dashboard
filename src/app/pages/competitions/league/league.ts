@@ -32,6 +32,7 @@ export class LeagueComponent implements OnInit {
   journeyMatch = new Journey();
 
   matches = new Array<Match>();
+  matchGhost = new Match();
   winner: any;
   public matchesJourneys: Match[][];
   public showMatches: any[][];
@@ -41,6 +42,7 @@ export class LeagueComponent implements OnInit {
   numberPostMatches: number;
   journeyIndex: number;
   clicked = false;
+  descanso: number;
 
   url: string;
 
@@ -117,7 +119,6 @@ export class LeagueComponent implements OnInit {
               // Multidimensional array Journey[_n] and Matches[_m]
               for (let _m = 0; _m < matches.length; _m++) {
                 this.matchesJourneys[_n][_m] = new Match();
-                this.showMatches[_m] = [];
                 this.matchesJourneys[_n][_m] = matches[_m];
                 if ( matches[_m].winner !== 0 ) {
                   this.count = this.count + 1;
@@ -143,6 +144,8 @@ export class LeagueComponent implements OnInit {
           this.loadingService.hide();
           this.alertService.show(error.toString());
         }));
+        // tslint:disable-next-line:no-console
+        console.log(this.matchesJourneys);
     }
 
 
@@ -159,23 +162,34 @@ export class LeagueComponent implements OnInit {
           this.journeyMatch = this.notCompletedJourneys[_j];
         }
       }
-    this.journeyIndex = this.journeys.findIndex(((journey) => journey.id === this.journeyMatch.id));
-    this.matches = this.matchesJourneys[this.journeyIndex];
+     this.journeyIndex = this.journeys.findIndex(((journey) => journey.id === this.journeyMatch.id));
+     this.matches = this.matchesJourneys[this.journeyIndex];
 
-    for (let _m = 0; _m < this.matches.length; _m++) {
-      this.arrayMatch = [this.matches[_m].namePlayerOne, 'Empate', this.matches[_m].namePlayerTwo];
-      this.showMatches[_m].push(this.arrayMatch);
-    }
-
+     // Construyendo los enfrentamientos a mostrar
+      for (let _m = 0; _m < this.matches.length; _m++) {
+        if (this.matches[_m].namePlayerOne !== 'Ghost' && this.matches[_m].namePlayerTwo !== 'Ghost') {
+        this.arrayMatch = [this.matches[_m].namePlayerOne, 'Empate', this.matches[_m].namePlayerTwo];
+        this.showMatches[_m] = [];
+        this.showMatches[_m].push(this.arrayMatch);
+       } else {
+        this.descanso = _m;
+        this.matchGhost = this.matches[_m];
+      }
+     }
+     // tslint:disable-next-line:no-console
+     console.log(this.descanso);
+     if (this.descanso !== undefined) {
+     this.showMatches.splice(this.descanso, 1); // y ocultando el enfrentamiento del descanso
+     }
            // Add the results of each match to section: introduce the results section
-          for (let _a = 0; _a < this.numberMatches - 1; _a++) {
+           for (let _a = 0; _a < this.showMatches.length -1 ; _a++) {
             let results = <FormArray>this.resultsFormGroup.get('results');
             results.push(this._formBuilder.group({
-              winner: ['']
+              winner: ['', Validators.required]
             }));
           }
 
-        }
+    }
     this.loadingService.hide();
     }
    }
@@ -202,20 +216,22 @@ export class LeagueComponent implements OnInit {
     onSubmitResults(value) {
       this.loadingService.show();
       this.numberPostMatches = 0;
-      // tslint:disable-next-line:no-console
-      console.log(value.results);
+      // añadimos el resultado
+      if ( this.matchGhost.playerOne === 0) {
+      value.results.splice(this.descanso, 0, this.winner = {winner: this.matchGhost.namePlayerTwo} );
+    } else if ( this.matchGhost.playerTwo === 0) {
+      value.results.splice(this.descanso, 0, this.winner = {winner: this.matchGhost.namePlayerOne} );
+    }
       for (let _m = 0; _m < value.results.length; _m++) {
-        this.winner = {
-          winner: 0
-        };
+        this.winner = {winner: 0 };
         if ( this.matches[_m].namePlayerOne === value.results[_m].winner ) {
-          this.matches[_m].winner = this.matches[_m].playerOne;
+          this.matches[_m].winner = this.matches[_m].playerOne;  // estas lineas se pueden borrar, pura comprobacion CREO
           this.winner.winner = this.matches[_m].playerOne;
         } else if (this.matches[_m].namePlayerTwo === value.results[_m].winner ) {
-          this.matches[_m].winner = this.matches[_m].playerTwo;
+          this.matches[_m].winner = this.matches[_m].playerTwo;  // estas lineas se pueden borrar, pura comprobacion
           this.winner.winner = this.matches[_m].playerTwo;
         } else if ('Empate' === value.results[_m].winner) {
-          this.matches[_m].winner = 1;
+          this.matches[_m].winner = 1;  // estas lineas se pueden borrar, pura comprobacion
           this.winner.winner = 1;
         }
         this.matchesService.putWinner(this.winner, this.matches[_m].id)
