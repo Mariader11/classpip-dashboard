@@ -13,7 +13,6 @@ export class CompetitionsComponent implements OnInit {
 
   public competitions: Array<Competition>;
   public numCompetitions: number;
-  public competition: Competition;
 
   constructor(
     public alertService: AlertService,
@@ -28,31 +27,19 @@ export class CompetitionsComponent implements OnInit {
   ngOnInit() {
 
     if (this.utilsService.role === Role.TEACHER || this.utilsService.role === Role.STUDENT) {
-
-    this.loadingService.show();
-
-    this.competitionService.getCompetitionsCount().subscribe(
-      ( res => {
-        this.numCompetitions = res.count;
-        this.loadingService.hide();
-      }),
-      ((error: Response) => {
-        this.loadingService.hide();
-        this.alertService.show(error.toString());
-      }));
-
-        this.competitionService.getMyCompetitionsGroup().subscribe(
-          ((competitions: Array<Competition>) => {
-            this.competitions = competitions;
-            this.loadingService.hide();
-          }),
-          ((error: Response) => {
-            this.loadingService.hide();
-            this.alertService.show(error.toString());
-          }));
-
+    this.getCompetitions();
      }
 
+  }
+
+  getCompetitions(): void {
+    this.competitionService.getMyCompetitionsGroup().subscribe(
+      ((competitions: Array<Competition>) => {
+        this.competitions = competitions;
+      }),
+      ((error: Response) => {
+        this.alertService.show(error.toString());
+      }));
   }
 
 }

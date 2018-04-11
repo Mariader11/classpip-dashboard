@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, FormArray, Validators} from '@angular/forms';
 
-import { AlertService, UtilsService, LoadingService, GroupService, CompetitionService} from '../../shared/services/index';
+import { AlertService, UtilsService, LoadingService, GroupService,
+        CompetitionService, TeamService} from '../../shared/services/index';
 import { Login, Role, Group, Student, Team } from '../../shared/models/index';
 import { AppConfig } from '../../app.config';
 import { Response } from '@angular/http/src/static_response';
@@ -32,6 +33,7 @@ export class CreateTeamsComponent implements OnInit {
     public loadingService: LoadingService,
     public groupService: GroupService,
     public competitionService: CompetitionService,
+    public teamService: TeamService,
     private _formBuilder: FormBuilder) {
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
       this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
@@ -95,7 +97,7 @@ export class CreateTeamsComponent implements OnInit {
           teacherId : this.utilsService.currentUser.userId,
           groupId : value.groupId
           };
-          this.competitionService.postTeam(this.team)
+          this.teamService.postTeam(this.team)
           .subscribe( (team => {
            this.teams.push(team);
            if ( this.teams.length === value.teams.length - 1 ) {
@@ -140,12 +142,12 @@ export class CreateTeamsComponent implements OnInit {
     this.loadingService.show();
 
       for ( let _s = 0; _s < this.numStudents; _s++ ) {
-      this.competitionService.relTeamStudent(value.teamsId[_s].teamId, this.students[_s].id).subscribe(
+      this.teamService.relTeamStudent(value.teamsId[_s].teamId, this.students[_s].id).subscribe(
         ( res => {
           this.relTeamStudent = res;
           if ( _s === this.numStudents - 1 ) {
 
-              //aqui
+              // aqui
 
 
             this.show = this.show + 1;

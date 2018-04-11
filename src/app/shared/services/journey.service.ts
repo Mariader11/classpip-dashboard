@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { UtilsService } from './utils.service';
 import { CompetitionService } from './competition.service';
-
+import { TeamService } from './team.service';
 
 import { AppConfig } from '../../app.config';
 import { Competition, Journey, Match, Student } from '../models/index';
@@ -16,7 +16,8 @@ export class JourneyService {
   constructor(
     public http: Http,
     public utilsService: UtilsService,
-    public competitionService: CompetitionService) { }
+    public competitionService: CompetitionService,
+    public teamService: TeamService) { }
 
 
    public postJourney (journey: Journey): Observable<Journey> {
@@ -77,7 +78,7 @@ export class JourneyService {
 
     }
 
-    public getMatchesJourneyDetails(idJourney: string | number, competitionId: string): Observable<Array<Match>> {
+    public getMatchesJourneyDetails(idJourney: string | number, competition: Competition): Observable<Array<Match>> {
 
       const ret: Array<Match> = new Array<Match>();
       let firstTime: boolean;
@@ -85,7 +86,8 @@ export class JourneyService {
       return Observable.create(observer => {
         this.getMatchesJourney(idJourney).subscribe(matches => {
           matches.forEach(match => {
-            this.competitionService.getStudentsCompetition(competitionId)
+            if (competition.mode === 'Individual') {
+            this.competitionService.getStudentsCompetition(competition.id)
             .subscribe( students => {
               firstTime = true;
               students.forEach(student => {
@@ -105,6 +107,29 @@ export class JourneyService {
                 }
               });
             }, error => observer.error(error));
+
+          } else {
+            this.teamService.getTeamsCompetition(competition.id)
+            .subscribe( teams => {
+              firstTime = true;
+              teams.forEach(team => {
+                if ( +team.id === match.playerOne ) {
+                  match.namePlayerOne = team.name;
+                }
+                if ( +team.id === match.playerTwo ) {
+                  match.namePlayerTwo = team.name;
+                }
+                if (match.namePlayerOne && match.namePlayerTwo && firstTime) {
+                  firstTime = false;
+                  ret.push(match);
+                }
+                if (ret.length === matches.length) {
+                  observer.next(ret);
+                  observer.complete();
+                }
+              });
+            }, error => observer.error(error));
+          }
           });
       }, error => observer.error(error));
       });

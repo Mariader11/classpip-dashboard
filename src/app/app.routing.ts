@@ -14,6 +14,7 @@ import { LigaComponent } from './pages/competitions/liga/liga';
 import { LeagueComponent } from './pages/competitions/league/league';
 import { CreateCompetitionComponent } from './pages/competitions/create-competition/create-competition';
 import { TeamsComponent } from './pages/competitions/teams/teams';
+import { ClassificationComponent } from './pages/competitions/league/classification/classification';
 
 
 const appRoutes: Routes = [
@@ -27,6 +28,7 @@ const appRoutes: Routes = [
   { path: 'competition/create', component: CreateCompetitionComponent, canActivate: [AuthGuard]},
   { path: 'competition/liga', component: LigaComponent, canActivate: [AuthGuard]},
   { path: 'competition/league/:id/teams', component: TeamsComponent, canActivate: [AuthGuard]},
+  { path: 'competition/clasification', component: ClassificationComponent, canActivate: [AuthGuard]},
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
 
   // unauthenticad pages

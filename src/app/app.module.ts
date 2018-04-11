@@ -38,7 +38,7 @@ import {
   UtilsService, LoginService, LoadingService, AlertService,
   SchoolService, AvatarService, UserService, GroupService,
   GradeService, MatterService, CompetitionService, JourneyService,
-  MatchesService} from './shared/services/index';
+  MatchesService, TeamService} from './shared/services/index';
 
 // rxjs
 import 'rxjs/add/observable/fromPromise';
@@ -102,7 +102,8 @@ export function createTranslateLoader(http: Http) {
     MatterService,
     CompetitionService,
     JourneyService,
-    MatchesService
+    MatchesService,
+    TeamService
   ],
   bootstrap: [AppComponent]
 })

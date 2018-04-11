@@ -2,3 +2,19 @@
   margin: 40px auto;
   max-width: 800px;
 }
+
+.a-content {
+  margin: 10px 0 10px 0;
+}
+
+.mat-raised-button {
+  background-color: lightgoldenrodyellow;
+}
+
+.mat-expansion-panel {
+  background-color: lightgoldenrodyellow;
+}
+
+.mat-radio-button {
+  margin: 0 15px;
+}

@@ -1,19 +1,19 @@
 <div class="league-content">
 
     <h5> {{ 'COMPETITIONS.TITLE' | translate }} > {{ 'COMPETITIONS.LEAGUE' | translate }} </h5>
-    <div class="classification">
-     <a mat-raised-button class="classification" routerLink="/competition/league">
+    <div class="a-content">
+     <a mat-raised-button class="classification" routerLink="/competition/clasification">
        <strong>{{ 'COMPETITIONS.CLASIFICATION' | translate }}</strong>
      </a>
     </div>
 
-    <div class="journeys">
+    <div class="a-content">
         <a mat-raised-button class="journeys" routerLink="/home">
           <strong>{{ 'COMPETITIONS.JOURNEYS' | translate }}</strong>
         </a>
    </div>
 
-    <div class="teams">
+    <div class="a-content">
       <a mat-raised-button class="teams" (click)="gotoTeams()">
        <strong>{{ 'COMPETITIONS.TEAMS' | translate }}</strong>
       </a>
@@ -95,7 +95,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div *ngIf="this.notCompletedJourneys.length !== 0">
-        <p>{{ 'COMPETITIONS.INTR_RESULT3' | translate }}</p>
+        <p>{{ 'COMPETITIONS.INTR_RESULT3' | translate }}  {{ journeyMatch.number }}</p>
         <form [formGroup]="resultsFormGroup">
           <div class="form-group" formArrayName="results">
             <div *ngFor="let match of resultsFormGroup.controls.results.controls ;let i=index;">

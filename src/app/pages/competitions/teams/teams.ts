@@ -5,7 +5,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AppConfig } from '../../../app.config';
 import { Login, Role, Team, Student } from '../../../shared/models/index';
 import { LoadingService, UtilsService, AlertService,
-        CompetitionService} from '../../../shared/services/index';
+        CompetitionService, TeamService} from '../../../shared/services/index';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
@@ -25,6 +25,7 @@ export class TeamsComponent implements OnInit {
     public utilsService: UtilsService,
     public loadingService: LoadingService,
     public competitionService: CompetitionService,
+    public teamService: TeamService,
     private route: ActivatedRoute) {
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
       this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
@@ -40,7 +41,7 @@ export class TeamsComponent implements OnInit {
   }
 
   getTeams(): void {
-    this.competitionService.getTeamsCompetition(this.competitionId)
+    this.teamService.getTeamsCompetition(this.competitionId)
     .subscribe(teams => {this.teams = teams,
       this.getStudents(this.teams);
     });
@@ -48,7 +49,7 @@ export class TeamsComponent implements OnInit {
 
   getStudents(teams: Array<Team>): void {
     for (let _t = 0; _t < this.teams.length; _t++) {
-    this.competitionService.getStudentsTeam(+this.teams[_t].id)
+    this.teamService.getStudentsTeam(+this.teams[_t].id)
     .subscribe(students => {this.students = students,
       this.allStudents[_t] = students;
       this.teams[_t].numPlayers = this.students.length;

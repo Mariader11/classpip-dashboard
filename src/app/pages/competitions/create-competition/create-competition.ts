@@ -2,7 +2,7 @@ import { Component, OnInit  } from '@angular/core';
 
 import {FormControl, FormsModule, FormBuilder, FormGroup, FormArray, Validators, ControlValueAccessor} from '@angular/forms';
 import { AlertService, UtilsService, LoadingService, GroupService, CompetitionService,
-   JourneyService } from '../../../shared/services/index';
+   JourneyService, TeamService} from '../../../shared/services/index';
 import { Login, Role, Group, Competition, Student, Journey, Match, Team } from '../../../shared/models/index';
 import { AppConfig } from '../../../app.config';
 import { Response } from '@angular/http/src/static_response';
@@ -21,6 +21,7 @@ export class CreateCompetitionComponent implements OnInit {
   participantsFormGroup: FormGroup;
   informationFormGroup: FormGroup;
   selectedParticipants: any;
+  even: boolean;
 
   types =  [
     {value: 'Liga', viewValue: 'Liga'},
@@ -40,7 +41,7 @@ export class CreateCompetitionComponent implements OnInit {
   newInformation: string;
 
   // Journeys
-  journeys = new Array();   // mejor Array<Journey> ?? probar cuando tenga tiempo
+  journeys = new Array();
   newJourneys: Array<any>;
   students = new Array<Student>();
 
@@ -62,6 +63,7 @@ export class CreateCompetitionComponent implements OnInit {
     public groupService: GroupService,
     public competitionService: CompetitionService,
     public journeyService: JourneyService,
+    public teamService: TeamService,
     private _formBuilder: FormBuilder) {
 
 
@@ -193,6 +195,11 @@ export class CreateCompetitionComponent implements OnInit {
     this.selectedParticipants = list.selectedOptions.selected.map(item => item.value);
     // tslint:disable-next-line:no-console
     console.log(this.selectedParticipants);
+    if (this.selectedParticipants.length % 2 === 0 ) {
+      this.even = true;
+     } else {
+      this.even = false;
+    }
   }
 
   // SECOND FORM: JOURNEYS
@@ -208,9 +215,6 @@ export class CreateCompetitionComponent implements OnInit {
         this.newJourneys[_n].date = null;
       }
      }
-      // tslint:disable-next-line:no-console
-      console.log(this.newJourneys);
-
        // POST JOURNEYS
        for (let _a = 0; _a < this.newJourneys.length; _a++) {
        this.journeyService.postJourney(this.newJourneys[_a])
@@ -239,7 +243,7 @@ export class CreateCompetitionComponent implements OnInit {
     }
   } else {
     for ( let _i = 0; _i < this.selectedParticipants.length; _i++ ) {
-      this.competitionService.relCompetitionTeam(this.newCompetitionPost.id, this.selectedParticipants[_i]).subscribe(
+      this.teamService.relCompetitionTeam(this.newCompetitionPost.id, this.selectedParticipants[_i]).subscribe(
         ( res => {
           this.relations = res;
           this.loadingService.hide();
@@ -268,8 +272,17 @@ export class CreateCompetitionComponent implements OnInit {
       this.alertService.show(error.toString());
     }));
 
-    // Matches
+    this.league();
+  }
 
+  league(): void {
+
+      // ordenar ascendentemente las jornadas por su id
+      this.journeys.sort(function (a, b) {
+        return (a.number - b.number);
+      });
+
+    // Matches
     for (let _j = 0; _j < this.journeys.length; _j++) {
       for (let _m = 0; _m < (this.selectedParticipants.length / 2); _m++) {
         this.match2 = {
@@ -290,6 +303,7 @@ export class CreateCompetitionComponent implements OnInit {
           }));
       }
 
+      // Cambiamos las posiciones de los participantes en el vector de selectedParticipants
       this.studentBefore =  this.selectedParticipants[1];
       for (let _s = 1; _s < (this.selectedParticipants.length - 1); _s++) {
         this.selectedParticipants[_s] = this.selectedParticipants[_s + 1];

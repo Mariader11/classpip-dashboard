@@ -11,3 +11,4 @@ export * from './group.service';
 export * from './competition.service';
 export * from './journey.service';
 export * from './matches.service';
+export * from './team.service';
