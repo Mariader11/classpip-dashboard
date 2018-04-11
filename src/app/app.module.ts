@@ -25,6 +25,7 @@ import { LeagueComponent} from './pages/competitions/league/league';
 import { CreateCompetitionComponent } from './pages/competitions/create-competition/create-competition';
 import { TeamsComponent } from './pages/competitions/teams/teams';
 import { ClassificationComponent } from './pages/competitions/league/classification/classification';
+import { JourneysLeagueComponent } from './pages/competitions/league/journeys-league/journeys-league';
 
 // shared (components)
 import { NavBarComponent } from './shared/navbar/navbar';
@@ -65,6 +66,7 @@ export function createTranslateLoader(http: Http) {
     CreateCompetitionComponent,
     TeamsComponent,
     ClassificationComponent,
+    JourneysLeagueComponent,
     // shared
     NavBarComponent,
     FooterComponent,

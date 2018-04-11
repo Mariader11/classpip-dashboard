@@ -1,0 +1,32 @@
+<div class="journeys-content">
+
+<mat-grid-list cols="2" rowHeight="1.25:1">
+    <mat-grid-tile *ngFor="let journey of journeys; let i=index;">
+      <mat-card class="journey-card">
+        <mat-card-header>
+         <mat-card-title><strong>{{ 'COMPETITIONS.JOURNEY' | translate }} {{i + 1}}</strong></mat-card-title>
+         <mat-card-subtitle>Fecha: 20/10/2017</mat-card-subtitle>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+         <mat-list class="team-list" role="list" *ngFor="let match of matchesJourneys[i]">
+          <mat-list-item class="team-list-item" role="listitem">{{match.namePlayerOne}} - {{match.namePlayerTwo}} </mat-list-item>
+         </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <div class="final-buttons" *ngIf="competitionType === 'league'">
+      <a mat-button [routerLink]="['/competition/league', competitionId]">
+        <mat-icon mat-list-icon>navigate_before</mat-icon>
+        {{ 'TEAMS.RETURN' | translate }}
+      </a>
+  </div>
+  <div class="final-buttons" *ngIf="competitionType === 'tennis'">
+      <a mat-button [routerLink]="['/competition/tennis', competitionId]">
+        <mat-icon mat-list-icon>navigate_before</mat-icon>
+        {{ 'TEAMS.RETURN' | translate }}
+      </a>
+  </div>
+</div>
