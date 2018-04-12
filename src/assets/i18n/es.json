@@ -36,7 +36,6 @@
     "NUMBER_JOURNEYS": "Número de jornadas",
     "LEAGUE": "Liga",
     "TENNIS": "Tenis",
-    "CLASIFICATION": "Clasificación",
     "JOURNEY": "Jornada",
     "JOURNEYS": "Jornadas",
     "INDIVIDUAL": "Individual",
@@ -60,6 +59,17 @@
     "MOD_TEXT2":"Modifique el texto",
     "PLAY": "Jugar el duelo de la jornada",
     "DELETE": "Eliminar competición"
+  },
+  "CLASSIFICATION": {
+    "TITLE": "Clasificación",
+    "LEAGUE": "Clasificación de la liga:",
+    "STUDENT": "Nombre del estudiante",
+    "TEAM": "Nombre del equipo",
+    "WON": "Ganados",
+    "DRAW": "Empatados",
+    "LOST": "Perdidos",
+    "POINTS": "Puntuación",
+    "N": "No."
   },
   "TEAMS": {
     "TITLE": "Creación de equipos",

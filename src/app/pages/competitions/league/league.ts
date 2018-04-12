@@ -25,7 +25,6 @@ export class LeagueComponent implements OnInit {
   competitionId: string;
   competition$: Observable<Competition>;
   competition: Competition;
-  information: string;
 
   journeys = new Array<Journey>();
   notCompletedJourneys = new Array<Journey>();
@@ -94,7 +93,6 @@ export class LeagueComponent implements OnInit {
       this.competition$.subscribe(
         ((competition: Competition) => {
           this.competition = competition;
-          this.information = competition.information;
           this.getJourneysAndMatches();
           this.loadingService.hide();
         }),
@@ -193,6 +191,15 @@ export class LeagueComponent implements OnInit {
     this.loadingService.hide();
     }
    }
+
+    gotoClassification() {
+      this.url = this.route.snapshot.url.join('/') + '/classification';
+      this.router.navigate([this.url]);
+    }
+    gotoJourneys() {
+      this.url = this.route.snapshot.url.join('/') + '/journeys';
+      this.router.navigate([this.url]);
+    }
 
     gotoTeams() {
       this.url = this.route.snapshot.url.join('/') + '/teams';

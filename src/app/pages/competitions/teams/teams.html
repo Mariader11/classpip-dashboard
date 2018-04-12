@@ -13,14 +13,12 @@
         </mat-card-content>
       </mat-card>
 
-      <div class="final-buttons" *ngIf="competitionType === 'league'">
-          <a mat-button [routerLink]="['/competition/league', competitionId]">
+      <div class="final-buttons">
+          <a mat-button *ngIf="competitionType === 'league'" [routerLink]="['/competition/league', competitionId]">
             <mat-icon mat-list-icon>navigate_before</mat-icon>
             {{ 'TEAMS.RETURN' | translate }}
           </a>
-      </div>
-      <div class="final-buttons" *ngIf="competitionType === 'tennis'">
-          <a mat-button [routerLink]="['/competition/tennis', competitionId]">
+          <a mat-button *ngIf="competitionType === 'tennis'" [routerLink]="['/competition/tennis', competitionId]">
             <mat-icon mat-list-icon>navigate_before</mat-icon>
             {{ 'TEAMS.RETURN' | translate }}
           </a>

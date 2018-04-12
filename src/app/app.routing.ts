@@ -10,7 +10,6 @@ import { GroupsComponent } from './pages/groups/groups';
 import { CreateTeamsComponent } from './pages/create-teams/create-teams';
 // Competitions
 import { CompetitionsComponent} from './pages/competitions/competitions';
-import { LigaComponent } from './pages/competitions/liga/liga';
 import { LeagueComponent } from './pages/competitions/league/league';
 import { CreateCompetitionComponent } from './pages/competitions/create-competition/create-competition';
 import { TeamsComponent } from './pages/competitions/teams/teams';
@@ -24,11 +23,11 @@ const appRoutes: Routes = [
   { path: 'groups', component: GroupsComponent, canActivate: [AuthGuard] },
   { path: 'create-teams', component: CreateTeamsComponent, canActivate: [AuthGuard]},
   { path: 'competitions', component: CompetitionsComponent, canActivate: [AuthGuard]},
-  { path: 'competition/league/:id', component: LeagueComponent, canActivate: [AuthGuard]},
   { path: 'competition/create', component: CreateCompetitionComponent, canActivate: [AuthGuard]},
-  { path: 'competition/liga', component: LigaComponent, canActivate: [AuthGuard]},
+  { path: 'competition/league/:id', component: LeagueComponent, canActivate: [AuthGuard]},
+  { path: 'competition/league/:id/classification', component: ClassificationComponent, canActivate: [AuthGuard]},
+  { path: 'competition/league/:id/journeys', component: TeamsComponent, canActivate: [AuthGuard]},
   { path: 'competition/league/:id/teams', component: TeamsComponent, canActivate: [AuthGuard]},
-  { path: 'competition/clasification', component: ClassificationComponent, canActivate: [AuthGuard]},
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
 
   // unauthenticad pages

@@ -21,7 +21,6 @@ import { CompetitionsComponent } from './pages/competitions/competitions';
 import { CreateTeamsComponent } from './pages/create-teams/create-teams';
 
 // pages (competitions)
-import { LigaComponent } from './pages/competitions/liga/liga';
 import { LeagueComponent} from './pages/competitions/league/league';
 import { CreateCompetitionComponent } from './pages/competitions/create-competition/create-competition';
 import { TeamsComponent } from './pages/competitions/teams/teams';
@@ -62,7 +61,6 @@ export function createTranslateLoader(http: Http) {
     CompetitionsComponent,
     CreateTeamsComponent,
     // pages (competitions)
-    LigaComponent,
     LeagueComponent,
     CreateCompetitionComponent,
     TeamsComponent,

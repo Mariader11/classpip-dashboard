@@ -1,14 +1,14 @@
-<div class="league-content">
+<div *ngIf="competition" class="league-content">
 
-    <h5> {{ 'COMPETITIONS.TITLE' | translate }} > {{ 'COMPETITIONS.LEAGUE' | translate }} </h5>
+    <h5> {{ 'COMPETITIONS.TITLE' | translate }} > {{ competition.name }} </h5>
     <div class="a-content">
-     <a mat-raised-button class="classification" routerLink="/competition/clasification">
-       <strong>{{ 'COMPETITIONS.CLASIFICATION' | translate }}</strong>
+     <a mat-raised-button class="classification" (click)="gotoClassification()">
+       <strong>{{ 'CLASSIFICATION.TITLE' | translate }}</strong>
      </a>
     </div>
 
     <div class="a-content">
-        <a mat-raised-button class="journeys" routerLink="/home">
+        <a mat-raised-button class="journeys" (click)="gotoJourneys()">
           <strong>{{ 'COMPETITIONS.JOURNEYS' | translate }}</strong>
         </a>
    </div>

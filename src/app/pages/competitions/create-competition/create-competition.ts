@@ -276,7 +276,7 @@ export class CreateCompetitionComponent implements OnInit {
   }
 
   league(): void {
-      // ordenar ascendentemente las jornadas por su id
+      // ordenar ascendentemente las jornadas por su number
       this.journeys.sort(function (a, b) {
         return (a.number - b.number);
       });
