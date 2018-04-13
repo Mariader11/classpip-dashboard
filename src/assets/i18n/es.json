@@ -65,11 +65,13 @@
     "LEAGUE": "Clasificación de la liga:",
     "STUDENT": "Nombre del estudiante",
     "TEAM": "Nombre del equipo",
+    "PLAYED": "Jugados",
     "WON": "Ganados",
     "DRAW": "Empatados",
     "LOST": "Perdidos",
     "POINTS": "Puntuación",
-    "N": "No."
+    "N": "No.",
+    "INFORMATION": "*Los participantes con un número menos de enfrentamientos realizados se debe a la irregularidad de ser un número impar de participantes totales en esta liga. Los descansos que deben realizarse en cada jornada por parte de algún participante conlleva a no sumar puntos en esa jornada."
   },
   "TEAMS": {
     "TITLE": "Creación de equipos",

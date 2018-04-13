@@ -224,11 +224,9 @@ export class LeagueComponent implements OnInit {
       this.loadingService.show();
       this.numberPostMatches = 0;
       // añadimos el resultado
-      if ( this.matchGhost.playerOne === 0) {
-      value.results.splice(this.descanso, 0, this.winner = {winner: this.matchGhost.namePlayerTwo} );
-    } else if ( this.matchGhost.playerTwo === 0) {
-      value.results.splice(this.descanso, 0, this.winner = {winner: this.matchGhost.namePlayerOne} );
-    }
+      if ( this.matchGhost.playerOne === 0 || this.matchGhost.playerTwo === 0) {
+        value.results.splice(this.descanso, 0, this.winner = {winner: 'Descanso'} );
+        }
       for (let _m = 0; _m < value.results.length; _m++) {
         this.winner = {winner: 0 };
         if ( this.matches[_m].namePlayerOne === value.results[_m].winner ) {
@@ -240,6 +238,9 @@ export class LeagueComponent implements OnInit {
         } else if ('Empate' === value.results[_m].winner) {
           this.matches[_m].winner = 1;  // estas lineas se pueden borrar, pura comprobacion
           this.winner.winner = 1;
+        } else if ('Descanso' === value.results[_m].winner) {
+          this.matches[_m].winner = 2;  // estas lineas se pueden borrar, pura comprobacion
+          this.winner.winner = 2;
         }
         this.matchesService.putWinner(this.winner, this.matches[_m].id)
         .subscribe( (match => {

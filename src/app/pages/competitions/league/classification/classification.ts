@@ -25,6 +25,7 @@ export class ClassificationComponent implements OnInit {
 
   journeys: Journey[];
   participants: Participant[];
+  odd: boolean;
   matchesJourneys: Array<Array<Match>>;
 
   scores = new Array<Score>();
@@ -45,9 +46,11 @@ export class ClassificationComponent implements OnInit {
      }
 
   ngOnInit() {
+    if (this.utilsService.role === Role.TEACHER || this.utilsService.role === Role.STUDENT) {
     this.loadingService.show();
     this.competitionId = this.route.snapshot.paramMap.get('id');
     this.getClassificationOfCompetition();
+    }
   }
 
   getClassificationOfCompetition(): void {
@@ -67,7 +70,6 @@ export class ClassificationComponent implements OnInit {
       ((journeys: Array<Journey>) => {
         this.journeys = journeys;
         this.getMatches();
-        this.loadingService.hide();
       }),
       ((error: Response) => {
         this.loadingService.hide();
@@ -87,8 +89,6 @@ export class ClassificationComponent implements OnInit {
           this.matchesJourneys[_j][_m] = new Match();
           this.matchesJourneys[_j][_m] = matches[_m];
         }
-         // tslint:disable-next-line:no-console
-         console.log(this.matchesJourneys);
          if ( this.countJourneys === this.journeys.length ) {
            this.getParticipants();
           }
@@ -106,6 +106,7 @@ export class ClassificationComponent implements OnInit {
       this.modeIndividual = true;
       this.competitionService.getStudentsCompetition(this.competitionId)
       .subscribe(( (students: Array<Student>) => {
+        if (students.length % 2 === 0 ) { this.odd = false; } else { this.odd = true; }
         for (let _s = 0; _s < students.length; _s++) {
           this.participants[_s] = {
             id: +students[_s].id,
@@ -122,6 +123,7 @@ export class ClassificationComponent implements OnInit {
       this.modeIndividual = false;
       this.teamService.getTeamsCompetition(this.competitionId)
       .subscribe(( (teams: Array<Team>) => {
+        if (teams.length % 2 === 0 ) { this.odd = false; } else { this.odd = true; }
         for (let _t = 0; _t < teams.length; _t++) {
           this.participants[_t] = {
             id: +teams[_t].id,
@@ -138,13 +140,10 @@ export class ClassificationComponent implements OnInit {
   }
 
   getScores(): void {
-
-      // tslint:disable-next-line:no-console
-      console.log(this.participants);
       this.scores = [];
       for (let _p = 0; _p < this.participants.length; _p++) {
         this.score = { position: 0, name: this.participants[_p].name,
-                       won: 0, draw: 0, lost: 0, points: 0};
+                       played: 0, won: 0, draw: 0, lost: 0, points: 0};
         for (let _j = 0; _j < this.journeys.length; _j++) {
           this.found = false;
           for (let _m = 0; _m < this.matchesJourneys[_j].length && !this.found; _m++) {
@@ -153,12 +152,16 @@ export class ClassificationComponent implements OnInit {
               if ( this.matchesJourneys[_j][_m].winner === +this.participants[_p].id ) {
                 this.score.points = this.score.points + 3;
                 this.score.won = this.score.won + 1;
+                this.score.played = this.score.played + 1;
               } else if ( this.matchesJourneys[_j][_m].winner === 1 ) {
                 this.score.points = this.score.points + 1;
                 this.score.draw = this.score.draw + 1;
-              } else if ( this.matchesJourneys[_j][_m].winner === 0 ) {
+                this.score.played = this.score.played + 1;
+              } else if ( this.matchesJourneys[_j][_m].winner === 2
+              || this.matchesJourneys[_j][_m].winner === 0 ) {
               } else {
                 this.score.lost = this.score.lost + 1;
+                this.score.played = this.score.played + 1;
               }
               this.found = true;
             }
@@ -173,8 +176,7 @@ export class ClassificationComponent implements OnInit {
       for (let _s = 0; _s < this.scores.length; _s++) {
         this.scores[_s].position = _s + 1;
        }
-      // tslint:disable-next-line:no-console
-      console.log(this.scores);
+       this.loadingService.hide();
   }
 
 }
@@ -182,6 +184,7 @@ export class ClassificationComponent implements OnInit {
 export interface Score {
   position: number;
   name: string;
+  played: number;
   won: number;
   draw: number;
   lost: number;
