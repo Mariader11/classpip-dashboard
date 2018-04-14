@@ -13,7 +13,7 @@
         </a>
    </div>
 
-    <div class="a-content">
+    <div class="a-content" *ngIf="teams">
       <a mat-raised-button class="teams" (click)="gotoTeams()">
        <strong>{{ 'COMPETITIONS.TEAMS' | translate }}</strong>
       </a>

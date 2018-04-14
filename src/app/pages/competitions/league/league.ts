@@ -44,6 +44,7 @@ export class LeagueComponent implements OnInit {
   descanso: number;
 
   url: string;
+  teams: boolean;
 
   constructor(public alertService: AlertService,
     public utilsService: UtilsService,
@@ -191,15 +192,6 @@ export class LeagueComponent implements OnInit {
     this.loadingService.hide();
     }
    }
-
-    gotoClassification() {
-      this.url = this.route.snapshot.url.join('/') + '/classification';
-      this.router.navigate([this.url]);
-    }
-    gotoJourneys() {
-      this.url = this.route.snapshot.url.join('/') + '/journeys';
-      this.router.navigate([this.url]);
-    }
 
     gotoTeams() {
       this.url = this.route.snapshot.url.join('/') + '/teams';

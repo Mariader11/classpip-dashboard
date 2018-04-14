@@ -38,10 +38,14 @@
     "TENNIS": "Tenis",
     "JOURNEY": "Jornada",
     "JOURNEYS": "Jornadas",
+    "DATE": "Fecha",
+    "CALENDAR": "Calendario",
     "INDIVIDUAL": "Individual",
     "TEAM": "Equipo",
     "TEAMS": "Equipos",
+    "PLAYER": "Jugador",
     "PLAYERS": "Jugadores",
+    "WINNER": "Ganador",
     "MOD_DATE": "Modificar jornadas",
     "MOD_DATE2": "Modifique la fecha de la jornada",
     "INTR_RESULT": "Resultados",
@@ -58,7 +62,8 @@
     "MOD_TEXT":"Texto informativo",
     "MOD_TEXT2":"Modifique el texto",
     "PLAY": "Jugar el duelo de la jornada",
-    "DELETE": "Eliminar competición"
+    "DELETE": "Eliminar competición",
+    "RETURN": "Volver a la página de la competición"
   },
   "CLASSIFICATION": {
     "TITLE": "Clasificación",

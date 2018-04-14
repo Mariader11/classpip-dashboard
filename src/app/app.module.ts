@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { Http, HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
@@ -25,6 +26,7 @@ import { LeagueComponent} from './pages/competitions/league/league';
 import { CreateCompetitionComponent } from './pages/competitions/create-competition/create-competition';
 import { TeamsComponent } from './pages/competitions/teams/teams';
 import { ClassificationComponent } from './pages/competitions/league/classification/classification';
+import { JourneysLeagueComponent } from './pages/competitions/league/journeys-league/journeys-league';
 
 // shared (components)
 import { NavBarComponent } from './shared/navbar/navbar';
@@ -65,6 +67,7 @@ export function createTranslateLoader(http: Http) {
     CreateCompetitionComponent,
     TeamsComponent,
     ClassificationComponent,
+    JourneysLeagueComponent,
     // shared
     NavBarComponent,
     FooterComponent,
@@ -101,7 +104,8 @@ export function createTranslateLoader(http: Http) {
     CompetitionService,
     JourneyService,
     MatchesService,
-    TeamService
+    TeamService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
