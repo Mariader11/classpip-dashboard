@@ -193,6 +193,11 @@ export class LeagueComponent implements OnInit {
     }
    }
 
+    gotoJourneys() {
+      this.url = this.route.snapshot.url.join('/') + '/journeys';
+      this.router.navigate([this.url]);
+    }
+
     gotoTeams() {
       this.url = this.route.snapshot.url.join('/') + '/teams';
       this.router.navigate([this.url]);
