@@ -8,8 +8,10 @@
   width: 85%;
 }
 
-h4 {
+
+h4, p {
   text-align: center;
+  font-weight: bold;
 }
 
 table {
@@ -22,11 +24,15 @@ thead {
   border: 0;
   text-align: left;
 }
-
+ 
 tbody {
   border: 1px solid #999;
   border-left: 0;
   border-right: 0;
+}
+
+thead th {
+  background-color: lightyellow;
 }
 
 caption, td, th {
@@ -38,15 +44,19 @@ th, td {
 caption {
   font-weight: bold;
   font-style: italic;
-  text-align: left;
+  text-align: right;
 }
  
 
-table tr:nth-child(even) {
+table tr:nth-child(odd) {
   background-color: #efefef;
 }
 
- 
+table tr:nth-child(even) {
+  background-color: whitesmoke;
+}
+
+
 .result {
   background: khaki;
   text-align: center;

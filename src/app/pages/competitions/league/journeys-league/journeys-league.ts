@@ -108,7 +108,7 @@ export class JourneysLeagueComponent implements OnInit {
       if (this.journeys[_j].date === null) {
         this.dates[_j] = 'No establecida';
       } else {
-        this.dates[_j] = this.datePipe.transform(this.journeys[_j].date, 'MM-dd-yyyy');
+        this.dates[_j] = this.datePipe.transform(this.journeys[_j].date, 'dd-MM-yyyy');
       }
       for (let _m = 0; _m < this.matchesJourneys[_j].length; _m++) {
         if (this.matchesJourneys[_j][_m].winner === this.matchesJourneys[_j][_m].playerOne ) {

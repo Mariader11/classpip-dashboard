@@ -4,14 +4,14 @@
 
   <div *ngIf="dates">
   <h4>{{ 'COMPETITIONS.CALENDAR' | translate }} de la Liga: {{ competition.name }}</h4>
-  <mat-grid-list cols="2" rowHeight="1.25:1">
+  <mat-grid-list cols="2" rowHeight="1.5:1">
     <mat-grid-tile *ngFor="let date of dates; let i=index;">
       <mat-card class="journey-card">
         <mat-card-content>
+            <p>{{ 'COMPETITIONS.JOURNEY' | translate }} {{i + 1}}</p>
          <table>
             <caption>
-              <p>{{ 'COMPETITIONS.JOURNEY' | translate }} {{i + 1}}</p>
-              <p>{{ 'COMPETITIONS.DATE' | translate }}: {{date}}</p>
+              {{ 'COMPETITIONS.DATE' | translate }}: {{date}}
             </caption>
             <thead>
               <tr class="tableHeader">
