@@ -18,6 +18,7 @@ export class TeamsComponent implements OnInit {
   competitionId: number;
   competitionType: string;
   teams: Team[];
+  countTeams: number;
   students: Student[];
   public allStudents: Student[][];
 
@@ -33,26 +34,32 @@ export class TeamsComponent implements OnInit {
      }
 
   ngOnInit() {
+    if (this.utilsService.role === Role.TEACHER || this.utilsService.role === Role.STUDENT) {
     this.loadingService.show();
     this.competitionId = +this.route.snapshot.paramMap.get('id');
     this.competitionType = this.route.snapshot.url[1].path;
     this.getTeams();
-    this.loadingService.hide();
+    }
   }
 
   getTeams(): void {
     this.teamService.getTeamsCompetition(this.competitionId)
     .subscribe(teams => {this.teams = teams,
-      this.getStudents(this.teams);
+      this.getStudents();
     });
   }
 
-  getStudents(teams: Array<Team>): void {
+  getStudents(): void {
+    this.countTeams = 0;
     for (let _t = 0; _t < this.teams.length; _t++) {
     this.teamService.getStudentsTeam(+this.teams[_t].id)
     .subscribe(students => {this.students = students,
       this.allStudents[_t] = students;
       this.teams[_t].numPlayers = this.students.length;
+      this.countTeams = this.countTeams + 1;
+      if ( this.countTeams === this.teams.length) {
+        this.loadingService.hide();
+      }
     });
     }
   }

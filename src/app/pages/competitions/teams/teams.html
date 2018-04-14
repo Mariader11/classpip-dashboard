@@ -1,4 +1,4 @@
-<div class="teams-content">
+<div *ngIf="utilsService.role === 1 || utilsService.role === 0" class="teams-content">
 
     <mat-card class="team-card" *ngFor="let team of teams; let i=index;">
         <mat-card-header>

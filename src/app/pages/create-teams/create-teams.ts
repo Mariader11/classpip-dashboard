@@ -42,7 +42,6 @@ export class CreateTeamsComponent implements OnInit {
   ngOnInit() {
 
     if (this.utilsService.role === Role.TEACHER) {
-
     this.firstFormGroup = this._formBuilder.group({
       groupId: ['', Validators.required],
       teams: this._formBuilder.array([

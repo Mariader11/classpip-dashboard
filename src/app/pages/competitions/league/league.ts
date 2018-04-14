@@ -25,6 +25,7 @@ export class LeagueComponent implements OnInit {
   competitionId: string;
   competition$: Observable<Competition>;
   competition: Competition;
+  information: string;
 
   journeys = new Array<Journey>();
   notCompletedJourneys = new Array<Journey>();
@@ -37,6 +38,7 @@ export class LeagueComponent implements OnInit {
   public showMatches: any[][];
   arrayMatch: Array<any>;
   count: number;
+  countJourneys: number;
   numberMatches: number;
   numberPostMatches: number;
   journeyIndex: number;
@@ -66,8 +68,6 @@ export class LeagueComponent implements OnInit {
   ngOnInit() {
 
     this.loadingService.show();
-    // tslint:disable-next-line:no-console
-    console.log(this.route);
     this.journeysFormGroup = this._formBuilder.group({
       id: ['', Validators.required],
       date: ['', Validators.required]
@@ -94,8 +94,10 @@ export class LeagueComponent implements OnInit {
       this.competition$.subscribe(
         ((competition: Competition) => {
           this.competition = competition;
-          this.getJourneysAndMatches();
-          this.loadingService.hide();
+          this.information = competition.information;
+          if (this.competition.mode === 'Equipos') { this.teams = true; } else { this.teams = false; }
+          if (this.utilsService.role === Role.TEACHER) { this.getJourneysAndMatches();
+          } else { this.loadingService.hide(); }
         }),
         ((error: Response) => {
           this.loadingService.hide();
@@ -104,9 +106,11 @@ export class LeagueComponent implements OnInit {
     }
 
     getJourneysAndMatches(): void {
+      this.countJourneys = 0;
       this.journeyService.getJourneysCompetition(this.competitionId).subscribe(
         ((journeys: Array<Journey>) => {
           this.journeys = journeys;
+
           for (let _n = 0; _n < this.journeys.length; _n++) {
             this.journeys[_n].completed = false;
             // Getting matches of each journey
@@ -115,6 +119,7 @@ export class LeagueComponent implements OnInit {
             ((matches: Array<Match>) => {
               this.numberMatches = matches.length;
               this.count = 0;
+              this.countJourneys = this.countJourneys + 1;
               // Multidimensional array Journey[_n] and Matches[_m]
               for (let _m = 0; _m < matches.length; _m++) {
                 this.matchesJourneys[_n][_m] = new Match();
@@ -131,13 +136,15 @@ export class LeagueComponent implements OnInit {
               if ( this.journeys[_n].completed === false) {
                 this.notCompletedJourneys.push(this.journeys[_n]);
               }
+              if ( this.countJourneys === this.journeys.length ) {
+                this.loadingService.hide();
+               }
 
             }),
             ((error: Response) => {
               this.alertService.show(error.toString());
             }));
           }
-          this.loadingService.hide();
         }),
         ((error: Response) => {
           this.loadingService.hide();
@@ -165,6 +172,7 @@ export class LeagueComponent implements OnInit {
      this.matches = this.matchesJourneys[this.journeyIndex];
 
      // Construyendo los enfrentamientos a mostrar
+
       for (let _m = 0; _m < this.matches.length; _m++) {
         if (this.matches[_m].namePlayerOne !== 'Ghost' && this.matches[_m].namePlayerTwo !== 'Ghost') {
         this.arrayMatch = [this.matches[_m].namePlayerOne, 'Empate', this.matches[_m].namePlayerTwo];
@@ -192,6 +200,11 @@ export class LeagueComponent implements OnInit {
     this.loadingService.hide();
     }
    }
+
+    gotoClassification() {
+      this.url = this.route.snapshot.url.join('/') + '/classification';
+      this.router.navigate([this.url]);
+    }
 
     gotoJourneys() {
       this.url = this.route.snapshot.url.join('/') + '/journeys';

@@ -27,7 +27,7 @@
           <p *ngIf="utilsService.role == 0 ">{{ 'COMPETITIONS.NONE_STUDENT' | translate }} </p>
       </mat-grid-tile>
 
-     <div *ngIf="competitions">
+    <div *ngIf="completedCompetitions">
       <mat-grid-tile *ngFor="let competition of competitions">
           <a mat-raised-button class="League" *ngIf="competition.type === 'Liga' " [routerLink]="['/competition/league', competition.id]">
             <img src="../../../assets/img/liga-icon.svg" alt="angular">

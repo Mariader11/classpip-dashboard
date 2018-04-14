@@ -21,6 +21,43 @@ export class TeamService {
     public matterService: MatterService,
     public competitionService: CompetitionService) { }
 
+
+
+      /**
+     * This method returns the list of competitions of
+     * the current user logged into the application with
+     * the group (grade and matter)
+     * @return {Array<Competition>} returns the list of competitions
+     */
+
+    public getMyCompetitionsGroup(teamId: number): Observable<Array<Competition>> {
+
+      const ret: Array<Competition> = new Array<Competition>();
+
+      return Observable.create(observer => {
+        this.getCompetitionsTeam(teamId).subscribe(competitions => {
+          competitions.forEach(competition => {
+            this.groupService.getGroup(competition.groupId).subscribe(
+              group => {
+               this.gradeService.getGrade(group.gradeId).subscribe(
+                grade => {
+                 competition.grade = grade;
+                   this.matterService.getMatter(group.matterId).subscribe(
+                     matter => {
+                      competition.matter = matter;
+                       ret.push(competition);
+                      if (ret.length === competitions.length) {
+                      observer.next(ret);
+                      observer.complete();
+                    }
+                  }, error => observer.error(error));
+              }, error => observer.error(error));
+            }, error => observer.error(error));
+          });
+        }, error => observer.error(error));
+      });
+    }
+
   public postTeam (team: Team): Observable<Team> {
 
     const options: RequestOptions = new RequestOptions({

@@ -1,4 +1,4 @@
-<div class="creation-teams-content">
+<div *ngIf="utilsService.role == 1" class="creation-teams-content">
   <div class="first" *ngIf="show === 1">
     <h3 mat-subheader>{{ 'TEAMS.TITLE' | translate }}</h3>
 
@@ -96,4 +96,7 @@
   <a routerLink="/competition"> Redirigir a la página de competiciones</a>
  </div>
 
+</div>
+<div *ngIf="utilsService.role === 0 || utilsService.role == 2" class="creation-teams-content">
+  Contenido exclusivo para los profesores.
 </div>

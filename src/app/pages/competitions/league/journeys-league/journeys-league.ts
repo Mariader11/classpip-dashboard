@@ -39,10 +39,11 @@ export class JourneysLeagueComponent implements OnInit {
     }
 
   ngOnInit() {
+    if (this.utilsService.role === Role.TEACHER || this.utilsService.role === Role.STUDENT) {
     this.loadingService.show();
     this.competitionId = this.route.snapshot.paramMap.get('id');
     this.getSelectedCompetition();
-    this.loadingService.hide();
+    }
   }
 
   getSelectedCompetition(): void {

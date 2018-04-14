@@ -1,4 +1,4 @@
-<div class="classification-content">
+<div *ngIf="utilsService.role === 1 || utilsService.role === 0" class="classification-content">
 
     <h5 *ngIf="competition"> {{ 'COMPETITIONS.TITLE' | translate }} > {{ competition.name }} >
       {{ 'CLASSIFICATION.TITLE' | translate }} </h5>
