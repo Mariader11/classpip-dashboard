@@ -1,0 +1,53 @@
+.journeys-content {
+  margin: 40px auto;
+  max-width: 800px;
+}
+
+.journey-card {
+  background-color: lightyellow;
+  width: 85%;
+}
+
+h4 {
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  caption-side: top;
+  border-collapse: collapse;
+}
+
+thead {
+  border: 0;
+  text-align: left;
+}
+
+tbody {
+  border: 1px solid #999;
+  border-left: 0;
+  border-right: 0;
+}
+
+caption, td, th {
+  padding: 0.3em;
+}
+th, td {
+  border-bottom: 1px solid #999;
+}
+caption {
+  font-weight: bold;
+  font-style: italic;
+  text-align: left;
+}
+ 
+
+table tr:nth-child(even) {
+  background-color: #efefef;
+}
+
+ 
+.result {
+  background: khaki;
+  text-align: center;
+}

@@ -1,32 +1,47 @@
 <div class="journeys-content">
+  <h5 *ngIf="competition"> {{ 'COMPETITIONS.TITLE' | translate }} > {{ competition.name }} >
+        {{ 'COMPETITIONS.CALENDAR' | translate }} </h5>
 
-<mat-grid-list cols="2" rowHeight="1.25:1">
-    <mat-grid-tile *ngFor="let journey of journeys; let i=index;">
+  <div *ngIf="dates">
+  <h4>{{ 'COMPETITIONS.CALENDAR' | translate }} de la Liga: {{ competition.name }}</h4>
+  <mat-grid-list cols="2" rowHeight="1.25:1">
+    <mat-grid-tile *ngFor="let date of dates; let i=index;">
       <mat-card class="journey-card">
-        <mat-card-header>
-         <mat-card-title><strong>{{ 'COMPETITIONS.JOURNEY' | translate }} {{i + 1}}</strong></mat-card-title>
-         <mat-card-subtitle>Fecha: 20/10/2017</mat-card-subtitle>
-        </mat-card-header>
-        <mat-divider></mat-divider>
         <mat-card-content>
-         <mat-list class="team-list" role="list" *ngFor="let match of matchesJourneys[i]">
-          <mat-list-item class="team-list-item" role="listitem">{{match.namePlayerOne}} - {{match.namePlayerTwo}} </mat-list-item>
-         </mat-list>
+         <table>
+            <caption>
+              <p>{{ 'COMPETITIONS.JOURNEY' | translate }} {{i + 1}}</p>
+              <p>{{ 'COMPETITIONS.DATE' | translate }}: {{date}}</p>
+            </caption>
+            <thead>
+              <tr class="tableHeader">
+                <th *ngIf="modeIndividual" class="player">{{ 'COMPETITIONS.PLAYER' | translate }} 1</th>
+                <th *ngIf="modeIndividual" class="player">{{ 'COMPETITIONS.PLAYER' | translate }} 2</th>
+                <th *ngIf="!modeIndividual" class="player">{{ 'COMPETITIONS.TEAM' | translate }} 1</th>
+                <th *ngIf="!modeIndividual" class="player">{{ 'COMPETITIONS.TEAM' | translate }} 2</th>
+                <th class="result">{{ 'COMPETITIONS.WINNER' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let score of matchesJourneys[i]">
+                <td class="player">{{score.namePlayerOne}}</td>
+                <td class="player">{{score.namePlayerTwo}}</td>
+                <td class="result">{{score.result}}</td>
+              </tr>
+            </tbody>
+          </table>
+
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
   </mat-grid-list>
+  </div>
 
-  <div class="final-buttons" *ngIf="competitionType === 'league'">
+  <div class="final-buttons">
       <a mat-button [routerLink]="['/competition/league', competitionId]">
         <mat-icon mat-list-icon>navigate_before</mat-icon>
-        {{ 'TEAMS.RETURN' | translate }}
+        {{ 'COMPETITIONS.RETURN' | translate }}
       </a>
   </div>
-  <div class="final-buttons" *ngIf="competitionType === 'tennis'">
-      <a mat-button [routerLink]="['/competition/tennis', competitionId]">
-        <mat-icon mat-list-icon>navigate_before</mat-icon>
-        {{ 'TEAMS.RETURN' | translate }}
-      </a>
-  </div>
+
 </div>

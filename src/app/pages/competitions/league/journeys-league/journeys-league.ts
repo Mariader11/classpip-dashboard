@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-
+import { DatePipe } from '@angular/common';
 import { AppConfig } from '../../../../app.config';
 import { Login, Role, Team, Student, Competition, Journey, Match } from '../../../../shared/models/index';
 import { LoadingService, UtilsService, AlertService, JourneyService,
@@ -10,19 +10,21 @@ import { LoadingService, UtilsService, AlertService, JourneyService,
 @Component({
   selector: 'app-journeys-league',
   templateUrl: './journeys-league.html',
-  styleUrls: ['./journeys-league.css']
+  styleUrls: ['./journeys-league.scss']
 })
 export class JourneysLeagueComponent implements OnInit {
 
   competitionId: string;
-  competitionType: string;
   competition: Competition;
+  modeIndividual: boolean;
+
   journeys = new Array<Journey>();
-  notCompletedJourneys = new Array<Journey>();
-  count: number;
-  numberMatches: number;
-  public matchesJourneys: Match[][];
-  public showMatches: any[][];
+  countJourneys: number;
+  dates: String[];
+
+  matchesJourneys: Match[][];
+  matches: Match[];
+  descanso: number;
 
   constructor(public alertService: AlertService,
     public utilsService: UtilsService,
@@ -30,17 +32,15 @@ export class JourneysLeagueComponent implements OnInit {
     public competitionService: CompetitionService,
     public journeyService: JourneyService,
     public teamService: TeamService,
+    public datePipe: DatePipe,
     private route: ActivatedRoute) {
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
       this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
-      this.matchesJourneys = [];
-      this.showMatches = [];
     }
 
   ngOnInit() {
     this.loadingService.show();
     this.competitionId = this.route.snapshot.paramMap.get('id');
-    this.competitionType = this.route.snapshot.url[1].path;
     this.getSelectedCompetition();
     this.loadingService.hide();
   }
@@ -49,8 +49,8 @@ export class JourneysLeagueComponent implements OnInit {
     this.competitionService.getCompetition(this.competitionId).subscribe(
       ((competition: Competition) => {
         this.competition = competition;
-        this.getJourneysAndMatches();
-        this.loadingService.hide();
+        if ( competition.mode === 'Individual') { this.modeIndividual = true; } else { this.modeIndividual = false; }
+        this.getJourneys();
       }),
       ((error: Response) => {
         this.loadingService.hide();
@@ -58,48 +58,70 @@ export class JourneysLeagueComponent implements OnInit {
       }));
   }
 
-  getJourneysAndMatches(): void {
+  getJourneys(): void {
     this.journeyService.getJourneysCompetition(this.competitionId).subscribe(
       ((journeys: Array<Journey>) => {
         this.journeys = journeys;
-        for (let _n = 0; _n < this.journeys.length; _n++) {
-          this.journeys[_n].completed = false;
-          // Getting matches of each journey
-          this.matchesJourneys[_n] = [];
-          this.journeyService.getMatchesJourneyDetails(this.journeys[_n].id, this.competition).subscribe(
-          ((matches: Array<Match>) => {
-            this.numberMatches = matches.length;
-            this.count = 0;
-            // Multidimensional array Journey[_n] and Matches[_m]
-            for (let _m = 0; _m < matches.length; _m++) {
-              this.matchesJourneys[_n][_m] = new Match();
-              this.matchesJourneys[_n][_m] = matches[_m];
-              if ( matches[_m].winner !== 0 ) {
-                this.count = this.count + 1;
-              }
-            }
-            // There are results for all matches so the journey is completed
-            if ( this.count === matches.length ) {
-              this.journeys[_n].completed = true;
-            }
-            // Making the array for journeys not completed
-            if ( this.journeys[_n].completed === false) {
-              this.notCompletedJourneys.push(this.journeys[_n]);
-            }
-
-          }),
-          ((error: Response) => {
-            this.alertService.show(error.toString());
-          }));
-        }
-        this.loadingService.hide();
+        this.journeys.sort(function (a, b) {
+          return (a.number - b.number);
+        });
+        this.getMatches();
       }),
       ((error: Response) => {
         this.loadingService.hide();
         this.alertService.show(error.toString());
       }));
-      // tslint:disable-next-line:no-console
-      console.log(this.matchesJourneys);
   }
 
+  getMatches(): void {
+    this.countJourneys = 0;
+    this.matchesJourneys = [];
+    for (let _j = 0; _j < this.journeys.length; _j++) {
+      this.matchesJourneys[_j] = [];
+      this.journeyService.getMatchesJourneyDetails(this.journeys[_j].id, this.competition).subscribe(
+      ((matches: Array<Match>) => {
+        this.countJourneys = this.countJourneys + 1;
+        this.matches = matches;
+        for (let _m = 0; _m < this.matches.length; _m++) {
+          if (this.matches[_m].namePlayerOne === 'Ghost' || this.matches[_m].namePlayerTwo === 'Ghost') {
+            this.descanso = _m;
+          }
+        }
+        if (this.descanso !== undefined) {
+          this.matches.splice(this.descanso, 1); // y ocultando el enfrentamiento del descanso
+          }
+        this.matchesJourneys[_j] = this.matches;
+         if ( this.countJourneys === this.journeys.length ) {
+           this.getDatesAndResults();
+          }
+      }),
+      ((error: Response) => {
+        this.loadingService.hide();
+        this.alertService.show(error.toString());
+      }));
+    }
+  }
+
+  getDatesAndResults(): void {
+    this.dates = [];
+    for (let _j = 0; _j < this.journeys.length; _j++) {
+      if (this.journeys[_j].date === null) {
+        this.dates[_j] = 'No establecida';
+      } else {
+        this.dates[_j] = this.datePipe.transform(this.journeys[_j].date, 'MM-dd-yyyy');
+      }
+      for (let _m = 0; _m < this.matchesJourneys[_j].length; _m++) {
+        if (this.matchesJourneys[_j][_m].winner === this.matchesJourneys[_j][_m].playerOne ) {
+          this.matchesJourneys[_j][_m].result = this.matchesJourneys[_j][_m].namePlayerOne;
+        } else if ( this.matchesJourneys[_j][_m].winner === this.matchesJourneys[_j][_m].playerTwo ) {
+          this.matchesJourneys[_j][_m].result = this.matchesJourneys[_j][_m].namePlayerTwo;
+        } else if ( this.matchesJourneys[_j][_m].winner === 1 ) {
+          this.matchesJourneys[_j][_m].result = 'Empate';
+        } else if ( this.matchesJourneys[_j][_m].winner === 0 ) {
+          this.matchesJourneys[_j][_m].result = '-';
+        }
+      }
+    }
+    this.loadingService.hide();
+  }
 }

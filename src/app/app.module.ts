@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { Http, HttpModule } from '@angular/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule, TranslateLoader, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
@@ -103,7 +104,8 @@ export function createTranslateLoader(http: Http) {
     CompetitionService,
     JourneyService,
     MatchesService,
-    TeamService
+    TeamService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
