@@ -63,6 +63,7 @@
     "MOD_TEXT2":"Modifique el texto",
     "PLAY": "Jugar el duelo de la jornada",
     "DELETE": "Eliminar competición",
+    "DELETE_QUESTION": "¿Está seguro de que desea eliminar esta competición?",
     "RETURN": "Volver a la página de la competición"
   },
   "CLASSIFICATION": {

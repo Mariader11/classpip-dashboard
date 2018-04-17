@@ -5,7 +5,8 @@
 
 .journey-card {
   background-color: lightyellow;
-  width: 85%;
+  width: 44%;
+  display: inline-block;
 }
 
 
@@ -60,4 +61,9 @@ table tr:nth-child(even) {
 .result {
   background: khaki;
   text-align: center;
+  width: 40%;
+}
+
+.player {
+   width: 30%;
 }
