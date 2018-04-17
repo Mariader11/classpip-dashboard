@@ -155,5 +155,15 @@ export class CompetitionService {
             .map((response: Response, index: number) => Student.toObjectArray(response.json()));
           }
 
+    /** DELETE: delete the competition from the server */
+    deleteCompetition (competitionId: number): Observable<{}> {
+      const options: RequestOptions = new RequestOptions({
+        headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
+        });
+      const url = AppConfig.COMPETITION_URL + '/' + competitionId;
+      return this.http.delete(url, options)
+      .map((response: Response) => response.json())
+      .catch((error: Response) => this.utilsService.handleAPIError(error));
+    }
 
 }

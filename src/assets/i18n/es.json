@@ -80,7 +80,7 @@
   },
   "TEAMS": {
     "TITLE": "Creación de equipos",
-    "INTRO": "Introduzca los nombres de los equipos que desee crear",
+    "INTRO": "Introduzca los nombres de los equipos que desee crear:",
     "TEAM": "Equipo",
     "MORE": "Añadir otro equipo",
     "RETURN": "Volver a la página de la competición"

@@ -22,10 +22,12 @@ export class LeagueComponent implements OnInit {
   informationFormGroup: FormGroup;
   resultsFormGroup: FormGroup;
 
-  competitionId: string;
+  competitionId: number;
   competition$: Observable<Competition>;
   competition: Competition;
   information: string;
+  newInformation: any;
+  show: boolean;
 
   journeys = new Array<Journey>();
   notCompletedJourneys = new Array<Journey>();
@@ -85,7 +87,8 @@ export class LeagueComponent implements OnInit {
       ])
     });
 
-    this.competitionId = this.route.snapshot.paramMap.get('id');
+    this.competitionId = +this.route.snapshot.paramMap.get('id');
+    this.show = false;
     this.getSelectedCompetition();
   }
 
@@ -96,7 +99,7 @@ export class LeagueComponent implements OnInit {
           this.competition = competition;
           this.information = competition.information;
           if (this.competition.mode === 'Equipos') { this.teams = true; } else { this.teams = false; }
-          if (this.utilsService.role === Role.TEACHER) { this.getJourneysAndMatches();
+          if (this.utilsService.role === Role.TEACHER) { this.getJourneys();
           } else { this.loadingService.hide(); }
         }),
         ((error: Response) => {
@@ -105,13 +108,24 @@ export class LeagueComponent implements OnInit {
         }));
     }
 
-    getJourneysAndMatches(): void {
-      this.countJourneys = 0;
+    getJourneys(): void {
       this.journeyService.getJourneysCompetition(this.competitionId).subscribe(
         ((journeys: Array<Journey>) => {
           this.journeys = journeys;
+          this.journeys.sort(function (a, b) {
+            return (a.number - b.number);
+          });
+          this.getMatches();
+        }),
+        ((error: Response) => {
+          this.loadingService.hide();
+          this.alertService.show(error.toString());
+        }));
+    }
 
-          for (let _n = 0; _n < this.journeys.length; _n++) {
+    getMatches(): void {
+      this.countJourneys = 0;
+        for (let _n = 0; _n < this.journeys.length; _n++) {
             this.journeys[_n].completed = false;
             // Getting matches of each journey
             this.matchesJourneys[_n] = [];
@@ -139,17 +153,11 @@ export class LeagueComponent implements OnInit {
               if ( this.countJourneys === this.journeys.length ) {
                 this.loadingService.hide();
                }
-
             }),
             ((error: Response) => {
               this.alertService.show(error.toString());
             }));
           }
-        }),
-        ((error: Response) => {
-          this.loadingService.hide();
-          this.alertService.show(error.toString());
-        }));
         // tslint:disable-next-line:no-console
         console.log(this.matchesJourneys);
     }
@@ -200,6 +208,9 @@ export class LeagueComponent implements OnInit {
     this.loadingService.hide();
     }
    }
+    showInformation() {
+      if (this.show === true) { this.show = false; } else { this.show = true; }
+    }
 
     gotoClassification() {
       this.url = this.route.snapshot.url.join('/') + '/classification';
@@ -226,6 +237,8 @@ export class LeagueComponent implements OnInit {
     onSubmitInformation(value: string) {
      this.loadingService.show();
      this.competitionService.putInformation(value, this.competitionId).subscribe();
+     this.newInformation = value;
+     this.competition.information = this.newInformation.information;
      this.loadingService.hide();
      this.alertService.show('Información actualizada');
     }
@@ -266,5 +279,6 @@ export class LeagueComponent implements OnInit {
         }));
       }
     }
+
 
   }

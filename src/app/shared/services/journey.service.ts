@@ -53,7 +53,7 @@ export class JourneyService {
      .catch((error: Response) => this.utilsService.handleAPIError(error));
   }
 
-    public getJourneysCompetition(idCompetition: string): Observable<Array<Journey>> {
+    public getJourneysCompetition(idCompetition: string | number): Observable<Array<Journey>> {
 
       const options: RequestOptions = new RequestOptions({
         headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)

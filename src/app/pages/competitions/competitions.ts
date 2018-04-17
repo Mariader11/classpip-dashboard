@@ -13,9 +13,6 @@ import { LoadingService, UtilsService, CompetitionService,
 export class CompetitionsComponent implements OnInit {
 
   public competitions: Array<Competition>;
-  public numCompetitions: number;
-  completedCompetitions: boolean;
-  countTeams: number;
 
   constructor(
     public alertService: AlertService,
@@ -30,7 +27,6 @@ export class CompetitionsComponent implements OnInit {
 
   ngOnInit() {
     if (this.utilsService.role === Role.TEACHER || this.utilsService.role === Role.STUDENT ) {
-    this.completedCompetitions = false;
     this.getCompetitions();
      }
 
@@ -42,8 +38,7 @@ export class CompetitionsComponent implements OnInit {
         this.competitions = competitions;
         if ( this.utilsService.role === Role.STUDENT ) {
           this.getTeamsStudent();
-        } else { this.completedCompetitions = true;
-          this.loadingService.hide(); }
+        } else { this.loadingService.hide(); }
       }),
       ((error: Response) => {
         this.loadingService.hide();
@@ -63,18 +58,13 @@ export class CompetitionsComponent implements OnInit {
   }
 
   getCompetitionsTeam(teams: Array<Team>): void {
-    this.countTeams = 0;
     for (let _t = 0; _t < teams.length; _t++) {
     this.teamService.getMyCompetitionsGroup(+teams[_t].id).subscribe(
       ((competitions: Array<Competition>) => {
-        this.countTeams = this.countTeams + 1;
         for (let _c = 0; _c < competitions.length; _c++) {
           this.competitions.push(competitions[_c]);
         }
-        if ( this.countTeams === teams.length) {
-          this.completedCompetitions = true;
           this.loadingService.hide();
-        }
       }),
       ((error: Response) => {
         this.loadingService.hide();

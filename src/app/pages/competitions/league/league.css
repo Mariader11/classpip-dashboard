@@ -4,7 +4,7 @@
 }
 
 .a-content {
-  margin: 10px 0 10px 0;
+  margin: 10px 0;
 }
 
 .mat-raised-button {
@@ -17,4 +17,43 @@
 
 .mat-radio-button {
   margin: 0 15px;
+}
+
+.competi-name {
+  text-transform: uppercase;
+}
+
+.show-info-content {
+  margin: 10px 0;
+}
+
+.information {
+  margin: 1px 0;
+  background-color: lightgoldenrodyellow;
+}
+
+.text-info {
+  width: 100%;
+}
+
+.delete {
+  background-color: lightsalmon;
+  margin: 20px 0 0;
+}
+
+.final-button {
+  margin: 20px 0;
+}
+
+a:hover {
+  background: #ccc;
+}
+
+.delete:hover {
+  background: firebrick;
+}
+
+.edit-btn {
+  margin: 5px 0 0 0;
+  background-color: coral;
 }
