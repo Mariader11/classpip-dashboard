@@ -11,6 +11,7 @@ import { CreateTeamsComponent } from './pages/create-teams/create-teams';
 // Competitions
 import { CompetitionsComponent} from './pages/competitions/competitions';
 import { LeagueComponent } from './pages/competitions/league/league';
+import { DeleteCompetitionComponent } from './pages/competitions/delete-competition/delete-competition';
 import { CreateCompetitionComponent } from './pages/competitions/create-competition/create-competition';
 import { TeamsComponent } from './pages/competitions/teams/teams';
 import { ClassificationComponent } from './pages/competitions/league/classification/classification';
@@ -24,6 +25,7 @@ const appRoutes: Routes = [
   { path: 'create-teams', component: CreateTeamsComponent, canActivate: [AuthGuard]},
   { path: 'competitions', component: CompetitionsComponent, canActivate: [AuthGuard]},
   { path: 'competition/create', component: CreateCompetitionComponent, canActivate: [AuthGuard]},
+  { path: 'competition/delete', component: DeleteCompetitionComponent, canActivate: [AuthGuard]},
   { path: 'competition/league/:id', component: LeagueComponent, canActivate: [AuthGuard]},
   { path: 'competition/league/:id/classification', component: ClassificationComponent, canActivate: [AuthGuard]},
   { path: 'competition/league/:id/journeys', component: JourneysLeagueComponent, canActivate: [AuthGuard]},

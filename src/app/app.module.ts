@@ -24,6 +24,7 @@ import { CreateTeamsComponent } from './pages/create-teams/create-teams';
 // pages (competitions)
 import { LeagueComponent} from './pages/competitions/league/league';
 import { CreateCompetitionComponent } from './pages/competitions/create-competition/create-competition';
+import { DeleteCompetitionComponent } from './pages/competitions/delete-competition/delete-competition';
 import { TeamsComponent } from './pages/competitions/teams/teams';
 import { ClassificationComponent } from './pages/competitions/league/classification/classification';
 import { JourneysLeagueComponent } from './pages/competitions/league/journeys-league/journeys-league';
@@ -65,6 +66,7 @@ export function createTranslateLoader(http: Http) {
     // pages (competitions)
     LeagueComponent,
     CreateCompetitionComponent,
+    DeleteCompetitionComponent,
     TeamsComponent,
     ClassificationComponent,
     JourneysLeagueComponent,
