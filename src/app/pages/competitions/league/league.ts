@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormsModule, FormBuilder, FormGroup, FormArray, Validators, ControlValueAccessor} from '@angular/forms';
-
+import { MatDialog, MatRadioChange } from '@angular/material';
 // Para linkear lo de :id
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 //
@@ -10,6 +10,7 @@ import { Login, Group, Role, Competition, Journey, Match } from '../../../shared
 import { LoadingService, UtilsService, GroupService, AlertService, CompetitionService,
 JourneyService, MatchesService } from '../../../shared/services/index';
 import { Observable } from 'rxjs/Observable';
+import { DeleteCompetitionComponent } from '../delete-competition/delete-competition';
 
 @Component({
   selector: 'app-league',
@@ -22,12 +23,16 @@ export class LeagueComponent implements OnInit {
   informationFormGroup: FormGroup;
   resultsFormGroup: FormGroup;
 
+
   competitionId: number;
   competition$: Observable<Competition>;
   competition: Competition;
   information: string;
   newInformation: any;
+
   show: boolean;
+  option: string;
+  value: Array<any>;
 
   journeys = new Array<Journey>();
   notCompletedJourneys = new Array<Journey>();
@@ -46,6 +51,7 @@ export class LeagueComponent implements OnInit {
   journeyIndex: number;
   clicked = false;
   descanso: number;
+  matchesUploaded: boolean;
 
   url: string;
   teams: boolean;
@@ -55,11 +61,12 @@ export class LeagueComponent implements OnInit {
     public loadingService: LoadingService,
     public groupService: GroupService,
     public journeyService: JourneyService,
+    public competitionService: CompetitionService,
     private route: ActivatedRoute,
     private router: Router,
-    private competitionService: CompetitionService,
     private matchesService: MatchesService,
-    private _formBuilder: FormBuilder) {
+    private _formBuilder: FormBuilder,
+    private dialog?: MatDialog) {
 
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
       this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
@@ -89,6 +96,8 @@ export class LeagueComponent implements OnInit {
 
     this.competitionId = +this.route.snapshot.paramMap.get('id');
     this.show = false;
+    this.matchesUploaded = false;
+    this.option = 'Manualmente';
     this.getSelectedCompetition();
   }
 
@@ -158,8 +167,6 @@ export class LeagueComponent implements OnInit {
               this.alertService.show(error.toString());
             }));
           }
-        // tslint:disable-next-line:no-console
-        console.log(this.matchesJourneys);
     }
 
 
@@ -185,31 +192,36 @@ export class LeagueComponent implements OnInit {
         if (this.matches[_m].namePlayerOne !== 'Ghost' && this.matches[_m].namePlayerTwo !== 'Ghost') {
         this.arrayMatch = [this.matches[_m].namePlayerOne, 'Empate', this.matches[_m].namePlayerTwo];
         this.showMatches[_m] = [];
-        this.showMatches[_m].push(this.arrayMatch);
+        this.showMatches[_m] = this.arrayMatch;
        } else {
         this.descanso = _m;
         this.matchGhost = this.matches[_m];
       }
      }
-     // tslint:disable-next-line:no-console
-     console.log(this.descanso);
      if (this.descanso !== undefined) {
      this.showMatches.splice(this.descanso, 1); // y ocultando el enfrentamiento del descanso
      }
-           // Add the results of each match to section: introduce the results section
-           for (let _a = 0; _a < this.showMatches.length -1 ; _a++) {
-            let results = <FormArray>this.resultsFormGroup.get('results');
-            results.push(this._formBuilder.group({
-              winner: ['', Validators.required]
-            }));
-          }
+     // tslint:disable-next-line:no-console
+     console.log(this.showMatches);
+       // Add the results of each match to section: introduce the results section
+        for (let _a = 0; _a < this.showMatches.length - 1 ; _a++) {
+        let results = <FormArray>this.resultsFormGroup.get('results');
+        results.push(this._formBuilder.group({
+          winner: ['', Validators.required]
+        }));
+        }
 
     }
     this.loadingService.hide();
     }
    }
     showInformation() {
+      // tslint:disable-next-line:no-console
+      console.log();
       if (this.show === true) { this.show = false; } else { this.show = true; }
+    }
+    showResults() {
+      if (this.option === 'Manualmente') {this.option = 'Aleatoriamente'; } else { this.option = 'Manualmente'; }
     }
 
     gotoClassification() {
@@ -245,23 +257,36 @@ export class LeagueComponent implements OnInit {
 
     onSubmitResults(value) {
       this.loadingService.show();
-      this.numberPostMatches = 0;
-      // añadimos el resultado
-      if ( this.matchGhost.playerOne === 0 || this.matchGhost.playerTwo === 0) {
-        value.results.splice(this.descanso, 0, this.winner = {winner: 'Descanso'} );
+      if (value === undefined ) {
+        this.value = [];
+        for (let _m = 0; _m < this.showMatches.length; _m++) {
+          this.value[_m] = {
+            winner: this.showMatches[_m][Math.floor(Math.random() * 3) + 0]
+          };
         }
-      for (let _m = 0; _m < value.results.length; _m++) {
+        if ( this.matchGhost.playerOne === 0 || this.matchGhost.playerTwo === 0) {
+          this.value.splice(this.descanso, 0, {winner: 'Descanso'} );
+        }
+      } else {
+        this.value = value.results;
+        if ( this.matchGhost.playerOne === 0 || this.matchGhost.playerTwo === 0) {
+         this.value.splice(this.descanso, 0, {winner: 'Descanso'} );
+        }
+      }
+      this.numberPostMatches = 0;
+
+      for (let _m = 0; _m < this.value.length; _m++) {
         this.winner = {winner: 0 };
-        if ( this.matches[_m].namePlayerOne === value.results[_m].winner ) {
+        if ( this.matches[_m].namePlayerOne === this.value[_m].winner ) {
           this.matches[_m].winner = this.matches[_m].playerOne;  // estas lineas se pueden borrar, pura comprobacion CREO
           this.winner.winner = this.matches[_m].playerOne;
-        } else if (this.matches[_m].namePlayerTwo === value.results[_m].winner ) {
+        } else if (this.matches[_m].namePlayerTwo === this.value[_m].winner ) {
           this.matches[_m].winner = this.matches[_m].playerTwo;  // estas lineas se pueden borrar, pura comprobacion
           this.winner.winner = this.matches[_m].playerTwo;
-        } else if ('Empate' === value.results[_m].winner) {
+        } else if ('Empate' === this.value[_m].winner) {
           this.matches[_m].winner = 1;  // estas lineas se pueden borrar, pura comprobacion
           this.winner.winner = 1;
-        } else if ('Descanso' === value.results[_m].winner) {
+        } else if ('Descanso' === this.value[_m].winner) {
           this.matches[_m].winner = 2;  // estas lineas se pueden borrar, pura comprobacion
           this.winner.winner = 2;
         }
@@ -271,6 +296,7 @@ export class LeagueComponent implements OnInit {
           if (this.numberPostMatches === this.numberMatches ) {
             this.loadingService.hide();
             this.alertService.show('Todos los resultados han sido registrados');
+            this.matchesUploaded = true;
           }
         }),
         ((error: Response) => {
@@ -278,7 +304,13 @@ export class LeagueComponent implements OnInit {
           this.alertService.show(error.toString());
         }));
       }
+    // tslint:disable-next-line:no-console
     }
 
+    deleteCompetition() {
+      const dialogRef = this.dialog.open(DeleteCompetitionComponent, {
+        data: { competition: this.competition, journeys: this.journeys }
+      });
+    }
 
   }

@@ -46,7 +46,11 @@
 }
 
 a:hover {
-  background: #ccc;
+  background: #E8DDC3;
+}
+
+button:hover {
+  background: #E8DDC3;
 }
 
 .delete:hover {
@@ -54,6 +58,10 @@ a:hover {
 }
 
 .edit-btn {
-  margin: 5px 0 0 0;
+  margin: 10px 0 0 0;
   background-color: coral;
+}
+
+mat-card {
+  background-color: lightyellow;
 }
