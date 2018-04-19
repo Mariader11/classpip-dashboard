@@ -4,10 +4,22 @@
     <h3 mat-subheader>{{ 'COMPETITIONS.TITLE' | translate }}</h3>
 
     <div *ngIf="utilsService.role == 1">
-    <mat-list-item class="create-competition">
-      <a mat-raised-button color="primary" style="width:100%" routerLink="/competition/create">
+      <mat-list-item class="create-competition">
+      <button mat-raised-button color="primary" style="width:100%" [matMenuTriggerFor]="menu">
         {{ 'COMPETITIONS.CREATE_NEW_COMPETITION' | translate }}
-      </a>
+      </button>
+
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item disabled><span><b>Competiciones disponibles:</b></span></button>
+        <a mat-menu-item routerLink="/competition/league/create">
+          <mat-icon>chevron_right</mat-icon>
+          <span>Liga</span>
+        </a>
+        <a mat-menu-item routerLink="/competition/tennis/create">
+          <mat-icon>chevron_right</mat-icon>
+          Torneo de tenis
+        </a>
+      </mat-menu>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-divider></mat-divider>
