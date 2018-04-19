@@ -65,3 +65,12 @@ button:hover {
 mat-card {
   background-color: lightyellow;
 }
+
+mat-radio-button {
+  width: 21%;
+}
+
+.match1 {
+  width: 15%;
+}
+

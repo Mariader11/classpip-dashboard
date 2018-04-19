@@ -3,6 +3,10 @@
   max-width: 800px;
 }
 
+mat-horizontal-stepper {
+  margin: 0px auto;
+}
+
  .form-group{
    margin: auto 20px;
  }
@@ -29,4 +33,10 @@
 
 .text-info {
   width: 100%;
+}
+
+h4 {
+  text-align: center;
+  color: #474641;
+  margin-bottom: 1px;
 }

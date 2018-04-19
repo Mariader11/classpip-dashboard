@@ -1,25 +1,12 @@
-<mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper" class="stepper-content">
-
-
+<div class="stepper-content">
+<h4>Creando competición de tipo Liga:</h4>
+<mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
   <mat-step label="{{ 'COMPETITIONS.INITIALIZATION' | translate }}"  [stepControl]="competitionFormGroup" editable="false">
-    <form [formGroup]="competitionFormGroup" (ngSubmit)="competitionStep(competitionFormGroup.value)">
 
+    <form [formGroup]="competitionFormGroup" (ngSubmit)="competitionStep(competitionFormGroup.value)">
        <div class="form-group">
          <mat-form-field>
            <input matInput type="text" class="form-control" placeholder="{{ 'COMPETITIONS.NAME' | translate }}" required formControlName="name">
-         </mat-form-field>
-       </div>
-
-       <div class="form-group">
-         <mat-form-field>
-             <mat-select class="form-control" placeholder="{{ 'COMPETITIONS.TYPE' | translate }}" formControlName="type" required>
-               <mat-option [value]="'Liga'">
-                 Liga
-               </mat-option>
-               <mat-option [value]="'Tenis'">
-                 Tenis
-              </mat-option>
-             </mat-select>
          </mat-form-field>
        </div>
 
@@ -46,7 +33,7 @@
 
         <div class="form-group">
            <mat-form-field>
-             <input matInput type="number" class="form-control" formControlName="numJourneys" placeholder="{{ 'COMPETITIONS.NUMBER_JOURNEYS' | translate }}" required>
+             <input matInput type="number" class="form-control" required formControlName="numJourneys" placeholder="{{ 'COMPETITIONS.NUMBER_JOURNEYS' | translate }}">
            </mat-form-field>
          </div>
        <div>
@@ -129,6 +116,5 @@
       </div>
     </div>
   </mat-step>
-
-
  </mat-horizontal-stepper>
+</div>

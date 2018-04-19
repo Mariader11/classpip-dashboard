@@ -115,7 +115,7 @@
                  <div class="panel-body" [formGroupName]="i">
                     <mat-radio-group  formControlName="winner" required>
                       <div>
-                        <mat-radio-button [value]="match" *ngFor="let match of showMatches[i]">
+                        <mat-radio-button class="match{{n}}" [value]="match" *ngFor="let match of showMatches[i];let n=index;">
                           {{ match }}
                         </mat-radio-button>
                       </div>

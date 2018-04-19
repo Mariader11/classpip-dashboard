@@ -23,7 +23,8 @@ import { CreateTeamsComponent } from './pages/create-teams/create-teams';
 
 // pages (competitions)
 import { LeagueComponent} from './pages/competitions/league/league';
-import { CreateCompetitionComponent } from './pages/competitions/create-competition/create-competition';
+import { CreateLeagueCompetitionComponent } from './pages/competitions/create-league-competition/create-league-competition';
+import { CreateTennisCompetitionComponent } from './pages/competitions/create-tennis-competition/create-tennis-competition';
 import { DeleteCompetitionComponent } from './pages/competitions/delete-competition/delete-competition';
 import { TeamsComponent } from './pages/competitions/teams/teams';
 import { ClassificationComponent } from './pages/competitions/league/classification/classification';
@@ -65,7 +66,8 @@ export function createTranslateLoader(http: Http) {
     CreateTeamsComponent,
     // pages (competitions)
     LeagueComponent,
-    CreateCompetitionComponent,
+    CreateLeagueCompetitionComponent,
+    CreateTennisCompetitionComponent,
     DeleteCompetitionComponent,
     TeamsComponent,
     ClassificationComponent,
