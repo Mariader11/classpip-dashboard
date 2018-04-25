@@ -11,6 +11,7 @@ import { CreateTeamsComponent } from './pages/create-teams/create-teams';
 // Competitions
 import { CompetitionsComponent} from './pages/competitions/competitions';
 import { LeagueComponent } from './pages/competitions/league/league';
+import { TennisComponent} from './pages/competitions/tennis/tennis';
 import { DeleteCompetitionComponent } from './pages/competitions/delete-competition/delete-competition';
 import { CreateLeagueCompetitionComponent } from './pages/competitions/create-league-competition/create-league-competition';
 import { CreateTennisCompetitionComponent } from './pages/competitions/create-tennis-competition/create-tennis-competition';
@@ -32,6 +33,7 @@ const appRoutes: Routes = [
   { path: 'competition/league/:id/classification', component: ClassificationComponent, canActivate: [AuthGuard]},
   { path: 'competition/league/:id/journeys', component: JourneysLeagueComponent, canActivate: [AuthGuard]},
   { path: 'competition/league/:id/teams', component: TeamsComponent, canActivate: [AuthGuard]},
+  { path: 'competition/tennis/:id', component: TennisComponent, canActivate: [AuthGuard]},
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
 
   // unauthenticad pages
