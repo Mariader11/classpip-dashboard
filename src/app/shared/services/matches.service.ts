@@ -13,7 +13,7 @@ export class MatchesService {
     public utilsService: UtilsService) { }
 
 
-    public putWinner(winner: Match, matchId: string): Observable<Match> {
+    public putWinner(winner: Match, matchId: string | number): Observable<Match> {
 
       const options: RequestOptions = new RequestOptions({
          headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)

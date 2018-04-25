@@ -269,6 +269,7 @@ export class CreateTennisCompetitionComponent implements OnInit {
             if ( this.countMatches === (this.selectedParticipants.length / 2)) {
               this.finished = true;
               this.loadingService.hide();
+              this.alertService.show('La competición se ha creado correctamente');
             }
           }),
           ((error: Response) => {

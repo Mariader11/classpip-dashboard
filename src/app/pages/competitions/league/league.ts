@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormsModule, FormBuilder, FormGroup, FormArray, Validators, ControlValueAccessor} from '@angular/forms';
-import { MatDialog, MatRadioChange } from '@angular/material';
+import { MatDialog } from '@angular/material';
 // Para linkear lo de :id
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 //
@@ -18,43 +18,46 @@ import { DeleteCompetitionComponent } from '../delete-competition/delete-competi
   styleUrls: ['./league.css']
 })
 export class LeagueComponent implements OnInit {
-
+ // Html
+  show: boolean;
+  option = 'Manualmente';
+  teams: boolean;
+  matchesUploaded = false;
+  // Forms
   journeysFormGroup: FormGroup;
   informationFormGroup: FormGroup;
   resultsFormGroup: FormGroup;
-
-
+  // Get methods
   competitionId: number;
   competition$: Observable<Competition>;
   competition: Competition;
   information: string;
-  newInformation: any;
-
-  show: boolean;
-  option: string;
-  value: Array<any>;
-
   journeys = new Array<Journey>();
+  public matchesJourneys: Match[][];
+  //
+  countJourneys: number;
+  countCompleted: number;
   notCompletedJourneys = new Array<Journey>();
   journeyMatch = new Journey();
 
+  results: Array<any>;
+  winner: any;
+  newInformation: any;
+
   matches = new Array<Match>();
   matchGhost = new Match();
-  winner: any;
-  public matchesJourneys: Match[][];
+
   public showMatches: any[][];
   arrayMatch: Array<any>;
-  count: number;
-  countJourneys: number;
-  numberMatches: number;
+
+
   numberPostMatches: number;
   journeyIndex: number;
   clicked = false;
   descanso: number;
-  matchesUploaded: boolean;
+
 
   url: string;
-  teams: boolean;
 
   constructor(public alertService: AlertService,
     public utilsService: UtilsService,
@@ -75,7 +78,7 @@ export class LeagueComponent implements OnInit {
     }
 
   ngOnInit() {
-
+    if ( this.utilsService.role === Role.TEACHER || this.utilsService.role === Role.STUDENT ) {
     this.loadingService.show();
     this.journeysFormGroup = this._formBuilder.group({
       id: ['', Validators.required],
@@ -96,9 +99,8 @@ export class LeagueComponent implements OnInit {
 
     this.competitionId = +this.route.snapshot.paramMap.get('id');
     this.show = false;
-    this.matchesUploaded = false;
-    this.option = 'Manualmente';
     this.getSelectedCompetition();
+  }
   }
 
     getSelectedCompetition(): void {
@@ -107,9 +109,8 @@ export class LeagueComponent implements OnInit {
         ((competition: Competition) => {
           this.competition = competition;
           this.information = competition.information;
-          if (this.competition.mode === 'Equipos') { this.teams = true; } else { this.teams = false; }
-          if (this.utilsService.role === Role.TEACHER) { this.getJourneys();
-          } else { this.loadingService.hide(); }
+          this.competition.mode === 'Equipos' ? this.teams = true : this.teams = false;
+          this.utilsService.role === Role.TEACHER ? this.getJourneys() : this.loadingService.hide();
         }),
         ((error: Response) => {
           this.loadingService.hide();
@@ -121,9 +122,7 @@ export class LeagueComponent implements OnInit {
       this.journeyService.getJourneysCompetition(this.competitionId).subscribe(
         ((journeys: Array<Journey>) => {
           this.journeys = journeys;
-          this.journeys.sort(function (a, b) {
-            return (a.number - b.number);
-          });
+          this.journeys.sort(function (a, b) { return (a.number - b.number); });
           this.getMatches();
         }),
         ((error: Response) => {
@@ -134,39 +133,37 @@ export class LeagueComponent implements OnInit {
 
     getMatches(): void {
       this.countJourneys = 0;
-        for (let _n = 0; _n < this.journeys.length; _n++) {
-            this.journeys[_n].completed = false;
-            // Getting matches of each journey
-            this.matchesJourneys[_n] = [];
-            this.journeyService.getMatchesJourneyDetails(this.journeys[_n].id, this.competition).subscribe(
-            ((matches: Array<Match>) => {
-              this.numberMatches = matches.length;
-              this.count = 0;
-              this.countJourneys = this.countJourneys + 1;
-              // Multidimensional array Journey[_n] and Matches[_m]
-              for (let _m = 0; _m < matches.length; _m++) {
-                this.matchesJourneys[_n][_m] = new Match();
-                this.matchesJourneys[_n][_m] = matches[_m];
-                if ( matches[_m].winner !== 0 ) {
-                  this.count = this.count + 1;
-                }
-              }
-              // There are results for all matches so the journey is completed
-              if ( this.count === matches.length ) {
-                this.journeys[_n].completed = true;
-              }
-              // Making the array for journeys not completed
-              if ( this.journeys[_n].completed === false) {
-                this.notCompletedJourneys.push(this.journeys[_n]);
-              }
-              if ( this.countJourneys === this.journeys.length ) {
-                this.loadingService.hide();
-               }
-            }),
-            ((error: Response) => {
-              this.alertService.show(error.toString());
-            }));
+      for (let _n = 0; _n < this.journeys.length; _n++) {
+        this.journeys[_n].completed = false;
+        // Getting matches of each journey
+        this.matchesJourneys[_n] = [];
+        this.journeyService.getMatchesJourneyDetails(this.journeys[_n].id, this.competition).subscribe(
+        ((matches: Array<Match>) => {
+          this.countCompleted = 0;
+          this.countJourneys = this.countJourneys + 1;
+          // Multidimensional array Journey[_n] and Matches[_m]
+          for (let _m = 0; _m < matches.length; _m++) {
+            this.matchesJourneys[_n][_m] = new Match();
+            this.matchesJourneys[_n][_m] = matches[_m];
+            if ( matches[_m].winner !== 0 ) { this.countCompleted++; }
           }
+          // There are results for all matches so the journey is completed
+          if ( this.countCompleted === matches.length ) {
+            this.journeys[_n].completed = true;
+          }
+          // Making the array for journeys not completed
+          if ( this.journeys[_n].completed === false) {
+            this.notCompletedJourneys.push(this.journeys[_n]);
+          }
+          if ( this.countJourneys === this.journeys.length ) {
+            this.loadingService.hide();
+          }
+        }),
+        ((error: Response) => {
+          this.loadingService.hide();
+          this.alertService.show(error.toString());
+        }));
+      }
     }
 
 
@@ -216,12 +213,10 @@ export class LeagueComponent implements OnInit {
     }
    }
     showInformation() {
-      // tslint:disable-next-line:no-console
-      console.log();
-      if (this.show === true) { this.show = false; } else { this.show = true; }
+      this.show === true ? this.show = false : this.show = true;
     }
     showResults() {
-      if (this.option === 'Manualmente') {this.option = 'Aleatoriamente'; } else { this.option = 'Manualmente'; }
+      this.option === 'Manualmente' ? this.option = 'Aleatoriamente' : this.option = 'Manualmente';
     }
 
     gotoClassification() {
@@ -258,42 +253,42 @@ export class LeagueComponent implements OnInit {
     onSubmitResults(value) {
       this.loadingService.show();
       if (value === undefined ) {
-        this.value = [];
+        this.results = [];
         for (let _m = 0; _m < this.showMatches.length; _m++) {
-          this.value[_m] = {
+          this.results[_m] = {
             winner: this.showMatches[_m][Math.floor(Math.random() * 3) + 0]
           };
         }
         if ( this.matchGhost.playerOne === 0 || this.matchGhost.playerTwo === 0) {
-          this.value.splice(this.descanso, 0, {winner: 'Descanso'} );
+          this.results.splice(this.descanso, 0, {winner: 'Descanso'} );
         }
       } else {
-        this.value = value.results;
+        this.results = value.results;
         if ( this.matchGhost.playerOne === 0 || this.matchGhost.playerTwo === 0) {
-         this.value.splice(this.descanso, 0, {winner: 'Descanso'} );
+         this.results.splice(this.descanso, 0, {winner: 'Descanso'} );
         }
       }
       this.numberPostMatches = 0;
 
-      for (let _m = 0; _m < this.value.length; _m++) {
+      for (let _m = 0; _m < this.results.length; _m++) {
         this.winner = {winner: 0 };
-        if ( this.matches[_m].namePlayerOne === this.value[_m].winner ) {
+        if ( this.matches[_m].namePlayerOne === this.results[_m].winner ) {
           this.matches[_m].winner = this.matches[_m].playerOne;  // estas lineas se pueden borrar, pura comprobacion CREO
           this.winner.winner = this.matches[_m].playerOne;
-        } else if (this.matches[_m].namePlayerTwo === this.value[_m].winner ) {
+        } else if (this.matches[_m].namePlayerTwo === this.results[_m].winner ) {
           this.matches[_m].winner = this.matches[_m].playerTwo;  // estas lineas se pueden borrar, pura comprobacion
           this.winner.winner = this.matches[_m].playerTwo;
-        } else if ('Empate' === this.value[_m].winner) {
+        } else if ('Empate' === this.results[_m].winner) {
           this.matches[_m].winner = 1;  // estas lineas se pueden borrar, pura comprobacion
           this.winner.winner = 1;
-        } else if ('Descanso' === this.value[_m].winner) {
+        } else if ('Descanso' === this.results[_m].winner) {
           this.matches[_m].winner = 2;  // estas lineas se pueden borrar, pura comprobacion
           this.winner.winner = 2;
         }
         this.matchesService.putWinner(this.winner, this.matches[_m].id)
         .subscribe( (match => {
           this.numberPostMatches ++;
-          if (this.numberPostMatches === this.numberMatches ) {
+          if (this.numberPostMatches === this.matchesJourneys[0].length ) {
             this.loadingService.hide();
             this.alertService.show('Todos los resultados han sido registrados');
             this.matchesUploaded = true;
@@ -304,7 +299,6 @@ export class LeagueComponent implements OnInit {
           this.alertService.show(error.toString());
         }));
       }
-    // tslint:disable-next-line:no-console
     }
 
     deleteCompetition() {

@@ -39,6 +39,10 @@
 
                 <form [formGroup]="journeysFormGroup">
 
+                    <div *ngIf="notCompletedJourneys.length === 0">
+                        {{ 'COMPETITIONS.INTR_RESULT4' | translate }} {{ 'COMPETITIONS.NO_MODIFY' | translate }}.
+                    </div>
+                    <div *ngIf="notCompletedJourneys.length !== 0">
                   <mat-form-field>
                        <mat-select #journeyId placeholder="Jornada a modificar"
                             formControlName="id" required>
@@ -54,10 +58,10 @@
                       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                       <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
-
-                  <div>
+                  </div>
+                  <div *ngIf="notCompletedJourneys.length !== 0">
                     <button mat-raised-button class="edit-btn" (click)="onSubmitJourney(journeysFormGroup.value)" [disabled]="!journeysFormGroup.valid">
-                        <b>Modificar</b>
+                        <b>{{ 'COMPETITIONS.MODIFY' | translate }}</b>
                     </button>
                   </div>
 
@@ -81,7 +85,7 @@
                 </mat-form-field>
                 <div>
                     <button mat-raised-button class="edit-btn" (click)="onSubmitInformation(informationFormGroup.value)" [disabled]="!informationFormGroup.valid">
-                        <b>Modificar</b>
+                        <b>{{ 'COMPETITIONS.MODIFY' | translate }}</b>
                     </button>
                 </div>
                  </form>
@@ -96,19 +100,20 @@
            {{ 'COMPETITIONS.INTR_RESULT2' | translate }}
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <div *ngIf="this.notCompletedJourneys.length !== 0">
+        <div *ngIf="notCompletedJourneys.length !== 0">
         <div *ngIf=!matchesUploaded>
-          <p><b>¿De qué forma desea introducir los resultados de la jornada {{ journeyMatch.number }}?</b></p>
+          <p><b>¿{{ 'COMPETITIONS.QUESTION_RESULTS' | translate }} {{ journeyMatch.number }}?</b></p>
           <button [disabled]="option === 'Manualmente'" class="btn-rnd" mat-raised-button (click)="showResults()">
-            <b>Manualmente</b>
+            <b>{{ 'COMPETITIONS.MANUALLY' | translate }}</b>
           </button>
           <button [disabled]="option === 'Aleatoriamente'" class="btn-rnd" mat-raised-button (click)="showResults()">
-            <b>Aleatoriamente</b>
+            <b>{{ 'COMPETITIONS.RANDOM' | translate }}</b>
           </button>
-          <p>Has seleccionado: <b>{{option}}</b> </p>
+          <p>{{ 'COMPETITIONS.SELECTED' | translate }}: <b>{{option}}</b> </p>
 
         <mat-card *ngIf="option === 'Manualmente'">
-            <p><b>{{ 'COMPETITIONS.INTR_RESULT3' | translate }}  {{ journeyMatch.number }}:</b></p>
+            <div *ngIf="competition.mode === 'Individual'"><p><b>{{ 'COMPETITIONS.INTR_RESULT3' | translate }} {{ journeyMatch.number }}:</b></p></div>
+            <div *ngIf="competition.mode === 'Equipos'"><p><b>{{ 'COMPETITIONS.INTR_RESULT3_TEAM' | translate }} {{ journeyMatch.number }}:</b></p></div>
             <form [formGroup]="resultsFormGroup">
               <div class="form-group" formArrayName="results">
                 <div *ngFor="let match of resultsFormGroup.controls.results.controls ;let i=index;">
@@ -126,25 +131,25 @@
 
               <div>
                 <button mat-raised-button class="edit-btn" (click)="onSubmitResults(resultsFormGroup.value)" [disabled]="!resultsFormGroup.valid">
-                  <b>Introducir resultados</b>
+                  <b>{{ 'COMPETITIONS.INTR_RESULT1' | translate }}</b>
                 </button>
               </div>
             </form>
           </mat-card >
           <mat-card  *ngIf="option === 'Aleatoriamente'">
-              <p><b>Si desea introducir los resultados de la jornada número {{ journeyMatch.number }} de forma aleatoria pulse continuar:</b></p>
+              <p><b>{{ 'COMPETITIONS.RANDOM2' | translate }} {{ journeyMatch.number }} {{ 'COMPETITIONS.RANDOM3' | translate }} {{ 'COMPETITIONS.INTR_RESULT1' | translate }}:</b></p>
               <button mat-raised-button class="edit-btn" (click)="onSubmitResults()">
-                  <b>Continuar</b>
+                  <b>{{ 'COMPETITIONS.INTR_RESULT1' | translate }}</b>
               </button>
           </mat-card >
       </div>
       <div *ngIf=matchesUploaded>
-        Los resultados de la jornada {{ journeyMatch.number }} han sido registrados con éxito.
+          {{ 'COMPETITIONS.INTR_RESULT5' | translate }} {{ journeyMatch.number }} {{ 'COMPETITIONS.RESULTS_SUCCESS' | translate }}
       </div>
       </div>
 
       <div *ngIf="notCompletedJourneys.length === 0">
-        Ya has introducido todos los resultados de las jornadas.
+       {{ 'COMPETITIONS.INTR_RESULT4' | translate }}
       </div>
       </mat-expansion-panel>
 
@@ -155,16 +160,16 @@
     <div class="show-info-content">
         <button *ngIf="!show"  mat-raised-button (click)="showInformation()">
             <mat-icon>info</mat-icon>
-            <b>Mostrar información sobre esta competición</b>
+            <b>{{ 'COMPETITIONS.SHOW_INFO' | translate }}</b>
         </button>
         <button *ngIf="show"  mat-raised-button (click)="showInformation()">
             <mat-icon>info_outline</mat-icon>
-            <b>Ocultar la información</b>
+            <b>{{ 'COMPETITIONS.HIDE_INFO' | translate }}</b>
         </button>
         <mat-card *ngIf="show" class="information">
             <mat-card-header>
-              <mat-card-title><b>Información referente a la competición: <span class="competi-name">{{competition.name}}</span></b></mat-card-title>
-              <mat-card-subtitle>Tipo: {{competition.type}}, Modo: {{competition.mode}}</mat-card-subtitle>
+              <mat-card-title><b>{{ 'COMPETITIONS.INFO_COMP' | translate }}: <span class="competi-name">{{competition.name}}</span></b></mat-card-title>
+              <mat-card-subtitle>{{ 'COMPETITIONS.TYPE' | translate }}: {{competition.type}}, {{ 'COMPETITIONS.MODE' | translate }}: {{competition.mode}}</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
                 {{competition.information}}
@@ -174,20 +179,20 @@
 
     <div class="a-content" *ngIf="utilsService.role === 0">
       <a mat-raised-button>
-        <strong>Jugar el duelo de la jornada</strong>
+        <strong>{{ 'COMPETITIONS.PLAY' | translate }}</strong>
       </a>
     </div>
     <div class="a-content" *ngIf="utilsService.role === 1">
       <button mat-raised-button class="delete" (click)="deleteCompetition()">
         <mat-icon>delete</mat-icon>
-        <strong>Eliminar competición</strong>
+        <strong>{{ 'COMPETITIONS.DELETE' | translate }}</strong>
       </button>
     </div>
 
     <div class="final-button">
         <a mat-button [routerLink]="'/competitions'">
           <mat-icon mat-list-icon>navigate_before</mat-icon>
-          Volver a la página de competiciones
+          {{ 'COMPETITIONS.RETURN2' | translate }}
         </a>
     </div>
 
