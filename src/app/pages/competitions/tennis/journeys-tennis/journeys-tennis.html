@@ -7,13 +7,12 @@
         <mat-card class="journey-card" *ngFor="let date of dates; let i=index;">
           <mat-card-content>
               <p><u>{{ 'COMPETITIONS.JOURNEY' | translate }} {{i + 1}}</u></p>
-           <table>
+              <p class="date"><i>{{ 'COMPETITIONS.DATE' | translate }}: {{date}}</i></p>
+           <table *ngIf="matchesPrincipal[i].length !== 0">
               <caption>
-               <i>{{ 'COMPETITIONS.DATE' | translate }}: {{date}}</i>
+               <p *ngIf="i !== numJourneys - 1">Torneo principal</p>
+               <p *ngIf="i === numJourneys - 1">FINAL</p>
               </caption>
-              <div class="thead-tbody" *ngIf="matchesPrincipal[i].length !== 0">
-                  <p *ngIf="i !== numJourneys - 1">Torneo principal</p>
-                  <p *ngIf="i === numJourneys - 1">FINAL</p>
               <thead>
                 <tr class="tableHeader">
                   <th *ngIf="competition.mode === 'Individual'" class="player">{{ 'COMPETITIONS.PLAYER' | translate }} 1</th>
@@ -30,7 +29,6 @@
                   <td class="result">{{match.result}}</td>
                 </tr>
               </tbody>
-            </div>
             </table>
             <div class="thead-tbody" *ngIf="matchesSecondary[i].length !== 0">
             <p>Torneo secundario</p>
@@ -56,13 +54,22 @@
           </mat-card-content>
         </mat-card>
     </div>
+    <div class="foot">
+        <mat-card>
+      * Los usuarios llamados "Ghost" que contiene esta jornada corresponden a los jugadores ficticios introducidos
+        para un correcto funcionamiento del torneo. Los jugadores que se enfrenten a ellos ganarán la jornada automáticamente.
+      </mat-card>
+    </div>
     <div *ngIf="datesNoMatches">
       <div *ngIf="datesNoMatches.length !==0">
-        <p>No se pueden conocer los enfrentamientos de las jornadas restantes debido a que dependen del resultado
+        <h6 *ngIf="!show">No se pueden conocer los enfrentamientos de las jornadas restantes debido a que dependen del resultado
           de su jornada anterior. Aunque es posible consultar los torneos implicados (principal y secundario) y la
-          fecha prevista en caso de estar establecida.
-        </p>
-        <div *ngIf="show">
+          fecha prevista en caso de estar establecida, para ello presione el botón de más:
+        </h6>
+        <h6 *ngIf="show"> Para ocultar esta sección, presione el boton de menos:</h6>
+        <button mat-fab color="warn" *ngIf="!show" (click)="showMore()"><mat-icon>add</mat-icon></button>
+        <button mat-fab color="warn" *ngIf="show" (click)="showMore()"><mat-icon>remove</mat-icon></button>
+        <div *ngIf="show" class="cardsNoMatch-div">
         <mat-card class="dateNoMatch-card" *ngFor="let dateNoMatch of datesNoMatches; let i=index;">
             <mat-card-header>
                 <mat-card-title><p><u>{{ 'COMPETITIONS.JOURNEY' | translate }} {{dateNoMatch.number}}</u></p></mat-card-title>
@@ -75,16 +82,13 @@
               </mat-list>
             </mat-card-content>
           </mat-card>
-        </div>
-        <button mat-fab color="warn" *ngIf="!show" (click)="showMore()"><mat-icon>add</mat-icon></button>
-        <button mat-fab color="warn" *ngIf="show" (click)="showMore()"><mat-icon>remove</mat-icon></button>
-      </div>
     </div>
-    <div class="final-buttons">
-        <a mat-button [routerLink]="['/competition/tennis', competitionId]">
-          <mat-icon mat-list-icon>navigate_before</mat-icon>
-          {{ 'COMPETITIONS.RETURN' | translate }}
-        </a>
-    </div>
-
+  </div>
+  </div>
+  <div class="final-buttons">
+      <a mat-button [routerLink]="['/competition/tennis', competitionId]">
+        <mat-icon mat-list-icon>navigate_before</mat-icon>
+        {{ 'COMPETITIONS.RETURN' | translate }}
+      </a>
+  </div>
   </div>

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { AppConfig } from '../../../app.config';
-import { Login, Role, Team, Student } from '../../../shared/models/index';
+import { Login, Role, Team, Student, Competition } from '../../../shared/models/index';
 import { LoadingService, UtilsService, AlertService,
         CompetitionService, TeamService} from '../../../shared/services/index';
 import { Observable } from 'rxjs/Observable';
@@ -11,16 +11,14 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-teams',
   templateUrl: './teams.html',
-  styleUrls: ['./teams.css']
+  styleUrls: ['./teams.scss']
 })
 export class TeamsComponent implements OnInit {
 
   competitionId: number;
-  competitionType: string;
+  competition: Competition;
   teams: Team[];
-  countTeams: number;
-  students: Student[];
-  public allStudents: Student[][];
+  allStudents: Student[][];
 
   constructor(public alertService: AlertService,
     public utilsService: UtilsService,
@@ -30,36 +28,50 @@ export class TeamsComponent implements OnInit {
     private route: ActivatedRoute) {
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
       this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
-      this.allStudents = [];
      }
 
   ngOnInit() {
     if (this.utilsService.role === Role.TEACHER || this.utilsService.role === Role.STUDENT) {
     this.loadingService.show();
     this.competitionId = +this.route.snapshot.paramMap.get('id');
-    this.competitionType = this.route.snapshot.url[1].path;
-    this.getTeams();
+    this.getSelectedCompetition();
     }
+  }
+
+  getSelectedCompetition(): void {
+    this.competitionService.getCompetition(this.competitionId).subscribe(
+      ((competition: Competition) => {
+        this.competition = competition;
+        this.getTeams();
+      }),
+      ((error: Response) => {
+        this.loadingService.hide();
+        this.alertService.show(error.toString());
+      }));
   }
 
   getTeams(): void {
     this.teamService.getTeamsCompetition(this.competitionId)
-    .subscribe(teams => {this.teams = teams,
-      this.getStudents();
-    });
+    .subscribe((teams => {
+        this.teams = teams,
+        this.getStudents();
+      }),
+      ((error: Response) => {
+        this.loadingService.hide();
+        this.alertService.show(error.toString());
+      }));
   }
 
   getStudents(): void {
-    this.countTeams = 0;
+    let countTeams = 0;
+    this.allStudents = [];
     for (let _t = 0; _t < this.teams.length; _t++) {
     this.teamService.getStudentsTeam(+this.teams[_t].id)
-    .subscribe(students => {this.students = students,
+    .subscribe(students => {
       this.allStudents[_t] = students;
-      this.teams[_t].numPlayers = this.students.length;
-      this.countTeams = this.countTeams + 1;
-      if ( this.countTeams === this.teams.length) {
-        this.loadingService.hide();
-      }
+      this.teams[_t].numPlayers = students.length;
+      countTeams = countTeams + 1;
+      if ( countTeams === this.teams.length) { this.loadingService.hide(); }
     });
     }
   }

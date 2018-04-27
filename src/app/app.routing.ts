@@ -37,6 +37,7 @@ const appRoutes: Routes = [
   { path: 'competition/league/:id/teams', component: TeamsComponent, canActivate: [AuthGuard]},
   { path: 'competition/tennis/:id', component: TennisComponent, canActivate: [AuthGuard]},
   { path: 'competition/tennis/:id/journeys', component: JourneysTennisComponent, canActivate: [AuthGuard]},
+  { path: 'competition/tennis/:id/teams', component: TeamsComponent, canActivate: [AuthGuard]},
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
 
   // unauthenticad pages

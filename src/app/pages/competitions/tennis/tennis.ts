@@ -465,6 +465,11 @@ export class TennisComponent implements OnInit {
     this.router.navigate([url]);
   }
 
+  gotoTeams() {
+    const url = this.route.snapshot.url.join('/') + '/teams';
+    this.router.navigate([url]);
+  }
+
   deleteCompetition() {
     const dialogRef = this.dialog.open(DeleteCompetitionComponent, {
       data: { competition: this.competition, journeys: this.journeys }
