@@ -460,6 +460,11 @@ export class TennisComponent implements OnInit {
     this.option === 'Manualmente' ? this.option = 'Aleatoriamente' : this.option = 'Manualmente';
   }
 
+  gotoJourneys() {
+    const url = this.route.snapshot.url.join('/') + '/journeys';
+    this.router.navigate([url]);
+  }
+
   deleteCompetition() {
     const dialogRef = this.dialog.open(DeleteCompetitionComponent, {
       data: { competition: this.competition, journeys: this.journeys }
