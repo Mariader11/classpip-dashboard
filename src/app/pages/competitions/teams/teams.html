@@ -11,7 +11,10 @@
         <mat-divider></mat-divider>
         <mat-card-content>
             <mat-list class="team-list" role="list" *ngFor="let student of allStudents[i]">
-                <mat-list-item class="team-list-item" role="listitem">{{student.name}} {{student.surname}}</mat-list-item>
+                <mat-list-item class="team-list-item" role="listitem">
+                    <mat-icon mat-list-icon>person</mat-icon>
+                  {{student.name}} {{student.surname}}
+                </mat-list-item>
             </mat-list>
         </mat-card-content>
       </mat-card>

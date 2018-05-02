@@ -25,6 +25,7 @@ export class TennisComponent implements OnInit {
   option = 'Manualmente';
   teams: boolean;
   matchesUploaded = false;
+  finished = false;
   // Forms
   journeysFormGroup: FormGroup;
   informationFormGroup: FormGroup;
@@ -36,7 +37,6 @@ export class TennisComponent implements OnInit {
   journeys = new Array<Journey>();
   matchesJourneys: Match[][];
   lastJourney: number;
-  journeysCompleted: number;
   completed = false;
   // Expansion panels
   notCompletedJourneys = new Array<Journey>();
@@ -117,7 +117,12 @@ export class TennisComponent implements OnInit {
         this.competition = competition;
         this.information = competition.information;
         this.competition.mode === 'Equipos' ? this.teams = true : this.teams = false;
-        this.utilsService.role === Role.TEACHER ? this.getJourneys() : this.loadingService.hide();
+        if (this.utilsService.role === Role.TEACHER) {
+          this.getJourneys();
+        } else {
+          this.finished = true;
+          this.loadingService.hide();
+        }
       }),
       ((error: Response) => {
         this.loadingService.hide();
@@ -140,7 +145,7 @@ export class TennisComponent implements OnInit {
 
   getMatches(): void {
     this.matchesJourneys = [];
-    this.journeysCompleted = 0;
+    let journeysCompleted = 0;
     for (let _n = 0; _n < this.journeys.length; _n++) {
       this.journeyService.getMatchesJourneyDetails(this.journeys[_n].id, this.competition).subscribe(
       ((matches: Array<Match>) => {
@@ -149,12 +154,12 @@ export class TennisComponent implements OnInit {
           this.matchesJourneys[_n][_m] = new Match();
           this.matchesJourneys[_n][_m] = matches[_m];
         }
-        this.journeysCompleted++;
+        journeysCompleted++;
         if (this.matchesJourneys[_n][0].winner === 0) {
           this.lastJourney = _n;
           this.matches = matches;
         }
-        if ( this.journeysCompleted === this.lastJourney + 1) {
+        if ( journeysCompleted === this.lastJourney + 1 || journeysCompleted === this.journeys.length) {
           this.loadJourneysSection();
         }
       }),
@@ -163,12 +168,11 @@ export class TennisComponent implements OnInit {
         this.alertService.show(error.toString());
       }));
     }
-    this.loadingService.hide();
   }
 
   loadJourneysSection() {
-    this.loadingService.show();
     for (let _j = this.lastJourney; _j < this.journeys.length; _j++) { this.notCompletedJourneys.push(this.journeys[_j]); }
+    this.finished = true;
     this.loadingService.hide();
   }
 
@@ -394,11 +398,6 @@ export class TennisComponent implements OnInit {
     }
 
     this.countMatches = 0;
-    if ((this.lastJourney + 1) % 2 === 0) {
-      const length = this.submitMatches.length;
-    } else if ((this.lastJourney + 1) % 2 !== 0) {
-      const length = this.submitMatches.length / 2;
-    }
 
     for (let _s = 0; _s < this.secondaryMatches.length; _s += 2) {
      this.match1 = {
@@ -417,6 +416,10 @@ export class TennisComponent implements OnInit {
             this.loadingService.hide();
             this.alertService.show('Los enfrentamientos de la siguiente jornada se han actualizado correctamente');
           }
+         }
+         if ((this.lastJourney + 1) === (this.journeys.length - 1)) {
+          this.loadingService.hide();
+          this.alertService.show('El enfrentamiento de la siguiente jornada se ha actualizado correctamente');
          }
        }),
        ((error: Response) => {
@@ -437,8 +440,6 @@ export class TennisComponent implements OnInit {
         // POST MATCHES
         this.journeyService.postJourneyMatches(this.match1)
         .subscribe( (match => {
-                // tslint:disable-next-line:no-console
-                console.log(match);
           this.countMatches++;
           if ( this.countMatches === (this.secondaryMatches.length / 2)) {
              this.loadingService.hide();
@@ -458,6 +459,11 @@ export class TennisComponent implements OnInit {
 
   showResults() {
     this.option === 'Manualmente' ? this.option = 'Aleatoriamente' : this.option = 'Manualmente';
+  }
+
+  gotoTournament() {
+    const url = this.route.snapshot.url.join('/') + '/tournaments';
+    this.router.navigate([url]);
   }
 
   gotoJourneys() {
