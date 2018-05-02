@@ -31,6 +31,7 @@ import { TeamsComponent } from './pages/competitions/teams/teams';
 import { ClassificationComponent } from './pages/competitions/league/classification/classification';
 import { JourneysLeagueComponent } from './pages/competitions/league/journeys-league/journeys-league';
 import { JourneysTennisComponent } from './pages/competitions/tennis/journeys-tennis/journeys-tennis';
+import { TournamentsComponent } from './pages/competitions/tennis/tournaments/tournaments';
 
 // shared (components)
 import { NavBarComponent } from './shared/navbar/navbar';
@@ -76,6 +77,7 @@ export function createTranslateLoader(http: Http) {
     ClassificationComponent,
     JourneysLeagueComponent,
     JourneysTennisComponent,
+    TournamentsComponent,
     // shared
     NavBarComponent,
     FooterComponent,

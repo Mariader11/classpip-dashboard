@@ -19,10 +19,11 @@ import { DeleteCompetitionComponent } from '../delete-competition/delete-competi
 })
 export class LeagueComponent implements OnInit {
  // Html
-  show: boolean;
+  show = false;
   option = 'Manualmente';
   teams: boolean;
   matchesUploaded = false;
+  finished = false;
   // Forms
   journeysFormGroup: FormGroup;
   informationFormGroup: FormGroup;
@@ -98,7 +99,6 @@ export class LeagueComponent implements OnInit {
     });
 
     this.competitionId = +this.route.snapshot.paramMap.get('id');
-    this.show = false;
     this.getSelectedCompetition();
   }
   }
@@ -110,7 +110,12 @@ export class LeagueComponent implements OnInit {
           this.competition = competition;
           this.information = competition.information;
           this.competition.mode === 'Equipos' ? this.teams = true : this.teams = false;
-          this.utilsService.role === Role.TEACHER ? this.getJourneys() : this.loadingService.hide();
+          if (this.utilsService.role === Role.TEACHER) {
+            this.getJourneys();
+          } else {
+            this.finished = true;
+            this.loadingService.hide();
+          }
         }),
         ((error: Response) => {
           this.loadingService.hide();
@@ -156,6 +161,7 @@ export class LeagueComponent implements OnInit {
             this.notCompletedJourneys.push(this.journeys[_n]);
           }
           if ( this.countJourneys === this.journeys.length ) {
+            this.finished = true;
             this.loadingService.hide();
           }
         }),

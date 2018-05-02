@@ -2,7 +2,7 @@
   <div *ngIf="utilsService.role === 1 || utilsService.role === 0">
     <h5> {{ 'COMPETITIONS.TITLE' | translate }} > {{ competition.name }} </h5>
 
-
+    <div *ngIf="finished">
     <div class="a-content">
      <a mat-raised-button class="classification" (click)="gotoClassification()">
        <strong>{{ 'CLASSIFICATION.TITLE' | translate }}</strong>
@@ -187,6 +187,8 @@
         <mat-icon>delete</mat-icon>
         <strong>{{ 'COMPETITIONS.DELETE' | translate }}</strong>
       </button>
+    </div>
+
     </div>
 
     <div class="final-button">

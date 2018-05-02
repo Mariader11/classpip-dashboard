@@ -1,8 +1,7 @@
 <div *ngIf="competition" class="tennis-content">
   <div *ngIf="utilsService.role === 1 || utilsService.role === 0">
     <h5> {{ 'COMPETITIONS.TITLE' | translate }} > {{ competition.name }} </h5>
-
-
+    <div *ngIf="finished">
     <div class="a-content">
      <a mat-raised-button class="tournament" (click)="gotoTournament()">
        <strong>{{ 'TENNIS.TOURNAMENT_TRACKING' | translate }}</strong>
@@ -218,7 +217,7 @@
       <strong>{{ 'COMPETITIONS.DELETE' | translate }}</strong>
     </button>
   </div>
-
+ </div>
     <div class="final-button">
         <a mat-button [routerLink]="'/competitions'">
           <mat-icon mat-list-icon>navigate_before</mat-icon>
