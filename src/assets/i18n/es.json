@@ -40,6 +40,7 @@
     "TENNIS": "Tenis",
     "JOURNEY": "Jornada",
     "JOURNEYS": "Jornadas",
+    "JOURNEY_NUMBER": "jornada número",
     "DATE": "Fecha",
     "CALENDAR": "Calendario",
     "INDIVIDUAL": "Individual",
@@ -77,7 +78,7 @@
     "MOD_TEXT":"Texto informativo",
     "MOD_TEXT2":"Modifique el texto",
     "SHOW_INFO": "Mostrar información sobre esta competición",
-    "HIDE_INFO": "ocultar la información",
+    "HIDE_INFO": "Ocultar la información",
     "INFO_COMP": "Información referente a la competición",
     "PLAY": "Jugar el duelo de la jornada",
     "DELETE": "Eliminar competición",
@@ -106,6 +107,18 @@
     "POINTS": "Puntuación",
     "N": "No.",
     "INFORMATION": "*Los participantes con un número menos de enfrentamientos realizados se debe a la irregularidad de ser un número impar de participantes totales en esta liga. Los descansos que deben realizarse en cada jornada por parte de algún participante conlleva a no sumar puntos en esa jornada."
+  },
+  "TOURNAMENTS": {
+    "PARTICIPANTS": "Participantes del torneo actuales",
+    "PRINCIPAL": "Torneo principal",
+    "SECONDARY": "Torneo secundario",
+    "NO_PLAYER_SECONDARY": "No hay jugadores en el torneo secundario",
+    "FINAL": "Final",
+    "FINALISTS": "Finalistas",
+    "ELIMINATED": "Eliminados",
+    "PLAYERS_ELIMINATED": "Participantes eliminados",
+    "NO_PLAYER_ELIMINATED": "No hay jugadores eliminados",
+    "FINISHED": "Este torneo ha finalizado"
   },
   "TEAMS": {
     "TITLE": "Creación de equipos",

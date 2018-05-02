@@ -161,6 +161,7 @@ export class LeagueComponent implements OnInit {
             this.notCompletedJourneys.push(this.journeys[_n]);
           }
           if ( this.countJourneys === this.journeys.length ) {
+            this.notCompletedJourneys.sort(function (a, b) { return (a.number - b.number); });
             this.finished = true;
             this.loadingService.hide();
           }
