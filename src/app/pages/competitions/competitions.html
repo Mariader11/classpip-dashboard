@@ -10,14 +10,14 @@
       </button>
 
       <mat-menu #menu="matMenu">
-        <button mat-menu-item disabled><span><b>Competiciones disponibles:</b></span></button>
+        <button mat-menu-item disabled><span><b>{{ 'COMPETITIONS.AVAILABLE' | translate }}:</b></span></button>
         <a mat-menu-item routerLink="/competition/league/create">
           <mat-icon>chevron_right</mat-icon>
-          <span>Liga</span>
+          <span>{{ 'COMPETITIONS.LEAGUE' | translate }}</span>
         </a>
         <a mat-menu-item routerLink="/competition/tennis/create">
           <mat-icon>chevron_right</mat-icon>
-          Torneo de tenis
+          {{ 'TENNIS.TITLE' | translate }}
         </a>
       </mat-menu>
       </mat-list-item>

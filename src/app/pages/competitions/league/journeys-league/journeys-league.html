@@ -3,7 +3,7 @@
         {{ 'COMPETITIONS.CALENDAR' | translate }} </h5>
 
   <div *ngIf="dates">
-  <h4>{{ 'COMPETITIONS.CALENDAR' | translate }} de la Liga: {{ competition.name }}</h4>
+  <h4>{{ 'COMPETITIONS.CALENDAR_OF' | translate }} {{ 'COMPETITIONS.LEAGUE' | translate }}: {{ competition.name }}</h4>
       <mat-card class="journey-card" *ngFor="let date of dates; let i=index;">
         <mat-card-content>
             <p>{{ 'COMPETITIONS.JOURNEY' | translate }} {{i + 1}}</p>

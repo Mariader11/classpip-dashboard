@@ -3,15 +3,15 @@
           {{ 'COMPETITIONS.CALENDAR' | translate }} </h5>
 
     <div *ngIf="results">
-    <h4>{{ 'COMPETITIONS.CALENDAR' | translate }} del Torneo de Tenis: {{ competition.name }}</h4>
+    <h4>{{ 'COMPETITIONS.CALENDAR_OF2' | translate }} {{ 'TENNIS.TITLE' | translate }}: {{ competition.name }}</h4>
         <mat-card class="journey-card" *ngFor="let date of dates; let i=index;">
           <mat-card-content>
               <p><u>{{ 'COMPETITIONS.JOURNEY' | translate }} {{i + 1}}</u></p>
               <p class="date"><i>{{ 'COMPETITIONS.DATE' | translate }}: {{date}}</i></p>
            <table *ngIf="matchesPrincipal[i].length !== 0">
               <caption>
-               <p *ngIf="i !== numJourneys - 1">Torneo principal</p>
-               <p *ngIf="i === numJourneys - 1">FINAL</p>
+               <p *ngIf="i !== numJourneys - 1">{{ 'TOURNAMENTS.PRINCIPAL' | translate }}</p>
+               <p *ngIf="i === numJourneys - 1">{{ 'TOURNAMENTS.FINAL' | translate }}</p>
               </caption>
               <thead>
                 <tr class="tableHeader">
@@ -31,7 +31,7 @@
               </tbody>
             </table>
             <div class="thead-tbody" *ngIf="matchesSecondary[i].length !== 0">
-            <p>Torneo secundario</p>
+            <p>{{ 'TOURNAMENTS.SECONDARY' | translate }}</p>
             <table>
               <thead>
                 <tr class="tableHeader">
@@ -56,17 +56,15 @@
     </div>
     <div class="foot">
         <mat-card>
-      * Los usuarios llamados "Ghost" que contiene esta jornada corresponden a los jugadores ficticios introducidos
-        para un correcto funcionamiento del torneo. Los jugadores que se enfrenten a ellos ganarán la jornada automáticamente.
+      * {{ 'TENNIS.GHOST1' | translate }}
+      {{ 'TENNIS.GHOST2' | translate }}.
       </mat-card>
     </div>
     <div *ngIf="datesNoMatches">
       <div *ngIf="datesNoMatches.length !==0">
-        <h6 *ngIf="!show">No se pueden conocer los enfrentamientos de las jornadas restantes debido a que dependen del resultado
-          de su jornada anterior. Aunque es posible consultar los torneos implicados (principal y secundario) y la
-          fecha prevista en caso de estar establecida, para ello presione el botón de más:
+        <h6 *ngIf="!show">{{ 'TENNIS.MORE_JOURNEY1' | translate }}. {{ 'TENNIS.MORE_JOURNEY2' | translate }}:
         </h6>
-        <h6 *ngIf="show"> Para ocultar esta sección, presione el boton de menos:</h6>
+        <h6 *ngIf="show">{{ 'TENNIS.LESS_JOURNEY' | translate }}:</h6>
         <button mat-fab color="warn" *ngIf="!show" (click)="showMore()"><mat-icon>add</mat-icon></button>
         <button mat-fab color="warn" *ngIf="show" (click)="showMore()"><mat-icon>remove</mat-icon></button>
         <div *ngIf="show" class="cardsNoMatch-div">

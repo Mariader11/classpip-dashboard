@@ -3,7 +3,7 @@
     <h3 mat-subheader>{{ 'TEAMS.TITLE' | translate }}</h3>
 
   <form [formGroup]="firstFormGroup" (ngSubmit)="onSubmit(firstFormGroup.value)">
-      <p>Seleccione el grupo del cual desea crear los equipos:</p>
+      <p>{{ 'TEAMS.GROUP' | translate }}:</p>
       <mat-card>
         <div class="form-group">
           <mat-form-field>
@@ -25,7 +25,7 @@
               <div>
                 {{ 'TEAMS.TEAM' | translate }} {{i + 1}}
                 <span *ngIf="firstFormGroup.controls.teams.controls.length > 2" (click)="removeTeam(i)">
-                    <button mat-button color="warn">Eliminar equipo</button>
+                    <button mat-button color="warn">{{ 'TEAMS.DELETE' | translate }} {{i + 1}}</button>
                 </span>
               </div>
             </mat-card-header>
@@ -49,7 +49,7 @@
   </div>
   <div class="sbt-btn">
       <button mat-raised-button color="primary" (click)="onSubmit"
-      [disabled]="!firstFormGroup.valid"> Pasad al siguiente </button>
+      [disabled]="!firstFormGroup.valid">{{ 'COMPETITIONS.NEXT' | translate }}</button>
   </div>
   </form>
 
@@ -57,7 +57,7 @@
 
  <div *ngIf="show === 3">
   <form [formGroup]="secondFormGroup" (ngSubmit)="onSubmit2(secondFormGroup.value)">
-   <p>Seleccione a qué equipo pertenece cada alumno:</p>
+   <p>{{ 'TEAMS.STUDENT' | translate }}:</p>
    <mat-card>
     <div class="form-group" formArrayName="teamsId">
       <div *ngFor="let teamId of secondFormGroup.controls.teamsId.controls ;let i=index;">
@@ -74,7 +74,7 @@
     </div>
     <div class="sbt-btn">
         <button mat-raised-button color="primary" (click)="onSubmit2"
-        [disabled]="!secondFormGroup.valid"> Pasad al siguiente </button>
+        [disabled]="!secondFormGroup.valid">{{ 'COMPETITIONS.NEXT' | translate }}</button>
     </div>
    </mat-card>
   </form>
@@ -82,17 +82,17 @@
 
  <div *ngIf="show === 4">
 
-    <h3> Los equipos han sido creados correctamente.</h3>
+    <h3>{{ 'TEAMS.FINISHED' | translate }}.</h3>
 
       <div class="final-button">
           <a mat-button [routerLink]="'/competitions'">
             <mat-icon mat-list-icon>navigate_before</mat-icon>
-            Volver a la página de competiciones
+            {{ 'TEAMS.RETURN' | translate }}
           </a>
       </div>
  </div>
 
 </div>
 <div *ngIf="utilsService.role === 0 || utilsService.role == 2" class="creation-teams-content">
-  Contenido exclusivo para los profesores.
+  {{ 'TEAMS.TEACHER' | translate }}.
 </div>

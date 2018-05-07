@@ -28,6 +28,7 @@
   "COMPETITIONS": {
     "TITLE": "Competiciones",
     "SUBTITLE": "Tus competiciones:",
+    "AVAILABLE": "Competiciones disponibles",
     "NONE_STUDENT": "No participas en ninguna competición.",
     "NONE_TEACHER": "No tiene ninguna competición creada.",
     "CREATE_NEW_COMPETITION": "Crear nueva competición",
@@ -43,6 +44,8 @@
     "JOURNEY_NUMBER": "jornada número",
     "DATE": "Fecha",
     "CALENDAR": "Calendario",
+    "CALENDAR_OF": "Calendario de la",
+    "CALENDAR_OF2": "Calendario del",
     "INDIVIDUAL": "Individual",
     "TEAM": "Equipo",
     "TEAMS": "Equipos",
@@ -82,18 +85,33 @@
     "INFO_COMP": "Información referente a la competición",
     "PLAY": "Jugar el duelo de la jornada",
     "DELETE": "Eliminar competición",
+    "DELETE2": "Eliminar",
+    "CANCEL": "Cancelar",
     "DELETE_QUESTION": "¿Está seguro de que desea eliminar esta competición?",
     "RETURN": "Volver a la página de la competición",
     "RETURN2": "Volver a la página de competiciones"
   },
+  "COMPETITION_CREATION": {
+    "TITLE": "Creando competición de tipo",
+    "PARTICIPANT": "Seleccione a los participantes que formarán parte de la competición",
+    "MIN_2": "Debe seleccionar al menos 2",
+    "JOURNEY": "Jornada a modificar",
+    "DATE": "Nueva fecha"
+  },
   "TENNIS": {
+    "TITLE": "Torneo de Tenis",
     "TOURNAMENT_TRACKING": "Seguimiento del torneo",
     "PRINCIPAL_TOURNAMENT": "Introduce los resultados del torneo principal",
     "SECONDARY_TOURNAMENT": "Introduce los resultados del torneo secundario",
     "INTR_RESULT3": "Marque el nombre del ganador/a en la jornada número",
     "INTR_RESULT3_TEAM": "Marque el nombre del equipo ganador o empate en la jornada número",
     "NOTE_PRIMARY": "- Nota: Hay enfrentamientos en este torneo principal con jugadores ficticios que no se muestran.",
-    "NOTE_SECONDARY": "- Nota: Hay enfrentamientos en este torneo secundario con jugadores ficticios que no se muestran."
+    "NOTE_SECONDARY": "- Nota: Hay enfrentamientos en este torneo secundario con jugadores ficticios que no se muestran.",
+    "GHOST1": "Los usuarios llamados 'Ghost' que contiene esta jornada corresponden a los jugadores ficticios introducidos",
+    "GHOST2": "para un correcto funcionamiento del torneo. Los jugadores que se enfrenten a ellos ganarán la jornada automáticamente",
+    "MORE_JOURNEY1": "No se pueden conocer los enfrentamientos de las jornadas restantes debido a que dependen del resultado de su jornada anterior",
+    "MORE_JOURNEY2": "Aunque es posible consultar los torneos implicados (principal y secundario) y la fecha prevista en caso de estar establecida, para ello presione el botón de más",
+    "LESS_JOURNEY": "Para ocultar esta sección, presione el boton de menos"
   },
   "CLASSIFICATION": {
     "TITLE": "Clasificación",
@@ -124,7 +142,12 @@
     "TITLE": "Creación de equipos",
     "INTRO": "Introduzca los nombres de los equipos que desee crear:",
     "TEAM": "Equipo",
+    "GROUP": "Seleccione el grupo del cual desea crear los equipos",
+    "STUDENT": "Seleccione a qué equipo pertenece cada alumno",
+    "TEACHER": "Contenido exclusivo para los profesores",
     "MORE": "Añadir otro equipo",
+    "DELETE": "Eliminar equipo",
+    "FINISHED": "Los equipos han sido creados correctamente",
     "RETURN": "Volver a la página de la competición"
   },
   "ERROR": {

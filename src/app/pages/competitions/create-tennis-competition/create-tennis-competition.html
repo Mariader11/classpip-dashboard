@@ -1,5 +1,5 @@
 <div class="stepper-content">
-    <h4>Creando competición de tipo torneo de tenis:</h4>
+    <h4>{{ 'COMPETITION_CREATION.TITLE' | translate }} {{ 'COMPETITIONS.TENNIS' | translate }}:</h4>
     <mat-horizontal-stepper [linear]="isLinear" #stepper="matHorizontalStepper">
       <mat-step label="{{ 'COMPETITIONS.INITIALIZATION' | translate }}"  [stepControl]="competitionFormGroup" editable="false">
 
@@ -23,10 +23,10 @@
             <div class="form-group-radio">
                <mat-radio-group class="form-control-radio" required formControlName="mode">
                  <mat-radio-button [value]="'Individual'">
-                   Individual
+                  {{ 'COMPETITIONS.INDIVIDUAL' | translate }}
                  </mat-radio-button>
                  <mat-radio-button [value]="'Equipos'">
-                  Equipos
+                  {{ 'COMPETITIONS.TEAMS' | translate }}
                 </mat-radio-button>
                </mat-radio-group>
             </div>
@@ -38,8 +38,8 @@
 
 
       <mat-step label="Participantes" [stepControl]="participantsFormGroup" editable="false">
-          <p>Seleccione a los participantes que formarán parte de la competición</p>
-          <p>Debe seleccionar al menos 2</p>
+          <p>{{ 'COMPETITION_CREATION.PARTICIPANT' | translate }}</p>
+          <p>{{ 'COMPETITION_CREATION.MIN_2' | translate }}</p>
           <mat-selection-list #list>
               <mat-list-option *ngFor="let participant of participants"
                [selected]="participant.selected" [value]="participant.id">
