@@ -406,7 +406,7 @@ export class TennisComponent implements OnInit {
        journeyId : +this.journeys[this.lastJourney + 1].id
      };
        // POST MATCHES
-       this.journeyService.postJourneyMatches(this.match1)
+       this.matchesService.postMatch(this.match1)
        .subscribe( (match => {
          this.countMatches++;
          if ( this.countMatches === (this.secondaryMatches.length / 2)) {
@@ -438,7 +438,7 @@ export class TennisComponent implements OnInit {
         journeyId : +this.journeys[this.lastJourney + 1].id
       };
         // POST MATCHES
-        this.journeyService.postJourneyMatches(this.match1)
+        this.matchesService.postMatch(this.match1)
         .subscribe( (match => {
           this.countMatches++;
           if ( this.countMatches === (this.secondaryMatches.length / 2)) {

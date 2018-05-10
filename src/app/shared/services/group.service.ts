@@ -113,7 +113,6 @@ export class GroupService {
    * Returns the information of the group by a group id
    * @return {Group} returns the group
    */
-
   public getGroup(id: number): Observable<Group> {
 
     const options: RequestOptions = new RequestOptions({
@@ -125,20 +124,20 @@ export class GroupService {
       .catch((error: Response) => this.utilsService.handleAPIError(error));
   }
 
+  /**
+  * GET: Returns the list of teams of a group
+  * @return {Observable<Array<Team>>} returns the list of teams
+  */
+  public getGroupTeams(groupId: string | number): Observable<Array<Team>> {
 
- // TEAMS
-
- public getGroupTeams(groupId: string | number): Observable<Array<Team>> {
-
-  const options: RequestOptions = new RequestOptions({
+   const options: RequestOptions = new RequestOptions({
     headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
-  });
+   });
+   const url: string = AppConfig.GROUP_URL + '/' + groupId + AppConfig.TEAMS_URL;
 
-  const url: string = AppConfig.GROUP_URL + '/' + groupId + AppConfig.TEAMS_URL;
-
-  return this.http.get(url, options)
-    .map((response: Response, index: number) => Team.toObjectArray(response.json()));
-}
-
+   return this.http.get(url, options)
+    .map((response: Response, index: number) => Team.toObjectArray(response.json()))
+    .catch((error: Response) => this.utilsService.handleAPIError(error));
+  }
 
 }

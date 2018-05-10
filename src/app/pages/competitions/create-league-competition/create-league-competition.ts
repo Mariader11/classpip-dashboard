@@ -2,7 +2,7 @@ import { Component, OnInit  } from '@angular/core';
 
 import {FormControl, FormsModule, FormBuilder, FormGroup, FormArray, Validators, ControlValueAccessor} from '@angular/forms';
 import { AlertService, UtilsService, LoadingService, GroupService, CompetitionService,
-   JourneyService, TeamService} from '../../../shared/services/index';
+   JourneyService, TeamService, MatchesService} from '../../../shared/services/index';
 import { Login, Role, Group, Competition, Student, Journey, Match, Team } from '../../../shared/models/index';
 import { AppConfig } from '../../../app.config';
 import { Response } from '@angular/http/src/static_response';
@@ -48,6 +48,7 @@ export class CreateLeagueCompetitionComponent implements OnInit {
     public groupService: GroupService,
     public competitionService: CompetitionService,
     public journeyService: JourneyService,
+    public matchesService: MatchesService,
     public teamService: TeamService,
     private _formBuilder: FormBuilder) {
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
@@ -102,7 +103,6 @@ export class CreateLeagueCompetitionComponent implements OnInit {
     this.loadingService.show();
     this.newCompetition = value;
     this.newCompetition.type = 'Liga';
-    this.newCompetition.teacherId = this.utilsService.currentUser.userId;
     this.getParticipants(); // getting participants for the next step
   }
 
@@ -262,7 +262,7 @@ export class CreateLeagueCompetitionComponent implements OnInit {
         journeyId : +this.journeys[_j].id
       };
         // POST MATCHES
-        this.journeyService.postJourneyMatches(this.match)
+        this.matchesService.postMatch(this.match)
         .subscribe( (match => {
           this.count2++;
           if ( this.count2 === (this.journeys.length * (this.selectedParticipants.length / 2)) ) {

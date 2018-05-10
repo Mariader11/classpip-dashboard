@@ -9,14 +9,13 @@ export class Competition {
   private _numParticipants: number;
   private _numJourneys: number;
   private _information: string;
-  private _teacherId: number;
   private _groupId: number;
   private _grade: Grade;
   private _matter: Matter;
 
 
   constructor(id?: string, name?: string, type?: string, mode?: string,
-    numParticipants?: number, numJourneys?: number, information?: string, teacherId?: number,
+    numParticipants?: number, numJourneys?: number, information?: string,
     groupId?: number, grade?: Grade, matter?: Matter) {
     this._id = id;
     this._name = name;
@@ -25,7 +24,6 @@ export class Competition {
     this._numParticipants = numParticipants;
     this._numJourneys = numJourneys;
     this._information = information;
-    this._teacherId = teacherId;
     this._groupId = groupId;
     this._grade = grade;
     this._matter = matter;
@@ -43,7 +41,6 @@ export class Competition {
       result.numParticipants = object.numParticipants;
       result.numJourneys = object.numJourneys;
       result.information = object.information;
-      result.teacherId = object.teacherId;
       result.groupId = object.groupId;
     }
     return result;
@@ -118,14 +115,6 @@ export class Competition {
 
   public set information(value: string) {
     this._information = value;
-  }
-
-  public get teacherId(): number {
-    return this._teacherId;
-  }
-
-  public set teacherId(value: number) {
-    this._teacherId = value;
   }
 
   public get groupId(): number {

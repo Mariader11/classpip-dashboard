@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormsModule, FormBuilder, FormGroup, FormArray, Validators, ControlValueAccessor} from '@angular/forms';
 import { AlertService, UtilsService, LoadingService, GroupService, CompetitionService,
-   JourneyService, TeamService} from '../../../shared/services/index';
+   JourneyService, TeamService, MatchesService} from '../../../shared/services/index';
 import { Login, Role, Group, Competition, Student, Journey, Match, Team } from '../../../shared/models/index';
 import { AppConfig } from '../../../app.config';
 import { Response } from '@angular/http/src/static_response';
@@ -34,8 +34,6 @@ export class CreateTennisCompetitionComponent implements OnInit {
   newCompetitionPost: Competition;
   journeys = new Array();
   //
-  countParticipant: number;
-  countMatches: number;
   match: any;
 
   constructor(
@@ -45,6 +43,7 @@ export class CreateTennisCompetitionComponent implements OnInit {
     public groupService: GroupService,
     public competitionService: CompetitionService,
     public journeyService: JourneyService,
+    public matchesService: MatchesService,
     public teamService: TeamService,
     private _formBuilder: FormBuilder) {
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
@@ -96,7 +95,6 @@ export class CreateTennisCompetitionComponent implements OnInit {
     this.loadingService.show();
     this.newCompetition = value;
     this.newCompetition.type = 'Tenis';
-    this.newCompetition.teacherId = this.utilsService.currentUser.userId;
     this.getParticipants(); // getting participants for the next step
   }
 
@@ -217,13 +215,13 @@ export class CreateTennisCompetitionComponent implements OnInit {
   }
 
   onSubmitRelations(): void {
-    this.countParticipant = 0;
+    let countParticipant = 0;
     if ( this.newCompetition.mode === 'Individual' ) {
       for ( let _i = 0; _i < this.selectedParticipants.length; _i++ ) {
         this.competitionService.relCompetitionStudent(this.newCompetitionPost.id, this.selectedParticipants[_i]).subscribe(
         ( res => {
-        this.countParticipant++;
-        if ( this.countParticipant === this.selectedParticipants.length ) { this.putFirstMatches(); }
+        countParticipant++;
+        if ( countParticipant === this.selectedParticipants.length ) { this.putFirstMatches(); }
         }),
         ((error: Response) => {
         this.loadingService.hide();
@@ -234,8 +232,8 @@ export class CreateTennisCompetitionComponent implements OnInit {
       for ( let _i = 0; _i < this.selectedParticipants.length; _i++ ) {
         this.teamService.relCompetitionTeam(this.newCompetitionPost.id, this.selectedParticipants[_i]).subscribe(
          ( res => {
-         this.countParticipant++;
-         if ( this.countParticipant === this.selectedParticipants.length ) { this.putFirstMatches(); }
+         countParticipant++;
+         if ( countParticipant === this.selectedParticipants.length ) { this.putFirstMatches(); }
          }),
         ((error: Response) => {
           this.loadingService.hide();
@@ -253,7 +251,7 @@ export class CreateTennisCompetitionComponent implements OnInit {
       }
     }
     this.selectedParticipants = this.selectedParticipants.sort(function() {return Math.random() - 0.5});
-    this.countMatches = 0;
+    let countMatches = 0;
       for (let _m = 0; _m < (this.selectedParticipants.length / 2); _m++) {
         this.match = {
           playerOne : +this.selectedParticipants[_m],
@@ -261,12 +259,12 @@ export class CreateTennisCompetitionComponent implements OnInit {
           journeyId : +this.journeys[0].id
         };
           // POST MATCHES
-          this.journeyService.postJourneyMatches(this.match)
+          this.matchesService.postMatch(this.match)
           .subscribe( (match => {
                   // tslint:disable-next-line:no-console
                   console.log(match);
-            this.countMatches++;
-            if ( this.countMatches === (this.selectedParticipants.length / 2)) {
+            countMatches++;
+            if ( countMatches === (this.selectedParticipants.length / 2)) {
               this.finished = true;
               this.loadingService.hide();
               this.alertService.show('La competición se ha creado correctamente');

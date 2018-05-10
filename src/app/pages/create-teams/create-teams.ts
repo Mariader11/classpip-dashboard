@@ -93,7 +93,6 @@ export class CreateTeamsComponent implements OnInit {
         for (let _m = 0; _m < (value.teams.length); _m++) {
          this.team = {
           name: value.teams[_m].name,
-          teacherId : this.utilsService.currentUser.userId,
           groupId : value.groupId
           };
           this.teamService.postTeam(this.team)

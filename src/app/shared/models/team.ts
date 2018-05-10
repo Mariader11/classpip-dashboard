@@ -3,14 +3,12 @@ export class Team {
   private _id: string;
   private _name: string;
   private _numPlayers: number;
-  private _teacherId: number;
   private _groupId: number;
 
-  constructor(id?: string, name?: string, numPlayers?: number, teacherId?: number, groupId?: number) {
+  constructor(id?: string, name?: string, numPlayers?: number, groupId?: number) {
     this._id = id;
     this._name = name;
     this._numPlayers = numPlayers;
-    this._teacherId = teacherId;
     this._groupId = groupId;
   }
 
@@ -22,7 +20,6 @@ export class Team {
       result.id = object.id;     /* result.id  no me dara error en .id, .name, .type, etc cuando lo defina en set*/
       result.name = object.name;
       result.numPlayers = object.numPlayers;
-      result.teacherId = object.teacherId;
       result.groupId = object.groupId;
     }
     return result;
@@ -65,14 +62,6 @@ export class Team {
 
   public set numPlayers(value: number) {
     this._numPlayers = value;
-  }
-
-  public get teacherId(): number {
-    return this._teacherId;
-  }
-
-  public set teacherId(value: number) {
-    this._teacherId = value;
   }
 
   public get groupId(): number {
