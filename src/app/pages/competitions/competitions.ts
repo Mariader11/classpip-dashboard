@@ -35,9 +35,9 @@ export class CompetitionsComponent implements OnInit {
   }
 
   getTeacherCompetitions(): void {
+    this.competitions = [];
     this.groupService.getMyGroups().subscribe(
       ((groups: Array<Group>) => {
-        this.competitions = [];
         for (let _g = 0; _g < groups.length; _g++) {
         this.competitionService.getMyCompetitionsByGroup(groups[_g]).subscribe(
           ((competitions: Array<Competition>) => {

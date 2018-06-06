@@ -107,7 +107,7 @@
     "INTR_RESULT3_TEAM": "Marque el nombre del equipo ganador o empate en la jornada número",
     "NOTE_PRIMARY": "- Nota: Hay enfrentamientos en este torneo principal con jugadores ficticios que no se muestran.",
     "NOTE_SECONDARY": "- Nota: Hay enfrentamientos en este torneo secundario con jugadores ficticios que no se muestran.",
-    "GHOST1": "Los usuarios llamados 'Ghost' que contiene esta jornada corresponden a los jugadores ficticios introducidos",
+    "GHOST1": "Es posible que en alguna jornada haya usuarios llamados 'Ghost', estos corresponden a los jugadores ficticios introducidos",
     "GHOST2": "para un correcto funcionamiento del torneo. Los jugadores que se enfrenten a ellos ganarán la jornada automáticamente",
     "MORE_JOURNEY1": "No se pueden conocer los enfrentamientos de las jornadas restantes debido a que dependen del resultado de su jornada anterior",
     "MORE_JOURNEY2": "Aunque es posible consultar los torneos implicados (principal y secundario) y la fecha prevista en caso de estar establecida, para ello presione el botón de más",

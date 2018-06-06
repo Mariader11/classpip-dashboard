@@ -1,7 +1,7 @@
-<div class="competitions-content">
+<div class="competitions-content" *ngIf="utilsService.role == 1 && utilsService.role == 0">
 
   <mat-list>
-    <h3 mat-subheader>{{ 'COMPETITIONS.TITLE' | translate }}</h3>
+    <h3 mat-subheader> {{ 'COMPETITIONS.TITLE' | translate }} </h3>
 
     <div *ngIf="utilsService.role == 1">
       <mat-list-item class="create-competition">
@@ -34,7 +34,7 @@
 
   <mat-grid-list cols="1" rowHeight="9:1">
 
-      <mat-grid-tile *ngIf="!competitions">
+      <mat-grid-tile *ngIf="competitions.length === 0">
           <p *ngIf="utilsService.role == 1 ">{{ 'COMPETITIONS.NONE_TEACHER' | translate }} </p>
           <p *ngIf="utilsService.role == 0 ">{{ 'COMPETITIONS.NONE_STUDENT' | translate }} </p>
       </mat-grid-tile>

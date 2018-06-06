@@ -1,6 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 import { HttpModule, Http } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -11,6 +12,18 @@ import { routing } from './app.routing';
 import { HomeComponent } from './pages/home/home';
 import { LoginComponent } from './pages/login/login';
 import { GroupsComponent } from './pages/groups/groups';
+import { CompetitionsComponent } from './pages/competitions/competitions';
+import { CreateTeamsComponent } from './pages/create-teams/create-teams';
+import { LeagueComponent} from './pages/competitions/league/league';
+import { TennisComponent} from './pages/competitions/tennis/tennis';
+import { CreateLeagueCompetitionComponent } from './pages/competitions/create-league-competition/create-league-competition';
+import { CreateTennisCompetitionComponent } from './pages/competitions/create-tennis-competition/create-tennis-competition';
+import { DeleteCompetitionComponent } from './pages/competitions/delete-competition/delete-competition';
+import { TeamsComponent } from './pages/competitions/teams/teams';
+import { ClassificationComponent } from './pages/competitions/league/classification/classification';
+import { JourneysLeagueComponent } from './pages/competitions/league/journeys-league/journeys-league';
+import { JourneysTennisComponent } from './pages/competitions/tennis/journeys-tennis/journeys-tennis';
+import { TournamentsComponent } from './pages/competitions/tennis/tournaments/tournaments';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppMaterialModule } from './app.material.module';
@@ -21,7 +34,8 @@ import { APP_BASE_HREF } from '@angular/common';
 import { AuthGuard } from './shared/auth/auth.guard';
 import {
   AvatarService, AlertService, LoadingService, SchoolService, LoginService,
-  UserService, GradeService, GroupService, UtilsService, MatterService
+  UserService, GradeService, GroupService, UtilsService, MatterService,
+  CompetitionService, JourneyService, MatchesService, TeamService
 } from './shared/services/index';
 
 export function createTranslateLoader(http: Http) {
@@ -37,6 +51,19 @@ describe('AppComponent', () => {
         LoginComponent,
         HomeComponent,
         GroupsComponent,
+        CompetitionsComponent,
+        CreateTeamsComponent,
+        // pages (competitions)
+        LeagueComponent,
+        TennisComponent,
+        CreateLeagueCompetitionComponent,
+        CreateTennisCompetitionComponent,
+        DeleteCompetitionComponent,
+        TeamsComponent,
+        ClassificationComponent,
+        JourneysLeagueComponent,
+        JourneysTennisComponent,
+        TournamentsComponent,
         // shared
         NavBarComponent,
         FooterComponent,
@@ -48,6 +75,7 @@ describe('AppComponent', () => {
         FlexLayoutModule,
         AppMaterialModule,
         FormsModule,
+        ReactiveFormsModule,
         HttpModule,
         routing,
         TranslateModule.forRoot({
@@ -68,7 +96,12 @@ describe('AppComponent', () => {
         UtilsService,
         GroupService,
         GradeService,
-        MatterService
+        MatterService,
+        CompetitionService,
+        JourneyService,
+        MatchesService,
+        TeamService,
+        DatePipe
       ]
     }).compileComponents();
   }));

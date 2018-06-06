@@ -116,6 +116,8 @@ export class TennisComponent implements OnInit {
       ((competition: Competition) => {
         this.competition = competition;
         this.information = competition.information;
+        // tslint:disable-next-line:no-console
+        console.log(this.competition);
         this.competition.mode === 'Equipos' ? this.teams = true : this.teams = false;
         if (this.utilsService.role === Role.TEACHER) {
           this.getJourneys();
@@ -145,21 +147,26 @@ export class TennisComponent implements OnInit {
 
   getMatches(): void {
     this.matchesJourneys = [];
-    let journeysCompleted = 0;
+    let journeysCount = 0;
     for (let _n = 0; _n < this.journeys.length; _n++) {
+      this.journeys[_n].completed = false;
       this.journeyService.getMatchesJourneyDetails(this.journeys[_n].id, this.competition).subscribe(
       ((matches: Array<Match>) => {
         this.matchesJourneys[_n] = [];
+        let incompletedJourney = 0;
         for (let _m = 0; _m < matches.length; _m++) {
           this.matchesJourneys[_n][_m] = new Match();
           this.matchesJourneys[_n][_m] = matches[_m];
+          if (this.matchesJourneys[_n][_m].winner === 0) {
+            incompletedJourney++;
+            if ( incompletedJourney === matches.length ) {
+              this.lastJourney = _n;
+              this.matches = matches;
+            }
+          }
         }
-        journeysCompleted++;
-        if (this.matchesJourneys[_n][0].winner === 0) {
-          this.lastJourney = _n;
-          this.matches = matches;
-        }
-        if ( journeysCompleted === this.lastJourney + 1 || journeysCompleted === this.journeys.length) {
+        journeysCount++;
+        if ( journeysCount === this.lastJourney + 1 || journeysCount === this.journeys.length) {
           this.loadJourneysSection();
         }
       }),

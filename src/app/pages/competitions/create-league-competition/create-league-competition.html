@@ -37,7 +37,7 @@
            </mat-form-field>
          </div>
        <div>
-        <button mat-button matStepperNext [disabled]="!competitionFormGroup.valid">{{ 'COMPETITIONS.NEXT' | translate }}</button>
+        <button mat-raised-button color="primary" matStepperNext [disabled]="!competitionFormGroup.valid">{{ 'COMPETITIONS.NEXT' | translate }}</button>
       </div>
    </form>
   </mat-step>
@@ -53,7 +53,7 @@
           </mat-list-option>
       </mat-selection-list>
        <div>
-       <button mat-button matStepperNext (click)="participantStep(list)"
+       <button mat-raised-button color="primary" matStepperNext (click)="participantStep(list)"
        [disabled]="list.selectedOptions.selected.length < 2">{{ 'COMPETITIONS.NEXT' | translate }}</button>
       </div>
   </mat-step>
@@ -83,7 +83,7 @@
        </div>
 
        <div>
-          <button mat-button matStepperNext [disabled]="!journeysFormGroup.valid">{{ 'COMPETITIONS.NEXT' | translate }}</button>
+          <button mat-raised-button color="primary" matStepperNext [disabled]="!journeysFormGroup.valid">{{ 'COMPETITIONS.NEXT' | translate }}</button>
        </div>
     </form>
 
@@ -101,7 +101,7 @@
       </div>
 
      <div>
-        <button mat-button matStepperNext [disabled]="!informationFormGroup.valid">{{ 'COMPETITIONS.NEXT' | translate }}</button>
+        <button mat-raised-button color="primary" matStepperNext [disabled]="!informationFormGroup.valid">{{ 'COMPETITIONS.NEXT' | translate }}</button>
      </div>
     </form>
   </mat-step>
@@ -110,7 +110,7 @@
      <div *ngIf="finished">
       <p>{{ 'COMPETITIONS.FINISHED' | translate }}</p>
       <div class="final-buttons">
-        <a mat-button class="Clasificacion" routerLink="/competitions">
+        <a mat-raised-button color="primary" class="Clasificacion" routerLink="/competitions">
           <strong>{{ 'COMPETITIONS.DONE' | translate }}</strong>
         </a>
       </div>

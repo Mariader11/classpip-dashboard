@@ -101,11 +101,14 @@ export class JourneyService {
             students.forEach(student => {
               if ( +student.id === match.playerOne ) {
                 match.namePlayerOne = student.name + ' ' + student.surname;
-              } else if ( +student.id === match.playerTwo ) {
+              }
+              if ( +student.id === match.playerTwo ) {
                 match.namePlayerTwo = student.name + ' ' + student.surname;
-              } else if ( 0 === match.playerOne) {
+              }
+              if ( 0 === match.playerOne) {
                 match.namePlayerOne = 'Ghost';
-              } else if ( 0 === match.playerTwo) {
+              }
+              if ( 0 === match.playerTwo) {
                 match.namePlayerTwo = 'Ghost';
               }
               if (match.namePlayerOne && match.namePlayerTwo && firstTime) {
@@ -125,11 +128,14 @@ export class JourneyService {
             teams.forEach(team => {
               if ( +team.id === match.playerOne ) {
                 match.namePlayerOne = team.name;
-              } else if ( +team.id === match.playerTwo ) {
+              }
+              if ( +team.id === match.playerTwo ) {
                 match.namePlayerTwo = team.name;
-              } else if ( 0 === match.playerOne) {
+              }
+              if ( 0 === match.playerOne) {
                 match.namePlayerOne = 'Ghost';
-              } else if ( 0 === match.playerTwo) {
+              }
+              if ( 0 === match.playerTwo) {
                 match.namePlayerTwo = 'Ghost';
               }
               if (match.namePlayerOne && match.namePlayerTwo && firstTime) {
