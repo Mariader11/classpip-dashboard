@@ -59,7 +59,7 @@
             <p>{{ 'COMPETITIONS.INTR_JOURNEY' | translate }}</p>
 
            <div class="form-group" formArrayName="journeys">
-              <div *ngFor="let journey of journeysFormGroup.controls.journeys.controls ;let i=index;">
+              <div *ngFor="let journey of journeysFormGroup.get('journeys')['controls'] ;let i=index;">
 
                     <div class="panel-body" [formGroupName]="i">
                         <div class="form-group">

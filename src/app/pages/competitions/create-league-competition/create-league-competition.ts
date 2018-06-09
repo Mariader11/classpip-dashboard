@@ -156,6 +156,9 @@ export class CreateLeagueCompetitionComponent implements OnInit {
        date: ['']
       }));
     }
+
+    // tslint:disable-next-line:no-console
+    console.log(this.journeysFormGroup);
     this.loadingService.hide();
   }
 

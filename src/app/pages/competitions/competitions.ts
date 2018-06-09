@@ -36,6 +36,8 @@ export class CompetitionsComponent implements OnInit {
 
   getTeacherCompetitions(): void {
     this.competitions = [];
+    // tslint:disable-next-line:no-console
+    console.log(this.competitions);
     this.groupService.getMyGroups().subscribe(
       ((groups: Array<Group>) => {
         for (let _g = 0; _g < groups.length; _g++) {
