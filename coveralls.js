@@ -6,7 +6,7 @@ var coveralls = require("gulp-coveralls");
 gulp.task("coveralls", function () {
 
   if (!process.env.TRAVIS) {
-    return
-  };
+    return;
+  }
   return gulp.src("coverage/coverage.lcov").pipe(coveralls());
 });
