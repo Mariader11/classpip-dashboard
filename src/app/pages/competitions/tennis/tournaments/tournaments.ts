@@ -14,23 +14,23 @@ import { Observable } from 'rxjs/Observable';
 })
 export class TournamentsComponent implements OnInit {
 
-  final = false;
-  finished = false;
-  tournamentCompleted = false;
-  winner: string;
+  public final = false;
+  public finished = false;
+  public tournamentCompleted = false;
+  public winner: string;
 
-  competitionId: number;
-  competition: Competition;
+  public competitionId: number;
+  public competition: Competition;
 
-  journeys: Journey[];
-  matchesJourneys: Match[][];
-  participants: any[];
+  public journeys: Journey[];
+  public matchesJourneys: Match[][];
+  public participants: any[];
 
-  lastJourney: number;
-  participantsPrimary: String[];
-  participantsSecondary: String[];
-  participantsEliminated: String[];
-  ghostIndex: number;
+  public lastJourney: number;
+  public participantsPrimary: String[];
+  public participantsSecondary: String[];
+  public participantsEliminated: String[];
+  public ghostIndex: number;
 
   constructor(public alertService: AlertService,
     public utilsService: UtilsService,
@@ -51,8 +51,8 @@ export class TournamentsComponent implements OnInit {
       this.getSelectedCompetition();
     }
   }
-
-  getSelectedCompetition(): void {
+  /** This method returnsthe current competition and calls the getMatches method */
+  private getSelectedCompetition(): void {
     this.competitionService.getCompetition(this.competitionId).subscribe(
       ((competition: Competition) => {
         this.competition = competition;
@@ -63,8 +63,11 @@ export class TournamentsComponent implements OnInit {
         this.alertService.show(error.toString());
       }));
   }
-
-  getJourneys(): void {
+  /**
+   * This method returns the journeys of the current competition
+   * and calls the getMatches method
+   */
+  private getJourneys(): void {
     this.journeyService.getJourneysCompetition(this.competitionId).subscribe(
       ((journeys: Array<Journey>) => {
         this.journeys = journeys;
@@ -78,8 +81,11 @@ export class TournamentsComponent implements OnInit {
         this.alertService.show(error.toString());
       }));
   }
-
-  getMatches(): void {
+  /**
+   * This method returns the matches of each journey
+   * and calls the getParticipants method
+   */
+  private getMatches(): void {
     this.matchesJourneys = [];
     let journeysCompleted = 0;
     for (let _n = 0; _n < this.journeys.length; _n++) {
@@ -105,8 +111,11 @@ export class TournamentsComponent implements OnInit {
       }));
     }
   }
-
-  getParticipants(): void {
+  /**
+   * This method returns the participants of the current competition
+   * and calls the getTournamentStatus method
+   */
+  private getParticipants(): void {
     this.participants = [];
     if (this.competition.mode === 'Individual') {
       this.competitionService.getStudentsCompetition(this.competition.id)
@@ -140,8 +149,11 @@ export class TournamentsComponent implements OnInit {
       }));
       }
   }
-
-  getTournamentStatus(): void {
+  /**
+   * This method divides the participants between the main tournament,
+   *  the secondary tournament and the eliminated ones
+   */
+  private getTournamentStatus(): void {
 
    this.participantsPrimary = [];
    this.participantsSecondary = [];
@@ -221,5 +233,4 @@ export class TournamentsComponent implements OnInit {
     this.loadingService.hide();
     this.finished = true;
   }
-
 }

@@ -15,10 +15,10 @@ import { Observable } from 'rxjs/Observable';
 })
 export class TeamsComponent implements OnInit {
 
-  competitionId: number;
-  competition: Competition;
-  teams: Team[];
-  allStudents: Student[][];
+  public competitionId: number;
+  public competition: Competition;
+  public teams: Team[];
+  public allStudents: Student[][];
 
   constructor(public alertService: AlertService,
     public utilsService: UtilsService,
@@ -38,7 +38,7 @@ export class TeamsComponent implements OnInit {
     }
   }
 
-  getSelectedCompetition(): void {
+  private getSelectedCompetition(): void {
     this.competitionService.getCompetition(this.competitionId).subscribe(
       ((competition: Competition) => {
         this.competition = competition;
@@ -50,7 +50,7 @@ export class TeamsComponent implements OnInit {
       }));
   }
 
-  getTeams(): void {
+  private getTeams(): void {
     this.teamService.getTeamsCompetition(this.competitionId)
     .subscribe((teams => {
         this.teams = teams,
@@ -62,7 +62,7 @@ export class TeamsComponent implements OnInit {
       }));
   }
 
-  getStudents(): void {
+  private getStudents(): void {
     let countTeams = 0;
     this.allStudents = [];
     for (let _t = 0; _t < this.teams.length; _t++) {

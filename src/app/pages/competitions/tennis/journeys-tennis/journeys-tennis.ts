@@ -5,7 +5,8 @@ import { AppConfig } from '../../../../app.config';
 import { Login, Role, Team, Student, Competition, Journey, Match } from '../../../../shared/models/index';
 import { LoadingService, UtilsService, AlertService, JourneyService,
   CompetitionService, TeamService} from '../../../../shared/services/index';
-  import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 @Component({
   selector: 'app-journeys-tennis',
@@ -14,24 +15,25 @@ import { LoadingService, UtilsService, AlertService, JourneyService,
 })
 export class JourneysTennisComponent implements OnInit {
 
-  show = false;
-  results = false;
-  competitionId: string;
-  competition: Competition;
+  public show: boolean;
+  public results: boolean;
+  public competitionId: string;
+  public competition: Competition;
 
-  journeys = new Array<Journey>();
-  numJourneys: number;
-  dates: String[];
-  datesNoMatches: any[];
+  public journeys = new Array<Journey>();
+  public numJourneys: number;
+  public dates: String[];
+  public datesNoMatches: any[];
 
-  matchesJourneys: Match[][];
-  matchesPrincipal: Match[][];
-  matchesSecondary: Match[][];
-  lastJourney: number;
-  tournaments: String[][];
+  public matchesJourneys: Match[][];
+  public matchesPrincipal: Match[][];
+  public matchesSecondary: Match[][];
+  public lastJourney: number;
+  public tournaments: String[][];
 
   constructor(public alertService: AlertService,
     public utilsService: UtilsService,
+    public translateService: TranslateService,
     public loadingService: LoadingService,
     public competitionService: CompetitionService,
     public journeyService: JourneyService,
@@ -40,6 +42,8 @@ export class JourneysTennisComponent implements OnInit {
     private route: ActivatedRoute) {
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
       this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
+      this.show = false;
+      this.results = false;
      }
 
   ngOnInit() {
@@ -49,8 +53,11 @@ export class JourneysTennisComponent implements OnInit {
       this.getSelectedCompetition();
     }
   }
-
-  getSelectedCompetition(): void {
+  /**
+   * This method returns the selected competition by id
+   * and calls the getJourneys method
+   */
+  private getSelectedCompetition(): void {
     this.competitionService.getCompetition(this.competitionId).subscribe(
       ((competition: Competition) => {
         this.competition = competition;
@@ -61,8 +68,11 @@ export class JourneysTennisComponent implements OnInit {
         this.alertService.show(error.toString());
       }));
   }
-
-  getJourneys(): void {
+  /**
+   * This method returns the journeys of the current competition
+   * and calls the getMatches method
+   */
+  private getJourneys(): void {
     this.journeyService.getJourneysCompetition(this.competitionId).subscribe(
       ((journeys: Array<Journey>) => {
         this.journeys = journeys;
@@ -77,8 +87,11 @@ export class JourneysTennisComponent implements OnInit {
         this.alertService.show(error.toString());
       }));
   }
-
-  getMatches(): void {
+  /**
+   * This method returns the matches of each journey
+   * and calls the getDatesAndResults method
+   */
+  private getMatches(): void {
     let countJourneys = 0;
     this.matchesJourneys = [];
     for (let _j = 0; _j < this.journeys.length; _j++) {
@@ -102,8 +115,11 @@ export class JourneysTennisComponent implements OnInit {
       }));
     }
   }
-
-  getDatesAndResults(): void {
+  /**
+   * This method make the date and results of each journey
+   * and the rest of content to show in the journeys-tennis page
+   */
+  private getDatesAndResults(): void {
     this.dates = [];
     this.datesNoMatches = [];
     this.tournaments = [];
@@ -111,18 +127,22 @@ export class JourneysTennisComponent implements OnInit {
     for (let _j = 0; _j < this.journeys.length; _j++) {
       if ( _j <= this.lastJourney) {
       this.journeys[_j].date === null ?
-        this.dates[_j] = 'No establecida' :
+        this.dates[_j] = this.translateService.instant('TOURNAMENTS.NOT_ESTABLISHED') :
         this.dates[_j] = this.datePipe.transform(this.journeys[_j].date, 'dd-MM-yyyy');
       } else {
         this.journeys[_j].date === null ?
-        this.datesNoMatches.push({date: 'No establecida', number: _j + 1}) :
+        this.datesNoMatches.push({date: this.translateService.instant('TOURNAMENTS.NOT_ESTABLISHED'), number: _j + 1}) :
         this.datesNoMatches.push({date: this.datePipe.transform(this.journeys[_j].date, 'dd-MM-yyyy'), number: _j + 1});
         if ((_j + 1) % 2 === 0 && _j !== this.journeys.length - 1) { // si es par y no es el final participa en ambos
-          this.tournaments.push(['Torneo principal: Participa', 'Torneo secundario: Participa']);
+          this.tournaments.push([
+            this.translateService.instant('TOURNAMENTS.PRINCIPAL') + ': ' +  this.translateService.instant('TOURNAMENTS.PARTICIPATES'),
+            this.translateService.instant('TOURNAMENTS.SECONDARY') + ': ' +  this.translateService.instant('TOURNAMENTS.PARTICIPATES')]);
         } else if ((_j + 1) % 2 !== 0) {
-          this.tournaments.push(['Torneo principal: No participa', 'Torneo secundario: Participa']);
+          this.tournaments.push([
+            this.translateService.instant('TOURNAMENTS.PRINCIPAL') + ': ' +  this.translateService.instant('TOURNAMENTS.DONT_PARTICIPATES'),
+            this.translateService.instant('TOURNAMENTS.SECONDARY') + ': ' +  this.translateService.instant('TOURNAMENTS.PARTICIPATES')]);
         } else if ( _j === this.journeys.length - 1) {
-          this.tournaments.push(['FINAL']);
+          this.tournaments.push([this.translateService.instant('TOURNAMENTS.FINAL')]);
         }
       }
     }
@@ -141,11 +161,9 @@ export class JourneysTennisComponent implements OnInit {
           this.matchesJourneys[_j][_m].result = this.matchesJourneys[_j][_m].namePlayerTwo;
         }
         if ((_j + 1) % 2 === 0) { // si es par participa en ambos
-          if ( _m < this.matchesJourneys[_j].length / 2) {
-          this.matchesPrincipal[_j].push(this.matchesJourneys[_j][_m]);
-          } else {
+          _m < this.matchesJourneys[_j].length / 2 ?
+          this.matchesPrincipal[_j].push(this.matchesJourneys[_j][_m]) :
           this.matchesSecondary[_j].push(this.matchesJourneys[_j][_m]);
-          }
         } else if ((_j + 1) % 2 !== 0 && _j !== 0) { // si es impar participa solo en el secundario excepto en el primer partido
           this.matchesSecondary[_j].push(this.matchesJourneys[_j][_m]);
         } else if ( _j === 0) {
@@ -157,7 +175,7 @@ export class JourneysTennisComponent implements OnInit {
     this.loadingService.hide();
   }
 
-  showMore() {
+  private showMore() {
     this.show === true ? this.show = false : this.show = true;
   }
 }

@@ -62,8 +62,7 @@
     </div>
     <div *ngIf="datesNoMatches">
       <div *ngIf="datesNoMatches.length !==0">
-        <h6 *ngIf="!show">{{ 'TENNIS.MORE_JOURNEY1' | translate }}. {{ 'TENNIS.MORE_JOURNEY2' | translate }}:
-        </h6>
+        <h6 *ngIf="!show">{{ 'TENNIS.MORE_JOURNEY1' | translate }}. {{ 'TENNIS.MORE_JOURNEY2' | translate }}:</h6>
         <h6 *ngIf="show">{{ 'TENNIS.LESS_JOURNEY' | translate }}:</h6>
         <button mat-fab color="warn" *ngIf="!show" (click)="showMore()"><mat-icon>add</mat-icon></button>
         <button mat-fab color="warn" *ngIf="show" (click)="showMore()"><mat-icon>remove</mat-icon></button>

@@ -43,19 +43,23 @@
   </mat-step>
 
 
-  <mat-step label="Participantes" [stepControl]="participantsFormGroup" editable="false">
-      <p>{{ 'COMPETITION_CREATION.PARTICIPANT' | translate }}</p>
-      <p>{{ 'COMPETITION_CREATION.MIN_2' | translate }}</p>
-      <mat-selection-list #list>
-          <mat-list-option *ngFor="let participant of participants"
+  <mat-step label="Participantes" 
+            [stepControl]="participantsFormGroup" editable="false">
+    <p>{{ 'COMPETITION_CREATION.PARTICIPANT' | translate }}</p>
+    <p>{{ 'COMPETITION_CREATION.MIN_2' | translate }}</p>
+    <mat-selection-list #list>
+      <mat-list-option *ngFor="let participant of participants"
            [selected]="participant.selected" [value]="participant.id">
-              {{participant.name}} {{participant.surname}}
-          </mat-list-option>
-      </mat-selection-list>
-       <div>
-       <button mat-raised-button color="primary" matStepperNext (click)="participantStep(list)"
-       [disabled]="list.selectedOptions.selected.length < 2">{{ 'COMPETITIONS.NEXT' | translate }}</button>
-      </div>
+            {{participant.name}} {{participant.surname}}
+      </mat-list-option>
+    </mat-selection-list>
+    <div>
+      <button mat-raised-button color="primary" matStepperNext 
+        (click)="participantStep(list)"
+        [disabled]="list.selectedOptions.selected.length < 2">
+        {{ 'COMPETITIONS.NEXT' | translate }}
+      </button>
+    </div>
   </mat-step>
 
 

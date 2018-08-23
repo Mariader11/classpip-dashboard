@@ -80,6 +80,9 @@ table tr:nth-child(even) {
   background-color: whitesmoke;
 }
 
+button { 
+  margin: auto 46%; 
+}
 
 .result {
   background: khaki;
@@ -91,6 +94,3 @@ table tr:nth-child(even) {
    width: 30%;
 }
 
-button {
-  margin: auto 46%;
-}

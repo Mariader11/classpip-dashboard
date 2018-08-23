@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormsModule, FormBuilder, FormGroup, FormArray, Validators, ControlValueAccessor} from '@angular/forms';
+import { FormControl, FormsModule, FormBuilder, FormGroup, FormArray, Validators, ControlValueAccessor} from '@angular/forms';
 import { MatDialog } from '@angular/material';
-// Para linkear lo de :id
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-//
 
 import { AppConfig } from '../../../app.config';
 import { Login, Group, Role, Competition, Journey, Match } from '../../../shared/models/index';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 import { LoadingService, UtilsService, GroupService, AlertService, CompetitionService,
 JourneyService, MatchesService } from '../../../shared/services/index';
 import { Observable } from 'rxjs/Observable';
 import { DeleteCompetitionComponent } from '../delete-competition/delete-competition';
+
 
 @Component({
   selector: 'app-league',
@@ -19,51 +19,47 @@ import { DeleteCompetitionComponent } from '../delete-competition/delete-competi
 })
 export class LeagueComponent implements OnInit {
  // Html
-  show = false;
-  option = 'Manualmente';
-  teams: boolean;
-  matchesUploaded = false;
-  finished = false;
+  public show: boolean;
+  public option: string;
+  public matchesUploaded: boolean;
+  public finished: boolean;
   // Forms
-  journeysFormGroup: FormGroup;
-  informationFormGroup: FormGroup;
-  resultsFormGroup: FormGroup;
+  public journeysFormGroup: FormGroup;
+  public informationFormGroup: FormGroup;
+  public resultsFormGroup: FormGroup;
   // Get methods
-  competitionId: number;
-  competition$: Observable<Competition>;
-  competition: Competition;
-  information: string;
-  journeys = new Array<Journey>();
+  public competitionId: number;
+  public competition$: Observable<Competition>;
+  public competition: Competition;
+  public information: string;
+  public journeys = new Array<Journey>();
   public matchesJourneys: Match[][];
   //
-  countJourneys: number;
-  countCompleted: number;
-  notCompletedJourneys = new Array<Journey>();
-  journeyMatch = new Journey();
+  public countJourneys: number;
+  public countCompleted: number;
+  public notCompletedJourneys = new Array<Journey>();
+  public journeyMatch = new Journey();
 
-  results: Array<any>;
-  winner: any;
-  newInformation: any;
+  public results: Array<any>;
+  public winner: any;
+  public newInformation: any;
 
-  matches = new Array<Match>();
-  matchGhost = new Match();
+  public matches = new Array<Match>();
+  public matchGhost = new Match();
 
   public showMatches: any[][];
-  arrayMatch: Array<any>;
+  public arrayMatch: Array<any>;
 
-
-  numberPostMatches: number;
-  journeyIndex: number;
-  clicked = false;
-  descanso: number;
-
-
-  url: string;
+  public journeyIndex: number;
+  public clicked: boolean;
+  public break: number;
+  public url: string;
 
   constructor(public alertService: AlertService,
     public utilsService: UtilsService,
     public loadingService: LoadingService,
     public groupService: GroupService,
+    public translateService: TranslateService,
     public journeyService: JourneyService,
     public competitionService: CompetitionService,
     private route: ActivatedRoute,
@@ -74,6 +70,11 @@ export class LeagueComponent implements OnInit {
 
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
       this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
+      this.option = 'Manualmente';
+      this.matchesUploaded = false;
+      this.finished = false;
+      this.clicked = false;
+      this.show = false;
       this.matchesJourneys = [];
       this.showMatches = [];
     }
@@ -109,7 +110,6 @@ export class LeagueComponent implements OnInit {
         ((competition: Competition) => {
           this.competition = competition;
           this.information = competition.information;
-          this.competition.mode === 'Equipos' ? this.teams = true : this.teams = false;
           if (this.utilsService.role === Role.TEACHER) {
             this.getJourneys();
           } else {
@@ -173,10 +173,8 @@ export class LeagueComponent implements OnInit {
       }
     }
 
-
    loadResultSection() {
       if ( this.clicked === false ) {
-    // RESULTS SECTION
         this.loadingService.show();
         this.clicked = true;
     // Searching the lower number of journey not completed
@@ -189,24 +187,21 @@ export class LeagueComponent implements OnInit {
       }
      this.journeyIndex = this.journeys.findIndex(((journey) => journey.id === this.journeyMatch.id));
      this.matches = this.matchesJourneys[this.journeyIndex];
-
-     // Construyendo los enfrentamientos a mostrar
-
+      // Building matches to show
       for (let _m = 0; _m < this.matches.length; _m++) {
         if (this.matches[_m].namePlayerOne !== 'Ghost' && this.matches[_m].namePlayerTwo !== 'Ghost') {
-        this.arrayMatch = [this.matches[_m].namePlayerOne, 'Empate', this.matches[_m].namePlayerTwo];
+        this.arrayMatch = [this.matches[_m].namePlayerOne,
+        this.translateService.instant('CLASSIFICATION.DRAW2') , this.matches[_m].namePlayerTwo];
         this.showMatches[_m] = [];
         this.showMatches[_m] = this.arrayMatch;
        } else {
-        this.descanso = _m;
+        this.break = _m;
         this.matchGhost = this.matches[_m];
       }
      }
-     if (this.descanso !== undefined) {
-     this.showMatches.splice(this.descanso, 1); // y ocultando el enfrentamiento del descanso
+     if (this.break !== undefined) {
+     this.showMatches.splice(this.break, 1);
      }
-     // tslint:disable-next-line:no-console
-     console.log(this.showMatches);
        // Add the results of each match to section: introduce the results section
         for (let _a = 0; _a < this.showMatches.length - 1 ; _a++) {
         let results = <FormArray>this.resultsFormGroup.get('results');
@@ -245,7 +240,7 @@ export class LeagueComponent implements OnInit {
       this.loadingService.show();
       this.journeyService.putJourney(value).subscribe();
       this.loadingService.hide();
-      this.alertService.show('Jornada actualizada');
+      this.alertService.show(this.translateService.instant('COMPETITION_CREATION.UPDATED_JOURNEY'));
     }
 
     onSubmitInformation(value: string) {
@@ -254,7 +249,7 @@ export class LeagueComponent implements OnInit {
      this.newInformation = value;
      this.competition.information = this.newInformation.information;
      this.loadingService.hide();
-     this.alertService.show('Información actualizada');
+     this.alertService.show(this.translateService.instant('COMPETITION_CREATION.UPDATED_INFORMATION'));
     }
 
     onSubmitResults(value) {
@@ -267,37 +262,33 @@ export class LeagueComponent implements OnInit {
           };
         }
         if ( this.matchGhost.playerOne === 0 || this.matchGhost.playerTwo === 0) {
-          this.results.splice(this.descanso, 0, {winner: 'Descanso'} );
+          this.results.splice(this.break, 0, { winner: 'Descanso'} );
         }
       } else {
         this.results = value.results;
         if ( this.matchGhost.playerOne === 0 || this.matchGhost.playerTwo === 0) {
-         this.results.splice(this.descanso, 0, {winner: 'Descanso'} );
+         this.results.splice(this.break, 0, {winner: 'Descanso'} );
         }
       }
-      this.numberPostMatches = 0;
 
+      let numberPostMatches = 0;
       for (let _m = 0; _m < this.results.length; _m++) {
         this.winner = {winner: 0 };
         if ( this.matches[_m].namePlayerOne === this.results[_m].winner ) {
-          this.matches[_m].winner = this.matches[_m].playerOne;  // estas lineas se pueden borrar, pura comprobacion CREO
           this.winner.winner = this.matches[_m].playerOne;
         } else if (this.matches[_m].namePlayerTwo === this.results[_m].winner ) {
-          this.matches[_m].winner = this.matches[_m].playerTwo;  // estas lineas se pueden borrar, pura comprobacion
           this.winner.winner = this.matches[_m].playerTwo;
-        } else if ('Empate' === this.results[_m].winner) {
-          this.matches[_m].winner = 1;  // estas lineas se pueden borrar, pura comprobacion
+        } else if ( 'Empate' === this.results[_m].winner) {
           this.winner.winner = 1;
         } else if ('Descanso' === this.results[_m].winner) {
-          this.matches[_m].winner = 2;  // estas lineas se pueden borrar, pura comprobacion
           this.winner.winner = 2;
         }
         this.matchesService.putWinner(this.winner, this.matches[_m].id)
         .subscribe( (match => {
-          this.numberPostMatches ++;
-          if (this.numberPostMatches === this.matchesJourneys[0].length ) {
+          numberPostMatches ++;
+          if (numberPostMatches === this.matchesJourneys[0].length ) {
             this.loadingService.hide();
-            this.alertService.show('Todos los resultados han sido registrados');
+            this.alertService.show(this.translateService.instant('COMPETITION_CREATION.UPDATED_RESULTS'));
             this.matchesUploaded = true;
           }
         }),

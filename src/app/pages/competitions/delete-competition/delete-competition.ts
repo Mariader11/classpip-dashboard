@@ -15,10 +15,8 @@ import { Observable } from 'rxjs/Observable';
 })
 export class DeleteCompetitionComponent implements OnInit {
 
-  competition: Competition;
-  journeys: Journey[];
-
-  journeysDeleted: number;
+  public competition: Competition;
+  public journeys: Journey[];
 
   constructor(
     public alertService: AlertService,
@@ -55,12 +53,12 @@ export class DeleteCompetitionComponent implements OnInit {
   }
 
   deleteMatches() {
-    this.journeysDeleted = 0;
+    let journeysDeleted = 0;
     for (let _j = 0; _j < this.journeys.length; _j++) {
       this.competitionService.deleteMatchesCompetition(+this.journeys[_j].id)
       .subscribe( (response => {
-        this.journeysDeleted = this.journeysDeleted + 1;
-        if (this.journeysDeleted === this.journeys.length) {
+        journeysDeleted = journeysDeleted + 1;
+        if (journeysDeleted === this.journeys.length) {
           this.deleteJourneys();
         }
       }),

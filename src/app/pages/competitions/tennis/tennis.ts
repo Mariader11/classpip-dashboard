@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
 import {FormControl, FormsModule, FormBuilder, FormGroup, FormArray, Validators, ControlValueAccessor} from '@angular/forms';
 import { MatDialog } from '@angular/material';
-// Para linkear lo de :id
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-//
 
 import { AppConfig } from '../../../app.config';
 import { Login, Group, Role, Competition, Journey, Match } from '../../../shared/models/index';
@@ -12,6 +9,7 @@ import { LoadingService, UtilsService, GroupService, AlertService, CompetitionSe
 JourneyService, MatchesService } from '../../../shared/services/index';
 import { Observable } from 'rxjs/Observable';
 import { DeleteCompetitionComponent } from '../delete-competition/delete-competition';
+import { TranslateService } from 'ng2-translate/ng2-translate';
 
 @Component({
   selector: 'app-tennis',
@@ -21,54 +19,48 @@ import { DeleteCompetitionComponent } from '../delete-competition/delete-competi
 export class TennisComponent implements OnInit {
 
   // Html
-  show = false;
-  option = 'Manualmente';
-  teams: boolean;
-  matchesUploaded = false;
-  finished = false;
+  public show: boolean; // information
+  public option: string; // random or manually
+  public matchesUploaded: boolean;
+  public finished: boolean;
   // Forms
-  journeysFormGroup: FormGroup;
-  informationFormGroup: FormGroup;
-  resultsFormGroup: FormGroup;
+  public journeysFormGroup: FormGroup;
+  public informationFormGroup: FormGroup;
+  public resultsFormGroup: FormGroup;
   // Get methods
-  competitionId: number;
-  competition: Competition;
-  information: string;
-  journeys = new Array<Journey>();
-  matchesJourneys: Match[][];
-  lastJourney: number;
-  completed = false;
+  public competitionId: number;
+  public competition: Competition;
+  public information: string;
+  public journeys = new Array<Journey>();
+  public matchesJourneys: Match[][];
+  public lastJourney: number;
   // Expansion panels
-  notCompletedJourneys = new Array<Journey>();
-  newInformation: any;
-  clicked = false;
-  matches = new Array<Match>();
-  showMatchesPrimary: String[][];
-  showMatchesIdPrimary: Number[][];
-  ghostsPrimary: Array<Array<number>>;
-  showMatchesSecondary: String[][];
-  showMatchesIdSecondary: Number[][];
-  ghostsSecondary: Array<Array<number>>;
+  public notCompletedJourneys = new Array<Journey>();
+  public newInformation: any;
+  public clicked: boolean;
+  public matches = new Array<Match>();
+  public showMatchesPrimary: String[][];
+  public showMatchesIdPrimary: Number[][];
+  public ghostsPrimary: Array<Array<number>>;
+  public showMatchesSecondary: String[][];
+  public showMatchesIdSecondary: Number[][];
+  public ghostsSecondary: Array<Array<number>>;
   // Submit results
-  results: any[];
-  results2: any[];
-  winner: any;
-  matchesIdPrimary: Array<number>;
-  matchesIdSecondary: Array<number>;
+  public results: any[];
+  public results2: any[];
+  public matchesIdPrimary: Array<number>;
+  public matchesIdSecondary: Array<number>;
   // Next journey
-  postMatches: Array<Match>;
-  principalMatches: Array<number>;
-  secondaryMatches: Array<number>;
-  submitMatches: Array<number>;
-  secondary: Array<number>;
-  countMatches: number;
-  match1: any;
-  founded: boolean;
-
+  public postMatches: Array<Match>;
+  public principalMatches: Array<number>;
+  public secondaryMatches: Array<number>;
+  public submitMatches: Array<number>;
+  public match1: any;
 
   constructor(public alertService: AlertService,
     public utilsService: UtilsService,
     public loadingService: LoadingService,
+    public translateService: TranslateService,
     public groupService: GroupService,
     public journeyService: JourneyService,
     public competitionService: CompetitionService,
@@ -79,6 +71,11 @@ export class TennisComponent implements OnInit {
     private dialog?: MatDialog) {
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
       this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
+      this.show = false;
+      this.option = 'Manualmente';
+      this.matchesUploaded = false;
+      this.finished = false;
+      this.clicked = false;
      }
 
   ngOnInit() {
@@ -116,9 +113,6 @@ export class TennisComponent implements OnInit {
       ((competition: Competition) => {
         this.competition = competition;
         this.information = competition.information;
-        // tslint:disable-next-line:no-console
-        console.log(this.competition);
-        this.competition.mode === 'Equipos' ? this.teams = true : this.teams = false;
         if (this.utilsService.role === Role.TEACHER) {
           this.getJourneys();
         } else {
@@ -187,7 +181,7 @@ export class TennisComponent implements OnInit {
     if (!this.clicked) {
       this.clicked = true;
       this.loadingService.show();
-      // Construyendo los enfrentamientos a mostrar
+      // Building matches to show
       this.showMatchesPrimary = [];
       this.showMatchesIdPrimary = [];
       this.ghostsPrimary = [];
@@ -196,30 +190,26 @@ export class TennisComponent implements OnInit {
       this.showMatchesIdSecondary = [];
       this.ghostsSecondary = [];
       this.matchesIdSecondary = [];
-      if ((this.lastJourney + 1) % 2 !== 0) { // jornada impar
-        if (this.lastJourney === 0) {
-          for (let _m = 0; _m < this.matches.length; _m++) {
+      for (let _m = 0; _m < this.matches.length; _m++) {
+        if ((this.lastJourney + 1) % 2 !== 0) { // jornada impar
+          if (this.lastJourney === 0) {
             if (this.matches[_m].namePlayerOne !== 'Ghost' && this.matches[_m].namePlayerTwo !== 'Ghost') {
-            this.showMatchesIdPrimary.push([this.matches[_m].playerOne, this.matches[_m].playerTwo]);
-            this.showMatchesPrimary.push([this.matches[_m].namePlayerOne, this.matches[_m].namePlayerTwo]);
-            this.matchesIdPrimary.push(+this.matches[_m].id);
-            } else {
-            this.ghostsPrimary.push([this.matches[_m].playerOne, this.matches[_m].playerTwo, +this.matches[_m].id]);
-            }
-          }
-        } else {
-          for (let _m = 0; _m < this.matches.length; _m++) {
+              this.showMatchesIdPrimary.push([this.matches[_m].playerOne, this.matches[_m].playerTwo]);
+              this.showMatchesPrimary.push([this.matches[_m].namePlayerOne, this.matches[_m].namePlayerTwo]);
+              this.matchesIdPrimary.push(+this.matches[_m].id);
+              } else {
+              this.ghostsPrimary.push([this.matches[_m].playerOne, this.matches[_m].playerTwo, +this.matches[_m].id]);
+              }
+          } else {
             if (this.matches[_m].namePlayerOne !== 'Ghost' && this.matches[_m].namePlayerTwo !== 'Ghost') {
-            this.showMatchesIdSecondary.push([this.matches[_m].playerOne, this.matches[_m].playerTwo]);
-            this.showMatchesSecondary.push([this.matches[_m].namePlayerOne, this.matches[_m].namePlayerTwo]);
-            this.matchesIdSecondary.push(+this.matches[_m].id);
-            } else {
-            this.ghostsSecondary.push([this.matches[_m].playerOne, this.matches[_m].playerTwo, +this.matches[_m].id]);
-            }
+              this.showMatchesIdSecondary.push([this.matches[_m].playerOne, this.matches[_m].playerTwo]);
+              this.showMatchesSecondary.push([this.matches[_m].namePlayerOne, this.matches[_m].namePlayerTwo]);
+              this.matchesIdSecondary.push(+this.matches[_m].id);
+              } else {
+              this.ghostsSecondary.push([this.matches[_m].playerOne, this.matches[_m].playerTwo, +this.matches[_m].id]);
+              }
           }
-        }
-    } else {   // para las jornadas pares tendremos partidos en principal y secundario
-        for (let _m = 0; _m < this.matches.length; _m++) {
+        } else {   // journeys with principal and secondary matches
           if ( _m < this.matches.length / 2 ) {
             if (this.matches[_m].namePlayerOne !== 'Ghost' && this.matches[_m].namePlayerTwo !== 'Ghost') {
             this.showMatchesIdPrimary.push([this.matches[_m].playerOne, this.matches[_m].playerTwo]);
@@ -238,7 +228,7 @@ export class TennisComponent implements OnInit {
             }
           }
         }
-       }
+      }
        for (let _a = 0; _a < this.showMatchesPrimary.length - 1 ; _a++) {
         let results = <FormArray>this.resultsFormGroup.get('results');
         results.push(this._formBuilder.group({
@@ -259,10 +249,6 @@ export class TennisComponent implements OnInit {
         let secondary = <FormArray>this.resultsFormGroup.get('results2');
         secondary.removeAt(0);
       }
-              // tslint:disable-next-line:no-console
-              console.log(this.showMatchesPrimary);
-              // tslint:disable-next-line:no-console
-              console.log(this.showMatchesSecondary);
   }
   this.loadingService.hide();
   }
@@ -271,7 +257,7 @@ export class TennisComponent implements OnInit {
     this.loadingService.show();
     this.journeyService.putJourney(value).subscribe();
     this.loadingService.hide();
-    this.alertService.show('Jornada actualizada');
+    this.alertService.show(this.translateService.instant('COMPETITION_CREATION.UPDATED_JOURNEY'));
   }
 
   onSubmitInformation(value: string) {
@@ -280,7 +266,7 @@ export class TennisComponent implements OnInit {
     this.newInformation = value;
     this.competition.information = this.newInformation.information;
     this.loadingService.hide();
-    this.alertService.show('Información actualizada');
+    this.alertService.show(this.translateService.instant('COMPETITION_CREATION.UPDATED_INFORMATION'));
   }
 
   onSubmitResults(value) {
@@ -295,13 +281,13 @@ export class TennisComponent implements OnInit {
           winner: this.showMatchesIdPrimary[_m][Math.floor(Math.random() * 2) + 0]
         };
       }
-       // añado los fantasma del torneo principal con el winner donde no sea el ghost
+       // adding ghosts of principal tournament with the winner no ghost
       for (let _g = 0; _g < this.ghostsPrimary.length; _g++) {
        this.ghostsPrimary[_g][0] === 0 ?
        this.results.push({ winner: this.ghostsPrimary[_g][1] }) : this.results.push({ winner: this.ghostsPrimary[_g][0] });
-       this.matchesIdPrimary.push(this.ghostsPrimary[_g][2]); // añado el id de los partidos fantasma
+       this.matchesIdPrimary.push(this.ghostsPrimary[_g][2]); // adding id ghost matches
       }
-      // Lo mismo pal secundario
+      // The same with the secondary tournament
       for (let _v = 0; _v < this.showMatchesIdSecondary.length; _v++) {
         this.results2[_v] = {
           winner: this.showMatchesIdSecondary[_v][Math.floor(Math.random() * 2) + 0]
@@ -310,23 +296,23 @@ export class TennisComponent implements OnInit {
       for (let _g = 0; _g < this.ghostsSecondary.length; _g++) {
         this.ghostsSecondary[_g][0] === 0 ?
         this.results2.push({ winner: this.ghostsSecondary[_g][1] }) : this.results2.push({ winner: this.ghostsSecondary[_g][0] });
-        this.matchesIdSecondary.push(this.ghostsSecondary[_g][2]); // añado el id de los partidos fantasma
+        this.matchesIdSecondary.push(this.ghostsSecondary[_g][2]); // id ghost mtches
       }
     } else {
-      // convierto el nombre en { winner: 10000 }
+      // converts the name: { winner: 10000 }
       for (let _v = 0; _v < value.results.length; _v++) {
         let index = this.showMatchesPrimary[_v].indexOf(value.results[_v].winner);
         this.results[_v] = { winner: this.showMatchesIdPrimary[_v][index] };
       }
-      // añado los fantasma del torneo principal con el winner donde no sea el ghost
+      // adding ghosts of principal tournament with the winner no ghost
       for (let _g = 0; _g < this.ghostsPrimary.length; _g++) {
       this.ghostsPrimary[_g][0] === 0 ?
       this.results.push({ winner: this.ghostsPrimary[_g][1] }) : this.results.push({ winner: this.ghostsPrimary[_g][0] });
-      this.matchesIdPrimary.push(this.ghostsPrimary[_g][2]); // añado el id de los partidos fantasma
+      this.matchesIdPrimary.push(this.ghostsPrimary[_g][2]); // id ghost matches
       }
-      //  aqui ya tendriamos la primera parte de results montada (torneo principal) tanto con ghost como sin
+      // here we have the firt part with and without ghosts
 
-      // Lo mismo pal secundario
+      // the same for the secondary tournament
       for (let _v = 0; _v < value.results2.length; _v++) {
       let index = this.showMatchesSecondary[_v].indexOf(value.results2[_v].winner);
       this.results2[_v] = { winner: this.showMatchesIdSecondary[_v][index] };
@@ -334,7 +320,7 @@ export class TennisComponent implements OnInit {
       for (let _g = 0; _g < this.ghostsSecondary.length; _g++) {
       this.ghostsSecondary[_g][0] === 0 ?
       this.results2.push({ winner: this.ghostsSecondary[_g][1] }) : this.results2.push({ winner: this.ghostsSecondary[_g][0] });
-      this.matchesIdSecondary.push(this.ghostsSecondary[_g][2]); // añado el id de los partidos fantasma
+      this.matchesIdSecondary.push(this.ghostsSecondary[_g][2]); // id ghost matches
       }
     }
 
@@ -347,7 +333,7 @@ export class TennisComponent implements OnInit {
         this.postMatches.push(match);
         if (this.postMatches.length === allResults.length ) {
         this.postMatches.sort(function (a, b) { return (+a.id - +b.id); });
-        this.alertService.show('Todos los resultados han sido registrados');
+        this.alertService.show(this.translateService.instant('COMPETITION_CREATION.UPDATED_RESULTS'));
         this.matchesUploaded = true;
         if ((this.lastJourney + 1) !== this.journeys.length) {
           this.postNextJourney();
@@ -365,7 +351,7 @@ export class TennisComponent implements OnInit {
     this.principalMatches = [];
     this.secondaryMatches = [];
     this.submitMatches = [];
-    if ((this.lastJourney + 1) % 2 !== 0) { // si la jornada es impar la siguiente tendra en ambos torneos
+    if ((this.lastJourney + 1) % 2 !== 0) { // odd journey: the next journey will have 2 tournaments
      if (this.lastJourney === 0) {
       for (let _m = 0; _m < this.postMatches.length; _m++) {
         if (this.postMatches[_m].winner === this.postMatches[_m].playerOne) {
@@ -389,7 +375,7 @@ export class TennisComponent implements OnInit {
       }
      }
       this.submitMatches = this.principalMatches.concat(this.secondaryMatches);
-    } else if ( (this.lastJourney + 1) % 2 === 0 ) { // si es par
+    } else if ( (this.lastJourney + 1) % 2 === 0 ) {
       for (let _m = 0; _m < this.postMatches.length; _m++) {
         if ( _m < (this.postMatches.length / 2)) {
           this.postMatches[_m].winner === this.postMatches[_m].playerOne ?
@@ -404,7 +390,7 @@ export class TennisComponent implements OnInit {
       this.submitMatches = this.secondaryMatches;
     }
 
-    this.countMatches = 0;
+    let countMatches = 0;
 
     for (let _s = 0; _s < this.secondaryMatches.length; _s += 2) {
      this.match1 = {
@@ -415,18 +401,18 @@ export class TennisComponent implements OnInit {
        // POST MATCHES
        this.matchesService.postMatch(this.match1)
        .subscribe( (match => {
-         this.countMatches++;
-         if ( this.countMatches === (this.secondaryMatches.length / 2)) {
+         countMatches++;
+         if ( countMatches === (this.secondaryMatches.length / 2)) {
           if ((this.lastJourney + 1) % 2 !== 0) {
             this.postSecondaryTournament();
           } else {
             this.loadingService.hide();
-            this.alertService.show('Los enfrentamientos de la siguiente jornada se han actualizado correctamente');
+            this.alertService.show(this.translateService.instant('TENNIS.UPDATED_MATCHES'));
           }
          }
          if ((this.lastJourney + 1) === (this.journeys.length - 1)) {
           this.loadingService.hide();
-          this.alertService.show('El enfrentamiento de la siguiente jornada se ha actualizado correctamente');
+          this.alertService.show(this.translateService.instant('TENNIS.UPDATED_MATCH'));
          }
        }),
        ((error: Response) => {
@@ -437,7 +423,7 @@ export class TennisComponent implements OnInit {
    }
 
    postSecondaryTournament() {
-    this.countMatches = 0;
+    let countMatches = 0;
     for (let _s = 0; _s < this.secondaryMatches.length; _s += 2) {
       this.match1 = {
         playerOne : +this.secondaryMatches[_s],
@@ -447,10 +433,10 @@ export class TennisComponent implements OnInit {
         // POST MATCHES
         this.matchesService.postMatch(this.match1)
         .subscribe( (match => {
-          this.countMatches++;
-          if ( this.countMatches === (this.secondaryMatches.length / 2)) {
+          countMatches++;
+          if ( countMatches === (this.secondaryMatches.length / 2)) {
              this.loadingService.hide();
-             this.alertService.show('Los enfrentamientos de la siguiente jornada se han actualizado correctamente');
+             this.alertService.show(this.translateService.instant('TENNIS.UPDATED_MATCHES'));
           }
         }),
         ((error: Response) => {

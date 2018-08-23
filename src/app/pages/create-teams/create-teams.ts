@@ -14,19 +14,15 @@ import { Response } from '@angular/http/src/static_response';
 })
 export class CreateTeamsComponent implements OnInit {
 
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  groups = [];
-  groupId: string;
-  team: any;
-  teams = new Array();
+  public firstFormGroup: FormGroup;
+  public secondFormGroup: FormGroup;
+  public show = 1;
+  public groups = [];
+  public team: any;
+  public teams = new Array();
 
-  students = new Array<Student>();
-  numStudents: number;
-
-  relTeamStudent: Response;
-
-  show = 1;
+  public students = new Array<Student>();
+  public numStudents: number;
 
   constructor( public alertService: AlertService,
     public utilsService: UtilsService,
@@ -50,9 +46,6 @@ export class CreateTeamsComponent implements OnInit {
         })
       ])
     });
-    // tslint:disable-next-line:no-console
-    console.log(this.firstFormGroup);
-
     this.secondFormGroup = this._formBuilder.group({
       teamsId: this._formBuilder.array([
         this._formBuilder.group({
@@ -60,8 +53,6 @@ export class CreateTeamsComponent implements OnInit {
         })
       ])
     });
-       // tslint:disable-next-line:no-console
-       console.log(this.secondFormGroup);
 
     let teams = <FormArray>this.firstFormGroup.get('teams');
     teams.push(this._formBuilder.group({
@@ -80,28 +71,23 @@ export class CreateTeamsComponent implements OnInit {
           this.alertService.show(error.toString());
         }));
     }
-
   }
-
-  onSubmit(value: any) {
-
+    /**
+   * This method submits the list of teams with the group
+   * and gets the students for the next step
+   */
+  onSubmit(value) {
     this.loadingService.show();
-    this.groupId = value.groupId;
-    // tslint:disable-next-line:no-console
-    console.log(value);
-
         for (let _m = 0; _m < (value.teams.length); _m++) {
          this.team = {
           name: value.teams[_m].name,
-          groupId : value.groupId
+          groupId: value.groupId
           };
           this.teamService.postTeam(this.team)
           .subscribe( (team => {
            this.teams.push(team);
            if ( this.teams.length === value.teams.length - 1 ) {
             this.show = this.show + 1;
-              // tslint:disable-next-line:no-console
-              console.log(this.teams);
            }
            this.loadingService.hide();
             }),
@@ -110,15 +96,11 @@ export class CreateTeamsComponent implements OnInit {
             this.alertService.show(error.toString());
             }));
         }
-
-
-        // GET STUDENTS of the group
-      this.groupService.getMyGroupStudents(this.groupId).subscribe(
+      // GET STUDENTS of the group
+      this.groupService.getMyGroupStudents(value.groupId).subscribe(
       ( (students: Array<Student>) => {
         this.students = students;
         this.numStudents = this.students.length;
-        // tslint:disable-next-line:no-console
-        console.log(this.students);
         for (let _n = 0; _n < this.numStudents - 1; _n++) {
           let teamsId = <FormArray>this.secondFormGroup.get('teamsId');
           teamsId.push(this._formBuilder.group({
@@ -134,22 +116,15 @@ export class CreateTeamsComponent implements OnInit {
       }));
 
   }
-
-  onSubmit2(value: any) {
-
+    /**
+   * This method submits the relation of each student with a team
+   */
+  onSubmit2(value) {
     this.loadingService.show();
-
       for ( let _s = 0; _s < this.numStudents; _s++ ) {
       this.teamService.relTeamStudent(value.teamsId[_s].teamId, this.students[_s].id).subscribe(
         ( res => {
-          this.relTeamStudent = res;
-          if ( _s === this.numStudents - 1 ) {
-
-              // aqui
-
-
-            this.show = this.show + 1;
-           }
+          if ( _s === this.numStudents - 1 ) { this.show = this.show + 1; }
           this.loadingService.hide();
         }),
         ((error: Response) => {
@@ -157,20 +132,27 @@ export class CreateTeamsComponent implements OnInit {
           this.alertService.show(error.toString());
         }));
       }
-
   }
+      /**
+   * Remove a team
+   */
   removeTeam(i) {
     let teams = <FormArray>this.firstFormGroup.get('teams');
     teams.removeAt(i);
   }
-
+    /**
+   * Add a team
+   */
   addTeam() {
     let teams = <FormArray>this.firstFormGroup.get('teams');
     teams.push(this._formBuilder.group({
       name: ['', Validators.required]
     }));
   }
-
+  /**
+   * This method returns the list of students of the group.
+   * This call is called by the template of create-teams.
+   */
   getValue(i: number) {
     return (this.students[i].name);
   }

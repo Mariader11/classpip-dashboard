@@ -14,7 +14,7 @@
         </a>
    </div>
 
-    <div class="a-content" *ngIf="teams">
+    <div class="a-content" *ngIf="competition.mode === 'Equipos'">
       <a mat-raised-button class="teams" (click)="gotoTeams()">
        <strong>{{ 'COMPETITIONS.TEAMS' | translate }}</strong>
       </a>
@@ -183,7 +183,6 @@
               </div>
               </mat-expansion-panel>
       </mat-accordion>
-
       </div>
 
     <div class="show-info-content">
@@ -224,6 +223,5 @@
           {{ 'COMPETITIONS.RETURN2' | translate }}
         </a>
     </div>
-
   </div>
   </div>

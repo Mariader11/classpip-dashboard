@@ -13,10 +13,10 @@
             </caption>
             <thead>
               <tr class="tableHeader">
-                <th *ngIf="modeIndividual" class="player">{{ 'COMPETITIONS.PLAYER' | translate }} 1</th>
-                <th *ngIf="modeIndividual" class="player">{{ 'COMPETITIONS.PLAYER' | translate }} 2</th>
-                <th *ngIf="!modeIndividual" class="player">{{ 'COMPETITIONS.TEAM' | translate }} 1</th>
-                <th *ngIf="!modeIndividual" class="player">{{ 'COMPETITIONS.TEAM' | translate }} 2</th>
+                <th *ngIf="competition.mode === 'Individual'" class="player">{{ 'COMPETITIONS.PLAYER' | translate }} 1</th>
+                <th *ngIf="competition.mode === 'Individual'" class="player">{{ 'COMPETITIONS.PLAYER' | translate }} 2</th>
+                <th *ngIf="competition.mode === 'Equipos'" class="player">{{ 'COMPETITIONS.TEAM' | translate }} 1</th>
+                <th *ngIf="competition.mode === 'Equipos'" class="player">{{ 'COMPETITIONS.TEAM' | translate }} 2</th>
                 <th class="result">{{ 'COMPETITIONS.WINNER' | translate }}</th>
               </tr>
             </thead>

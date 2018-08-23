@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-
-// Para linkear lo de :id
 import { ActivatedRoute, ParamMap } from '@angular/router';
-//
-
 import { AppConfig } from '../../../../app.config';
 import { Login, Student, Role, Competition, Journey, Match, Team } from '../../../../shared/models/index';
 import { LoadingService, UtilsService, AlertService, TeamService,
@@ -17,22 +13,17 @@ import { LoadingService, UtilsService, AlertService, TeamService,
 })
 export class ClassificationComponent implements OnInit {
 
-  tableHeader = ['Posición', 'Nombre', 'Ganados', 'Empatados', 'Perdidos', 'Puntuación'];
+  public competition: Competition;
+  public competitionId: string;
+  public modeIndividual: boolean;
 
-  competition: Competition;
-  competitionId: string;
-  modeIndividual: boolean;
+  public journeys: Journey[];
+  public participants: Participant[];
+  public odd: boolean;
+  public matchesJourneys: Array<Array<Match>>;
 
-  journeys: Journey[];
-  participants: Participant[];
-  odd: boolean;
-  matchesJourneys: Array<Array<Match>>;
-
-  scores = new Array<Score>();
-  score: Score;
-
-  countJourneys: number;
-  found: boolean;
+  public scores = new Array<Score>();
+  public score: Score;
 
   constructor(public utilsService: UtilsService,
     public loadingService: LoadingService,
@@ -78,18 +69,18 @@ export class ClassificationComponent implements OnInit {
   }
 
   getMatches(): void {
-    this.countJourneys = 0;
+    let countJourneys = 0;
     this.matchesJourneys = [];
     for (let _j = 0; _j < this.journeys.length; _j++) {
       this.matchesJourneys[_j] = [];
       this.journeyService.getMatchesJourneyDetails(this.journeys[_j].id, this.competition).subscribe(
       ((matches: Array<Match>) => {
-        this.countJourneys = this.countJourneys + 1;
+        countJourneys = countJourneys + 1;
         for (let _m = 0; _m < matches.length; _m++) {
           this.matchesJourneys[_j][_m] = new Match();
           this.matchesJourneys[_j][_m] = matches[_m];
         }
-         if ( this.countJourneys === this.journeys.length ) {
+         if ( countJourneys === this.journeys.length ) {
            this.getParticipants();
           }
       }),
@@ -145,8 +136,8 @@ export class ClassificationComponent implements OnInit {
         this.score = { position: 0, name: this.participants[_p].name,
                        played: 0, won: 0, draw: 0, lost: 0, points: 0};
         for (let _j = 0; _j < this.journeys.length; _j++) {
-          this.found = false;
-          for (let _m = 0; _m < this.matchesJourneys[_j].length && !this.found; _m++) {
+          let found = false;
+          for (let _m = 0; _m < this.matchesJourneys[_j].length && !found; _m++) {
             if ( +this.participants[_p].id === this.matchesJourneys[_j][_m].playerOne ||
             +this.participants[_p].id === this.matchesJourneys[_j][_m].playerTwo ) {
               if ( this.matchesJourneys[_j][_m].winner === +this.participants[_p].id ) {
@@ -163,13 +154,12 @@ export class ClassificationComponent implements OnInit {
                 this.score.lost = this.score.lost + 1;
                 this.score.played = this.score.played + 1;
               }
-              this.found = true;
+              found = true;
             }
           }
         }
         this.scores.push(this.score);
       }
-      // ordenar descendentemente los resultados por sus puntos
       this.scores.sort(function (a, b) {
         return (b.points - a.points);
       });

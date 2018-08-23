@@ -21,9 +21,9 @@ export class CompetitionsComponent implements OnInit {
     public groupService: GroupService,
     public competitionService: CompetitionService,
     public teamService: TeamService) {
-
       this.utilsService.currentUser = Login.toObject(localStorage.getItem(AppConfig.LS_USER));
       this.utilsService.role = Number(localStorage.getItem(AppConfig.LS_ROLE));
+      this.competitions = [];
     }
 
   ngOnInit() {
@@ -33,63 +33,64 @@ export class CompetitionsComponent implements OnInit {
       this.getStudentCompetitions();
     }
   }
-
+  /**
+   * This method returns the list of competitions from the
+   * backend. This call is called by the teacher
+   */
   getTeacherCompetitions(): void {
-    this.competitions = [];
-    // tslint:disable-next-line:no-console
-    console.log(this.competitions);
     this.groupService.getMyGroups().subscribe(
-      ((groups: Array<Group>) => {
-        for (let _g = 0; _g < groups.length; _g++) {
-        this.competitionService.getMyCompetitionsByGroup(groups[_g]).subscribe(
-          ((competitions: Array<Competition>) => {
-            for (let _c = 0; _c < competitions.length; _c++) {
-              this.competitions.push(competitions[_c]);
-            }
+      ((groups: Array<Group>) =>
+      groups.map( group => {
+        this.competitionService.getMyCompetitionsByGroup(group).subscribe(
+          ((competitions: Array<Competition>) =>
+          competitions.map( competition => {
+            this.loadingService.show();
+            this.competitions.push(competition);
             this.loadingService.hide();
-          }),
+          })),
           ((error: Response) => {
             this.loadingService.hide();
             this.alertService.show(error.toString());
           }));
-        }
-      }),
+      })),
       ((error: Response) => {
         this.loadingService.hide();
         this.alertService.show(error.toString());
       }));
   }
-
+  /**
+   * This method returns the list of competitions from the
+   * backend. This call is called by the student
+   */
   getStudentCompetitions(): void {
-    this.competitions = [];
     this.competitionService.getMyCompetitions().subscribe(
-      ((competitions: Array<Competition>) => {
-        for (let _s = 0; _s < competitions.length; _s++) {
-          this.competitions.push(competitions[_s]);
-        }
+      ((competitions: Array<Competition>) =>
+      competitions.map( competition => {
+        this.loadingService.show();
+          this.competitions.push(competition);
         this.loadingService.hide();
-      }),
+      })),
       ((error: Response) => {
         this.loadingService.hide();
         this.alertService.show(error.toString());
       }));
 
     this.teamService.getTeamsStudent(+this.utilsService.currentUser.userId).subscribe(
-      ((teams: Array<Team>) => {
-        for (let _t = 0; _t < teams.length; _t++) {
-          this.teamService.getMyCompetitionsGroup(+teams[_t].id).subscribe(
-            ((competitions: Array<Competition>) => {
-              for (let _c = 0; _c < competitions.length; _c++) {
-                this.competitions.push(competitions[_c]);
-              }
-            }),
+      ((teams: Array<Team>) =>
+      teams.map( team => {
+          this.teamService.getMyCompetitionsGroup(+team.id).subscribe(
+            ((competitions: Array<Competition>) =>
+            competitions.map( competition => {
+              this.loadingService.show();
+                this.competitions.push(competition);
+                this.loadingService.hide();
+            })),
             ((error: Response) => {
               this.loadingService.hide();
               this.alertService.show(error.toString());
             }));
-        }
         this.loadingService.hide();
-      }),
+      })),
       ((error: Response) => {
         this.loadingService.hide();
         this.alertService.show(error.toString());

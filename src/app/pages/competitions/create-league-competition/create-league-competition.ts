@@ -11,36 +11,29 @@ import { Response } from '@angular/http/src/static_response';
 @Component({
   selector: 'app-create-league-competition',
   templateUrl: './create-league-competition.html',
-  styleUrls: ['./create-league-competition.css']
+  styleUrls: ['./create-league-competition.scss']
 })
 export class CreateLeagueCompetitionComponent implements OnInit {
 
-  finished = false;
-  isLinear = true;
+  public finished = false;
+  public isLinear = true;
 
-  competitionFormGroup: FormGroup;
-  journeysFormGroup: FormGroup;
-  participantsFormGroup: FormGroup;
-  informationFormGroup: FormGroup;
+  public competitionFormGroup: FormGroup;
+  public journeysFormGroup: FormGroup;
+  public participantsFormGroup: FormGroup;
+  public informationFormGroup: FormGroup;
+  public groups = [];
 
-  groups = [];
-
-  participant: any;
-  participants = new Array<any>();
+  public participant: any;
+  public participants = new Array<any>();
   // forms
-  newCompetition: Competition;
-  selectedParticipants: Array<number>;
-  newJourneys: Array<any>;
-  newInformation: string;
-  // post
-  newCompetitionPost: Competition;
-  journeys = new Array();
-  //
-  count: number;
-  count2: number;
-  match: any;
-  studentBefore: number;
-
+  public newCompetition: Competition;
+  public selectedParticipants: Array<number>;
+  public newJourneys: Array<any>;
+  public newInformation: string;
+  public newCompetitionPost: Competition;
+  public journeys = new Array();
+  public match: any;
 
   constructor( public alertService: AlertService,
     public utilsService: UtilsService,
@@ -96,16 +89,20 @@ export class CreateLeagueCompetitionComponent implements OnInit {
         }));
     }
   }
-
-
-  // FIRST FORM: COMPETITION
+  /**
+   * This method saves the competition in a variable
+   * and calls the method to get participants
+   */
   competitionStep(value: Competition) {
     this.loadingService.show();
     this.newCompetition = value;
     this.newCompetition.type = 'Liga';
     this.getParticipants(); // getting participants for the next step
   }
-
+  /**
+   * This method gets the participants of the group
+   * for the competition
+   */
   getParticipants(): void {
     if ( this.newCompetition.mode === 'Individual' ) {
       this.groupService.getMyGroupStudents(this.newCompetition.groupId).subscribe(
@@ -145,7 +142,10 @@ export class CreateLeagueCompetitionComponent implements OnInit {
         }));
       }
   }
-
+  /**
+   * This method saves the participants in a variable
+   * and prepares the journeys for the next step
+   */
   participantStep(list) {
     this.loadingService.show();
     this.selectedParticipants = list.selectedOptions.selected.map(item => item.value);
@@ -156,28 +156,27 @@ export class CreateLeagueCompetitionComponent implements OnInit {
        date: ['']
       }));
     }
-
-    // tslint:disable-next-line:no-console
-    console.log(this.journeysFormGroup);
     this.loadingService.hide();
   }
-
-  // SECOND FORM: JOURNEYS
+  /** This method saves the journeys in a variable */
   journeyStep(value) {
     this.loadingService.show();
     this.newJourneys = value.journeys;
     this.loadingService.hide();
   }
-
-  // THIRD FORM: INFORMATION
+  /**
+   * This method saves the information in a variable and
+   * calls the method to subit the competition
+   */
   informationStep(value: Competition) {
     this.loadingService.show();
     this.newInformation = value.information;
-    // tslint:disable-next-line:no-console
-    console.log(this.newInformation);
     this.onSubmitCompetition();
   }
-
+  /**
+   * This method posts the competition
+   * and calls the method to submit the journeys
+   */
   onSubmitCompetition(): void {
     this.newCompetition.information = this.newInformation;
     this.competitionService.postCompetition(this.newCompetition)
@@ -190,15 +189,16 @@ export class CreateLeagueCompetitionComponent implements OnInit {
       this.alertService.show(error.toString());
     }));
   }
-
+  /**
+   * This method posts the journeys
+   * and calls the method to submit the relations
+   */
   onSubmitJourneys(): void {
     // Adding to the journeys: number and competitionId
     for ( let _n = 0; _n < this.newCompetition.numJourneys; _n++) {
       this.newJourneys[_n].number = _n + 1;
       this.newJourneys[_n].competitionId = +this.newCompetitionPost.id;
-      if ( this.newJourneys[_n].date === '' ) {
-        this.newJourneys[_n].date = null;
-      }
+      if ( this.newJourneys[_n].date === '' ) { this.newJourneys[_n].date = null; }
     }
     // POST JOURNEYS
     for (let _a = 0; _a < this.newJourneys.length; _a++) {
@@ -206,7 +206,6 @@ export class CreateLeagueCompetitionComponent implements OnInit {
       .subscribe( (journey => {
        this.journeys.push(journey);
        if (this.journeys.length === this.newJourneys.length) {
-         // ordenar ascendentemente las jornadas por su number
          this.journeys.sort(function (a, b) {
           return (a.number - b.number);
          });
@@ -219,15 +218,18 @@ export class CreateLeagueCompetitionComponent implements OnInit {
       }));
     }
   }
-
+  /**
+   * This method posts the relations beetween competition and participants
+   * and calls the method to submit the journeys
+   */
   onSubmitRelations(): void {
-    this.count = 0;
+    let count = 0;
         if ( this.newCompetition.mode === 'Individual' ) {
           for ( let _i = 0; _i < this.selectedParticipants.length; _i++ ) {
             this.competitionService.relCompetitionStudent(this.newCompetitionPost.id, this.selectedParticipants[_i]).subscribe(
               ( res => {
-                this.count++;
-                if ( this.count === this.selectedParticipants.length ) { this.league(); }
+                count++;
+                if ( count === this.selectedParticipants.length ) { this.league(); }
               }),
               ((error: Response) => {
                 this.loadingService.hide();
@@ -238,8 +240,8 @@ export class CreateLeagueCompetitionComponent implements OnInit {
           for ( let _i = 0; _i < this.selectedParticipants.length; _i++ ) {
             this.teamService.relCompetitionTeam(this.newCompetitionPost.id, this.selectedParticipants[_i]).subscribe(
               ( res => {
-                this.count++;
-                if ( this.count === this.selectedParticipants.length ) { this.league(); }
+                count++;
+                if ( count === this.selectedParticipants.length ) { this.league(); }
               }),
               ((error: Response) => {
                 this.loadingService.hide();
@@ -248,7 +250,10 @@ export class CreateLeagueCompetitionComponent implements OnInit {
           }
         }
   }
-
+  /**
+   * This method prepares the matches of the competition
+   * and posts the matches
+   */
   league(): void {
     // adding ghost participant
     if (this.selectedParticipants.length % 2 !== 0) {
@@ -256,7 +261,7 @@ export class CreateLeagueCompetitionComponent implements OnInit {
     }
     this.selectedParticipants = this.selectedParticipants.sort(function() {return Math.random() - 0.5});
   // Matches
-  this.count2 = 0;
+  let count2 = 0;
    for (let _j = 0; _j < this.journeys.length; _j++) {
     for (let _m = 0; _m < (this.selectedParticipants.length / 2); _m++) {
       this.match = {
@@ -267,8 +272,8 @@ export class CreateLeagueCompetitionComponent implements OnInit {
         // POST MATCHES
         this.matchesService.postMatch(this.match)
         .subscribe( (match => {
-          this.count2++;
-          if ( this.count2 === (this.journeys.length * (this.selectedParticipants.length / 2)) ) {
+          count2++;
+          if ( count2 === (this.journeys.length * (this.selectedParticipants.length / 2)) ) {
             this.finished = true;
             this.loadingService.hide();
           }
@@ -278,13 +283,12 @@ export class CreateLeagueCompetitionComponent implements OnInit {
           this.alertService.show(error.toString());
         }));
     }
-
-    // Cambiamos las posiciones de los participantes en el vector de selectedParticipants
-    this.studentBefore =  this.selectedParticipants[1];
+    // Changing position on selectedParticipants
+    let studentBefore =  this.selectedParticipants[1];
     for (let _s = 1; _s < (this.selectedParticipants.length - 1); _s++) {
       this.selectedParticipants[_s] = this.selectedParticipants[_s + 1];
     }
-    this.selectedParticipants[this.selectedParticipants.length - 1] = this.studentBefore;
+    this.selectedParticipants[this.selectedParticipants.length - 1] = studentBefore;
    }
 }
 

@@ -22,13 +22,11 @@ export class CompetitionService {
 
   /**
   * This method returns the list of competitions of the current
-  * user groups with the group (grade and matter)
+  * user with the group (grade and matter)
   * @return {Array<Competition>} returns the list of competitions
   */
-
   public getMyCompetitionsByGroup(group: Group): Observable<Array<Competition>> {
     const ret: Array<Competition> = new Array<Competition>();
-
     return Observable.create(observer => {
       this.getCompetitionsByGroup(group.id).subscribe(competitions => {
         competitions.forEach(competition => {
@@ -43,20 +41,15 @@ export class CompetitionService {
       }, error => observer.error(error));
     });
   }
-
   /**
   * This method returns the list of competitions by group
   * @return {Array<Competition>} returns the list of competitions
   */
-
   private getCompetitionsByGroup(groupId: string): Observable<Array<Competition>> {
-
     const options: RequestOptions = new RequestOptions({
       headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
     });
-
     const url: string = AppConfig.GROUP_URL + '/' + groupId + AppConfig.COMPETITIONS_URL;
-
     return this.http.get(url, options)
       .map((response: Response, index: number) => Competition.toObjectArray(response.json()))
       .catch((error: Response) => this.utilsService.handleAPIError(error));
@@ -133,7 +126,7 @@ export class CompetitionService {
   }
 
   /**
-  * POST: add a new hero to the database
+  * POST: add a new competition to the database
   * @return {Observable<Competition>} returns the competition
   */
   public postCompetition (competition: Competition): Observable<Competition> {
@@ -157,7 +150,7 @@ export class CompetitionService {
       headers: this.utilsService.setAuthorizationHeader(new Headers(), this.utilsService.currentUser.id)
     });
 
-    return this.http.put(this.utilsService.getMyUrl() + AppConfig.COMPETITIONS_URL + '/' + id, information, options)
+    return this.http.put(AppConfig.COMPETITION_URL + '/' + id, information, options)
       .map((response: Response, index: number) => Competition.toObject(response.json()))
       .catch((error: Response) => this.utilsService.handleAPIError(error));
   }

@@ -17,7 +17,7 @@ export class Team {
     /* tslint:enable */
     const result: Team = new Team();
     if (object != null) {
-      result.id = object.id;     /* result.id  no me dara error en .id, .name, .type, etc cuando lo defina en set*/
+      result.id = object.id;
       result.name = object.name;
       result.numPlayers = object.numPlayers;
       result.groupId = object.groupId;
